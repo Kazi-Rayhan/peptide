@@ -1,76 +1,91 @@
 @props(['product'])
-<div class="product-card-premium h-100 d-flex flex-column position-relative">
-    <!-- Category Badge -->
-    @if($product->category && $product->category->name == 'Gift Boxes')
-        <span class="badge badge-premium position-absolute top-0 start-0 m-3"><i class="bi bi-gift me-1"></i>Gift Box</span>
-    @elseif($product->category && $product->category->name == 'Audiobooks')
-        <span class="badge badge-premium bg-info text-white position-absolute top-0 start-0 m-3"><i class="bi bi-headphones me-1"></i>Audiobook</span>
-    @endif
+<div class=" ">
     <!-- Product Image -->
-    <div class="premium-image-wrapper d-flex align-items-center justify-content-center bg-white rounded-top-4" style="width:100%;height:220px;overflow:hidden;">
-       <a href="{{ route('products.show', $product) }}">
-           <img src="{{ $product->image_url }}" class="premium-product-image" alt="{{ $product->name }}" style="max-width:100%;max-height:100%;object-fit:contain;display:block;">
-
-       </a>
+    <div class="position-relative">
+        <img src="{{ $product->image_url ?? 'https://via.placeholder.com/300x300?text=Peptide' }}" 
+             alt="{{ $product->name }}" 
+             class="product-image w-100">
+        @if($product->is_on_sale)
+            <span class="badge bg-danger position-absolute top-0 end-0 m-2">SALE</span>
+        @endif
     </div>
+    
     <!-- Card Body -->
-    <div class="premium-card-body flex-grow-1 d-flex flex-column justify-content-between p-4 bg-white rounded-bottom-4">
-        <div>
-            <!-- Brand and Category -->
-            <div class="d-flex align-items-center mb-2" style="gap: 0.75rem;">
-                @if($product->brand)
-                    <span class="text-muted small d-flex align-items-center" style="font-family: 'Playfair Display', serif; letter-spacing: 0.02em;">
-                        <i class="bi bi-bookmark-star me-1" style="color: var(--primary-color);"></i>
-                        {{ $product->brand->name }}
-                    </span>
-                @endif
-                @if($product->category)
-                    <span class="text-muted small d-flex align-items-center" style="font-family: 'Playfair Display', serif; letter-spacing: 0.02em;">
-                        <i class="bi bi-journal-bookmark me-1" style="color: var(--secondary-color);"></i>
-                        {{ $product->category->name }}
-                    </span>
-                @endif
-            </div>
-            <h5 class="premium-title mb-2"><a class="text-decoration-none" style="color: var(--primary-color);" href="{{ route('products.show', $product) }}">{{ $product->name }}</a></h5>
-            <p class="premium-desc text-muted mb-3">{{ Str::limit($product->description, 80) }}</p>
-        </div>
-        <div class="mt-auto">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                @if($product->hasVariants())
-                    @php
-                        $minPrice = $product->getMinPrice();
-                        $maxPrice = $product->getMaxPrice();
-                    @endphp
-                    <span class="premium-price">
-                        @if($minPrice == $maxPrice)
-                            ${{ number_format($minPrice, 2) }}
-                        @else
-                            ${{ number_format($minPrice, 2) }} - ${{ number_format($maxPrice, 2) }}
-                        @endif
-                    </span>
-                    @if($product->original_price && $product->original_price > $minPrice)
-                        <span class="premium-original-price ms-2">${{ number_format($product->original_price, 2) }}</span>
-                    @endif
+    <a style="text-decoration: none; color: inherit;" href="{{ route('products.show', $product) }}">
+    <div class="card-body d-flex flex-column">
+        <!-- Product Name -->
+        <h5 class="card-title fw-light mb-2 text-center" >{{ $product->name }}</h5>
+        
+        <!-- Price -->
+        <div class="price mb-3 text-center">
+            @if($product->hasVariants())
+                @php
+                    $minPrice = $product->getMinPrice();
+                    $maxPrice = $product->getMaxPrice();
+                @endphp
+                @if($minPrice == $maxPrice)
+                    ${{ number_format($minPrice, 2) }}
                 @else
-                    <span class="premium-price">${{ number_format($product->price, 2) }}</span>
-                    @if($product->original_price && $product->original_price > $product->price)
-                        <span class="premium-original-price ms-2">${{ number_format($product->original_price, 2) }}</span>
-                    @endif
+                    ${{ number_format($minPrice, 2) }} - ${{ number_format($maxPrice, 2) }}
                 @endif
-            </div>
-            @if($product->getStock() == 0 && !$product->is_digital)
-                <button class="btn btn-premium btn-add-to-cart w-100 py-2" disabled>
-                    <i class="bi bi-cart-x me-2"></i> Out of Stock
-                </button>
-            @elseif($product->hasVariants())
-                <a href="{{ route('products.show', $product) }}" class="btn btn-premium btn-add-to-cart w-100 py-2">
-                    <i class="bi bi-sliders me-2"></i> Select Options
-                </a>
             @else
-                <button class="btn btn-premium btn-add-to-cart w-100 py-2" onclick="addToCart({{ $product->id }})">
-                    <i class="bi bi-cart-plus me-2"></i> Add to Cart
-                </button>
+                ${{ number_format($product->price, 2) }}
             @endif
         </div>
     </div>
-</div> 
+    </a>
+</div>
+
+<script>
+function addToCart(productId) {
+    fetch('{{ route("cart.add") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            quantity: 1
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update cart count
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                cartCount.textContent = data.cart_count || 0;
+            }
+            
+            // Show success message
+            showToast('Product added to cart successfully!', 'success');
+        } else {
+            showToast(data.message || 'Error adding product to cart', 'danger');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error adding product to cart', 'danger');
+    });
+}
+
+function showToast(message, type = 'success') {
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
+    alert.style.zIndex = '9999';
+    alert.innerHTML = `
+        <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(alert);
+    
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+        if (alert.parentNode) {
+            alert.remove();
+        }
+    }, 3000);
+}
+</script> 
