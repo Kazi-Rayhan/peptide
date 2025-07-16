@@ -1,0 +1,1672 @@
+[
+    {
+        "id": 1,
+        "name": "Semaglutide",
+        "slug": "semaglutide",
+        "description": "A GLP-1 receptor agonist originally developed for type 2 diabetes and obesity management. Semaglutide mimics the action of the natural hormone GLP-1, enhancing insulin secretion, suppressing appetite, slowing gastric emptying, and promoting weight loss. Clinical studies have shown significant reductions in HbA1c and body weight, with additional benefits for cardiovascular health and metabolic syndrome.",
+        "thumbnail": "products/APC-Semaglutide-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-Semaglutide-10.png",
+                "sku": "SEM-001-5mg",
+                "name": "Semaglutide 5mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 140
+                    },
+                    "wholesale_1": {
+                        "unit_price": 140,
+                        "kit_price": 1260
+                    },
+                    "wholesale_2": {
+                        "unit_price": 125,
+                        "kit_price": 1121
+                    },
+                    "distributor_1": {
+                        "unit_price": 104,
+                        "kit_price": 934
+                    },
+                    "distributor_2": {
+                        "unit_price": 62,
+                        "kit_price": 560
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "5mg"
+                    }
+                ]
+            },
+            {
+                "thumbnail": "products/APC-Semaglutide-10.png",
+                "sku": "SEM-001-10mg",
+                "name": "Semaglutide 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 230
+                    },
+                    "wholesale_1": {
+                        "unit_price": 230,
+                        "kit_price": 2070
+                    },
+                    "wholesale_2": {
+                        "unit_price": 205,
+                        "kit_price": 1842
+                    },
+                    "distributor_1": {
+                        "unit_price": 170,
+                        "kit_price": 1534
+                    },
+                    "distributor_2": {
+                        "unit_price": 102,
+                        "kit_price": 920
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            },
+            {
+                "thumbnail": "products/APC-Semaglutide-10.png",
+                "sku": "SEM-001-20mg",
+                "name": "Semaglutide 20mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 410
+                    },
+                    "wholesale_1": {
+                        "unit_price": 410,
+                        "kit_price": 3690
+                    },
+                    "wholesale_2": {
+                        "unit_price": 365,
+                        "kit_price": 3284
+                    },
+                    "distributor_1": {
+                        "unit_price": 304,
+                        "kit_price": 2734
+                    },
+                    "distributor_2": {
+                        "unit_price": 182,
+                        "kit_price": 1641
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "20mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Tirzepatide",
+        "slug": "tirzepatide",
+        "description": "A dual agonist of both GIP and GLP-1 receptors, Tirzepatide offers a novel approach to blood sugar and weight management. By simultaneously targeting two incretin pathways, it improves insulin sensitivity, reduces appetite, and leads to greater weight loss compared to GLP-1 agonists alone. It is used for type 2 diabetes and is under investigation for obesity and metabolic disorders.",
+        "thumbnail": "products/APC-Tirzepatide-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-Tirzepatide-10.png",
+                "sku": "TIR-001-10mg",
+                "name": "Tirzepatide 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 150,
+                        "kit_price": 1350
+                    },
+                    "wholesale_1": {
+                        "unit_price": 150,
+                        "kit_price": 1350
+                    },
+                    "wholesale_2": {
+                        "unit_price": 134,
+                        "kit_price": 1202
+                    },
+                    "distributor_1": {
+                        "unit_price": 111,
+                        "kit_price": 1000
+                    },
+                    "distributor_2": {
+                        "unit_price": 67,
+                        "kit_price": 600
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            },
+            {
+                "thumbnail": "products/APC-Tirzepatide-10.png",
+                "sku": "TIR-001-30mg",
+                "name": "Tirzepatide 30mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 310,
+                        "kit_price": 2790
+                    },
+                    "wholesale_1": {
+                        "unit_price": 310,
+                        "kit_price": 2790
+                    },
+                    "wholesale_2": {
+                        "unit_price": 276,
+                        "kit_price": 2483
+                    },
+                    "distributor_1": {
+                        "unit_price": 230,
+                        "kit_price": 2067
+                    },
+                    "distributor_2": {
+                        "unit_price": 138,
+                        "kit_price": 1240
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "30mg"
+                    }
+                ]
+            },
+            {
+                "thumbnail": "products/APC-Tirzepatide-10.png",
+                "sku": "TIR-001-60mg",
+                "name": "Tirzepatide 60mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 480,
+                        "kit_price": 4320
+                    },
+                    "wholesale_1": {
+                        "unit_price": 480,
+                        "kit_price": 4320
+                    },
+                    "wholesale_2": {
+                        "unit_price": 427,
+                        "kit_price": 3845
+                    },
+                    "distributor_1": {
+                        "unit_price": 356,
+                        "kit_price": 3201
+                    },
+                    "distributor_2": {
+                        "unit_price": 213,
+                        "kit_price": 1921
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "60mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Retatrutide",
+        "slug": "retatrutide",
+        "description": "A next-generation multi-agonist peptide that activates GLP-1, GIP, and glucagon receptors. Retatrutide is designed to maximize metabolic benefits, including improved glucose control, enhanced fat burning, and substantial weight reduction. Early studies show promising results for obesity and metabolic syndrome, with potential cardiovascular benefits.",
+        "thumbnail": "products/APC-Retatrutide-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-Retatrutide-10.png",
+                "sku": "RET-001-10mg",
+                "name": "Retatrutide 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 180,
+                        "kit_price": 1620
+                    },
+                    "wholesale_1": {
+                        "unit_price": 180,
+                        "kit_price": 1620
+                    },
+                    "wholesale_2": {
+                        "unit_price": 160,
+                        "kit_price": 1442
+                    },
+                    "distributor_1": {
+                        "unit_price": 133,
+                        "kit_price": 1200
+                    },
+                    "distributor_2": {
+                        "unit_price": 80,
+                        "kit_price": 720
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            },
+            {
+                "thumbnail": "products/APC-Retatrutide-10.png",
+                "sku": "RET-001-20mg",
+                "name": "Retatrutide 20mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 300,
+                        "kit_price": 2700
+                    },
+                    "wholesale_1": {
+                        "unit_price": 300,
+                        "kit_price": 2700
+                    },
+                    "wholesale_2": {
+                        "unit_price": 267,
+                        "kit_price": 2403
+                    },
+                    "distributor_1": {
+                        "unit_price": 222,
+                        "kit_price": 2001
+                    },
+                    "distributor_2": {
+                        "unit_price": 133,
+                        "kit_price": 1200
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "20mg"
+                    }
+                ]
+            },
+            {
+                "thumbnail": "products/APC-Retatrutide-10.png",
+                "sku": "RET-001-30mg",
+                "name": "Retatrutide 30mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 380,
+                        "kit_price": 3420
+                    },
+                    "wholesale_1": {
+                        "unit_price": 380,
+                        "kit_price": 3420
+                    },
+                    "wholesale_2": {
+                        "unit_price": 338,
+                        "kit_price": 3044
+                    },
+                    "distributor_1": {
+                        "unit_price": 282,
+                        "kit_price": 2534
+                    },
+                    "distributor_2": {
+                        "unit_price": 169,
+                        "kit_price": 1521
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "30mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "AOD 9604",
+        "slug": "aod-9604",
+        "description": "A modified fragment of human growth hormone (HGH) that specifically targets fat metabolism without affecting blood sugar or growth processes. AOD 9604 accelerates lipolysis (fat breakdown) and inhibits lipogenesis (fat formation), making it a popular choice for weight loss and body composition improvement. It is non-anabolic and generally well-tolerated.",
+        "thumbnail": "products/APC-AOD-5.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-AOD-5.png",
+                "sku": "AOD-001-5mg",
+                "name": "AOD 9604 5mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 60,
+                        "kit_price": 540
+                    },
+                    "wholesale_1": {
+                        "unit_price": 60,
+                        "kit_price": 540
+                    },
+                    "wholesale_2": {
+                        "unit_price": 53,
+                        "kit_price": 481
+                    },
+                    "distributor_1": {
+                        "unit_price": 44,
+                        "kit_price": 400
+                    },
+                    "distributor_2": {
+                        "unit_price": 27,
+                        "kit_price": 240
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "5mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "BPC-157",
+        "slug": "bpc-157",
+        "description": "A synthetic peptide derived from a protective protein in the stomach, BPC-157 is renowned for its healing properties. It accelerates the repair of muscles, tendons, ligaments, and nerves, reduces inflammation, and supports gut health by promoting mucosal healing. BPC-157 is used in sports medicine and regenerative therapies for its broad tissue-protective effects.",
+        "thumbnail": "products/APC-BPC157-TB500-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-BPC157-TB500-10.png",
+                "sku": "BPC-001-10mg",
+                "name": "BPC-157 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 95,
+                        "kit_price": 855
+                    },
+                    "wholesale_1": {
+                        "unit_price": 95,
+                        "kit_price": 855
+                    },
+                    "wholesale_2": {
+                        "unit_price": 85,
+                        "kit_price": 761
+                    },
+                    "distributor_1": {
+                        "unit_price": 70,
+                        "kit_price": 634
+                    },
+                    "distributor_2": {
+                        "unit_price": 42,
+                        "kit_price": 380
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "BPC-157 / TB-500",
+        "slug": "bpc-157-tb-500",
+        "description": "This blend combines the regenerative power of BPC-157 with TB-500 (Thymosin Beta-4). Together, they provide synergistic effects for rapid recovery from injuries, enhanced tissue repair, reduced inflammation, and improved flexibility. Commonly used by athletes and in rehabilitation settings for musculoskeletal injuries and post-surgical healing.",
+        "thumbnail": "products/APC-BPC157-TB500-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-BPC157-TB500-10.png",
+                "sku": "BPC-TB-001-5mg/5mg",
+                "name": "BPC-157 / TB-500 5mg/5mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 100,
+                        "kit_price": 900
+                    },
+                    "wholesale_1": {
+                        "unit_price": 100,
+                        "kit_price": 900
+                    },
+                    "wholesale_2": {
+                        "unit_price": 89,
+                        "kit_price": 801
+                    },
+                    "distributor_1": {
+                        "unit_price": 74,
+                        "kit_price": 667
+                    },
+                    "distributor_2": {
+                        "unit_price": 44,
+                        "kit_price": 400
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "5mg/5mg"
+                    }
+                ]
+            },
+            {
+                "thumbnail": "products/APC-BPC157-TB500-10.png",
+                "sku": "BPC-TB-001-10mg/10mg",
+                "name": "BPC-157 / TB-500 10mg/10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 175,
+                        "kit_price": 1575
+                    },
+                    "wholesale_1": {
+                        "unit_price": 175,
+                        "kit_price": 1575
+                    },
+                    "wholesale_2": {
+                        "unit_price": 156,
+                        "kit_price": 1402
+                    },
+                    "distributor_1": {
+                        "unit_price": 130,
+                        "kit_price": 1167
+                    },
+                    "distributor_2": {
+                        "unit_price": 78,
+                        "kit_price": 700
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg/10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Cagrilintide",
+        "slug": "cagrilintide",
+        "description": "An amylin analog that works with GLP-1 therapies to enhance appetite suppression and support weight loss. Cagrilintide mimics the action of amylin, a hormone co-secreted with insulin, to slow gastric emptying and increase satiety. It is often studied in combination with GLP-1 agonists for advanced obesity management.",
+        "thumbnail": "products/APC-Cagril-5.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-Cagril-5.png",
+                "sku": "CAG-001-5mg",
+                "name": "Cagrilintide 5mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 120,
+                        "kit_price": 1080
+                    },
+                    "wholesale_1": {
+                        "unit_price": 120,
+                        "kit_price": 1080
+                    },
+                    "wholesale_2": {
+                        "unit_price": 107,
+                        "kit_price": 961
+                    },
+                    "distributor_1": {
+                        "unit_price": 89,
+                        "kit_price": 800
+                    },
+                    "distributor_2": {
+                        "unit_price": 53,
+                        "kit_price": 480
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "5mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "CJC-1295 No DAC / Ipamorelin",
+        "slug": "cjc-1295-no-dac-ipamorelin",
+        "description": "A potent combination of two growth hormone-releasing peptides. CJC-1295 stimulates the release of growth hormone by acting on the GHRH receptor, while Ipamorelin selectively triggers GH secretion with minimal impact on other hormones. This blend supports muscle growth, fat loss, improved sleep, enhanced recovery, and anti-aging benefits.",
+        "thumbnail": "products/APC-CJC1295-Ipam-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-CJC1295-Ipam-10.png",
+                "sku": "CJC-IPA-001-5mg/5mg",
+                "name": "CJC-1295 No DAC (5mg) / Ipamorelin (5mg)",
+                "price": {
+                    "retailer": {
+                        "unit_price": 90,
+                        "kit_price": 810
+                    },
+                    "wholesale_1": {
+                        "unit_price": 90,
+                        "kit_price": 810
+                    },
+                    "wholesale_2": {
+                        "unit_price": 80,
+                        "kit_price": 721
+                    },
+                    "distributor_1": {
+                        "unit_price": 67,
+                        "kit_price": 600
+                    },
+                    "distributor_2": {
+                        "unit_price": 40,
+                        "kit_price": 360
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "5mg/5mg"
+                    }
+                ]
+            },
+            {
+                "thumbnail": "products/APC-CJC1295-Ipam-10.png",
+                "sku": "CJC-IPA-001-10mg/10mg",
+                "name": "CJC-1295 No DAC (10mg) / Ipamorelin (10mg)",
+                "price": {
+                    "retailer": {
+                        "unit_price": 150,
+                        "kit_price": 1350
+                    },
+                    "wholesale_1": {
+                        "unit_price": 150,
+                        "kit_price": 1350
+                    },
+                    "wholesale_2": {
+                        "unit_price": 134,
+                        "kit_price": 1202
+                    },
+                    "distributor_1": {
+                        "unit_price": 111,
+                        "kit_price": 1000
+                    },
+                    "distributor_2": {
+                        "unit_price": 67,
+                        "kit_price": 600
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg/10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "name": "Epithalon",
+        "slug": "epithalon",
+        "description": "A synthetic tetrapeptide that acts as a telomerase activator, supporting cellular longevity and healthy aging. Epithalon has been shown to extend telomere length, improve sleep quality, boost immune function, and enhance resistance to age-related diseases. It is used in anti-aging protocols and longevity research.",
+        "thumbnail": "products/APC-Epithalon-20.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-Epithalon-20.png",
+                "sku": "EPI-001-20mg",
+                "name": "Epithalon 20mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 90,
+                        "kit_price": 810
+                    },
+                    "wholesale_1": {
+                        "unit_price": 90,
+                        "kit_price": 810
+                    },
+                    "wholesale_2": {
+                        "unit_price": 80,
+                        "kit_price": 721
+                    },
+                    "distributor_1": {
+                        "unit_price": 67,
+                        "kit_price": 600
+                    },
+                    "distributor_2": {
+                        "unit_price": 40,
+                        "kit_price": 360
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "20mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "name": "GHK-Cu",
+        "slug": "ghk-cu",
+        "description": null,
+        "thumbnail": "products/APC-Retatrutide-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-Retatrutide-10.png",
+                "sku": "GHK-001-100mg",
+                "name": "GHK-Cu 100mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 100,
+                        "kit_price": 900
+                    },
+                    "wholesale_1": {
+                        "unit_price": 100,
+                        "kit_price": 900
+                    },
+                    "wholesale_2": {
+                        "unit_price": 89,
+                        "kit_price": 801
+                    },
+                    "distributor_1": {
+                        "unit_price": 74,
+                        "kit_price": 667
+                    },
+                    "distributor_2": {
+                        "unit_price": 44,
+                        "kit_price": 400
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "100mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "name": "GLOW",
+        "slug": "glow-ghkcu-bpc157-tb500",
+        "description": null,
+        "thumbnail": "products/APC-AOD-5.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-AOD-5.png",
+                "sku": "GLOW-001-30mg-10mg-10mg",
+                "name": "GLOW GHK-CU (30mg) / BPC-157 (10mg) / TB500 (10mg)",
+                "price": {
+                    "retailer": {
+                        "unit_price": 210,
+                        "kit_price": 1890
+                    },
+                    "wholesale_1": {
+                        "unit_price": 210,
+                        "kit_price": 1890
+                    },
+                    "wholesale_2": {
+                        "unit_price": 187,
+                        "kit_price": 1682
+                    },
+                    "distributor_1": {
+                        "unit_price": 156,
+                        "kit_price": 1400
+                    },
+                    "distributor_2": {
+                        "unit_price": 93,
+                        "kit_price": 840
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "30mg/10mg/10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "name": "K-GLOW",
+        "slug": "k-glow-ghkcu-bpc157-tb500-kpv",
+        "description": null,
+        "thumbnail": "products/APC-AOD-5.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-AOD-5.png",
+                "sku": "KGLOW-001-50mg-10mg-10mg-10mg",
+                "name": "K-GLOW GHK-CU (50mg) / BPC-157 (10mg) / TB500 (10mg) / KPV (10mg)",
+                "price": {
+                    "retailer": {
+                        "unit_price": 275,
+                        "kit_price": 2475
+                    },
+                    "wholesale_1": {
+                        "unit_price": 275,
+                        "kit_price": 2475
+                    },
+                    "wholesale_2": {
+                        "unit_price": 245,
+                        "kit_price": 2203
+                    },
+                    "distributor_1": {
+                        "unit_price": 204,
+                        "kit_price": 1834
+                    },
+                    "distributor_2": {
+                        "unit_price": 122,
+                        "kit_price": 1100
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "50mg/10mg/10mg/10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "name": "IGF-1 LR3",
+        "slug": "igf-1-lr3",
+        "description": null,
+        "thumbnail": "products/APC-AOD-5.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-AOD-5.png",
+                "sku": "IGF-001-1mg",
+                "name": "IGF-1 LR3 1mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 100,
+                        "kit_price": 900
+                    },
+                    "wholesale_1": {
+                        "unit_price": 100,
+                        "kit_price": 900
+                    },
+                    "wholesale_2": {
+                        "unit_price": 89,
+                        "kit_price": 801
+                    },
+                    "distributor_1": {
+                        "unit_price": 74,
+                        "kit_price": 667
+                    },
+                    "distributor_2": {
+                        "unit_price": 44,
+                        "kit_price": 400
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "1mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 15,
+        "name": "Ipamorelin",
+        "slug": "ipamorelin",
+        "description": null,
+        "thumbnail": "products/APC-AOD-5.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": null,
+                "sku": "IPA-001-10mg",
+                "name": "Ipamorelin 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 75,
+                        "kit_price": 675
+                    },
+                    "wholesale_1": {
+                        "unit_price": 75,
+                        "kit_price": 675
+                    },
+                    "wholesale_2": {
+                        "unit_price": 67,
+                        "kit_price": 601
+                    },
+                    "distributor_1": {
+                        "unit_price": 56,
+                        "kit_price": 500
+                    },
+                    "distributor_2": {
+                        "unit_price": 33,
+                        "kit_price": 300
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 16,
+        "name": "Kisspeptin",
+        "slug": "kisspeptin",
+        "description": null,
+        "thumbnail": "products/APC-AOD-5.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": null,
+                "sku": "KIS-001-10mg",
+                "name": "Kisspeptin 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 60,
+                        "kit_price": 540
+                    },
+                    "wholesale_1": {
+                        "unit_price": 60,
+                        "kit_price": 540
+                    },
+                    "wholesale_2": {
+                        "unit_price": 53,
+                        "kit_price": 481
+                    },
+                    "distributor_1": {
+                        "unit_price": 44,
+                        "kit_price": 400
+                    },
+                    "distributor_2": {
+                        "unit_price": 27,
+                        "kit_price": 240
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 17,
+        "name": "Melanotan II",
+        "slug": "melanotan-ii",
+        "description": null,
+        "thumbnail": "products/APC-Melanotan-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-Melanotan-10.png",
+                "sku": "MEL-001-10mg",
+                "name": "Melanotan II 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 45,
+                        "kit_price": 405
+                    },
+                    "wholesale_1": {
+                        "unit_price": 45,
+                        "kit_price": 405
+                    },
+                    "wholesale_2": {
+                        "unit_price": 40,
+                        "kit_price": 360
+                    },
+                    "distributor_1": {
+                        "unit_price": 33,
+                        "kit_price": 300
+                    },
+                    "distributor_2": {
+                        "unit_price": 20,
+                        "kit_price": 180
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 18,
+        "name": "MOTS-C",
+        "slug": "mots-c",
+        "description": null,
+        "thumbnail": "products/APC-AOD-5.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-AOD-5.png",
+                "sku": "MOTS-001-40mg",
+                "name": "MOTS-C 40mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 200,
+                        "kit_price": 1800
+                    },
+                    "wholesale_1": {
+                        "unit_price": 200,
+                        "kit_price": 1800
+                    },
+                    "wholesale_2": {
+                        "unit_price": 178,
+                        "kit_price": 1602
+                    },
+                    "distributor_1": {
+                        "unit_price": 148,
+                        "kit_price": 1334
+                    },
+                    "distributor_2": {
+                        "unit_price": 89,
+                        "kit_price": 800
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "40mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 19,
+        "name": "NAD+",
+        "slug": "nad-plus",
+        "description": null,
+        "thumbnail": "products/APC-AOD-5.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-AOD-5.png",
+                "sku": "NAD-001-500mg",
+                "name": "NAD+ 500mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 205,
+                        "kit_price": 1845
+                    },
+                    "wholesale_1": {
+                        "unit_price": 205,
+                        "kit_price": 1845
+                    },
+                    "wholesale_2": {
+                        "unit_price": 182,
+                        "kit_price": 1642
+                    },
+                    "distributor_1": {
+                        "unit_price": 152,
+                        "kit_price": 1367
+                    },
+                    "distributor_2": {
+                        "unit_price": 91,
+                        "kit_price": 820
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "500mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 20,
+        "name": "Oxytocin",
+        "slug": "oxytocin",
+        "description": null,
+        "thumbnail": "products/APC-Oxytocin-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-Oxytocin-10.png",
+                "sku": "OXY-001-2mg",
+                "name": "Oxytocin 2mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 40,
+                        "kit_price": 360
+                    },
+                    "wholesale_1": {
+                        "unit_price": 40,
+                        "kit_price": 360
+                    },
+                    "wholesale_2": {
+                        "unit_price": 36,
+                        "kit_price": 320
+                    },
+                    "distributor_1": {
+                        "unit_price": 30,
+                        "kit_price": 267
+                    },
+                    "distributor_2": {
+                        "unit_price": 18,
+                        "kit_price": 160
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "2mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 21,
+        "name": "PE-22-88",
+        "slug": "pe-22-88",
+        "description": null,
+        "thumbnail": "products/APC-PE-22-88-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-PE-22-88-10.png",
+                "sku": "PE22-001-10mg",
+                "name": "PE-22-88 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 60,
+                        "kit_price": 540
+                    },
+                    "wholesale_1": {
+                        "unit_price": 60,
+                        "kit_price": 540
+                    },
+                    "wholesale_2": {
+                        "unit_price": 53,
+                        "kit_price": 481
+                    },
+                    "distributor_1": {
+                        "unit_price": 44,
+                        "kit_price": 400
+                    },
+                    "distributor_2": {
+                        "unit_price": 27,
+                        "kit_price": 240
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 22,
+        "name": "PT-141",
+        "slug": "pt-141",
+        "description": null,
+        "thumbnail": "products/APC-PT-141-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-PT-141-10.png",
+                "sku": "PT141-001-10mg",
+                "name": "PT-141 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 50,
+                        "kit_price": 450
+                    },
+                    "wholesale_1": {
+                        "unit_price": 50,
+                        "kit_price": 450
+                    },
+                    "wholesale_2": {
+                        "unit_price": 45,
+                        "kit_price": 401
+                    },
+                    "distributor_1": {
+                        "unit_price": 37,
+                        "kit_price": 333
+                    },
+                    "distributor_2": {
+                        "unit_price": 22,
+                        "kit_price": 200
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 23,
+        "name": "PTD-DBM",
+        "slug": "ptd-dbm",
+        "description": null,
+        "thumbnail": "products/APC-AOD-5.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-AOD-5.png",
+                "sku": "PTD-001-1mg",
+                "name": "PTD-DBM 1mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 40,
+                        "kit_price": 360
+                    },
+                    "wholesale_1": {
+                        "unit_price": 40,
+                        "kit_price": 360
+                    },
+                    "wholesale_2": {
+                        "unit_price": 36,
+                        "kit_price": 320
+                    },
+                    "distributor_1": {
+                        "unit_price": 30,
+                        "kit_price": 267
+                    },
+                    "distributor_2": {
+                        "unit_price": 18,
+                        "kit_price": 160
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "1mg"
+                    }
+                ]
+            },
+            {
+                "thumbnail": "products/APC-AOD-5.png",
+                "sku": "PTD-001-10mg",
+                "name": "PTD-DBM 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 175,
+                        "kit_price": 1575
+                    },
+                    "wholesale_1": {
+                        "unit_price": 175,
+                        "kit_price": 1575
+                    },
+                    "wholesale_2": {
+                        "unit_price": 156,
+                        "kit_price": 1402
+                    },
+                    "distributor_1": {
+                        "unit_price": 130,
+                        "kit_price": 1167
+                    },
+                    "distributor_2": {
+                        "unit_price": 78,
+                        "kit_price": 700
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 24,
+        "name": "Sermorelin",
+        "slug": "sermorelin",
+        "description": null,
+        "thumbnail": "products/APC-Sermorelin-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-Sermorelin-10.png",
+                "sku": "SER-001-10mg",
+                "name": "Sermorelin 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 120,
+                        "kit_price": 1080
+                    },
+                    "wholesale_1": {
+                        "unit_price": 120,
+                        "kit_price": 1080
+                    },
+                    "wholesale_2": {
+                        "unit_price": 107,
+                        "kit_price": 961
+                    },
+                    "distributor_1": {
+                        "unit_price": 89,
+                        "kit_price": 800
+                    },
+                    "distributor_2": {
+                        "unit_price": 53,
+                        "kit_price": 480
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 25,
+        "name": "SS-31",
+        "slug": "ss-31",
+        "description": null,
+        "thumbnail": "products/APC-SS-31-50.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-SS-31-50.png",
+                "sku": "SS31-001-50mg",
+                "name": "SS-31 50mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 280,
+                        "kit_price": 2520
+                    },
+                    "wholesale_1": {
+                        "unit_price": 280,
+                        "kit_price": 2520
+                    },
+                    "wholesale_2": {
+                        "unit_price": 249,
+                        "kit_price": 2243
+                    },
+                    "distributor_1": {
+                        "unit_price": 207,
+                        "kit_price": 1867
+                    },
+                    "distributor_2": {
+                        "unit_price": 124,
+                        "kit_price": 1120
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "50mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 26,
+        "name": "TB-500",
+        "slug": "tb-500",
+        "description": null,
+        "thumbnail": "products/APC-BPC157-TB500-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-BPC157-TB500-10.png",
+                "sku": "TB500-001-10mg",
+                "name": "TB-500 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 160,
+                        "kit_price": 1440
+                    },
+                    "wholesale_1": {
+                        "unit_price": 160,
+                        "kit_price": 1440
+                    },
+                    "wholesale_2": {
+                        "unit_price": 142,
+                        "kit_price": 1282
+                    },
+                    "distributor_1": {
+                        "unit_price": 119,
+                        "kit_price": 1067
+                    },
+                    "distributor_2": {
+                        "unit_price": 71,
+                        "kit_price": 640
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 27,
+        "name": "Tesamorelin",
+        "slug": "tesamorelin",
+        "description": null,
+        "thumbnail": "products/APC-Tesamorelin-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-Tesamorelin-10.png",
+                "sku": "TES-001-10mg",
+                "name": "Tesamorelin 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 150,
+                        "kit_price": 1350
+                    },
+                    "wholesale_1": {
+                        "unit_price": 150,
+                        "kit_price": 1350
+                    },
+                    "wholesale_2": {
+                        "unit_price": 134,
+                        "kit_price": 1202
+                    },
+                    "distributor_1": {
+                        "unit_price": 111,
+                        "kit_price": 1000
+                    },
+                    "distributor_2": {
+                        "unit_price": 67,
+                        "kit_price": 600
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 28,
+        "name": "Thymosin Alpha-1",
+        "slug": "thymosin-alpha-1",
+        "description": null,
+        "thumbnail": "products/APC-Thymosin-Alpha-10.png",
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": "products/APC-Thymosin-Alpha-10.png",
+                "sku": "THY-001-10mg",
+                "name": "Thymosin Alpha-1 10mg",
+                "price": {
+                    "retailer": {
+                        "unit_price": 120,
+                        "kit_price": 1080
+                    },
+                    "wholesale_1": {
+                        "unit_price": 120,
+                        "kit_price": 1080
+                    },
+                    "wholesale_2": {
+                        "unit_price": 107,
+                        "kit_price": 961
+                    },
+                    "distributor_1": {
+                        "unit_price": 89,
+                        "kit_price": 800
+                    },
+                    "distributor_2": {
+                        "unit_price": 53,
+                        "kit_price": 480
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10mg"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 29,
+        "name": "BAC Water",
+        "slug": "bac-water",
+        "description": null,
+        "thumbnail": null,
+        "views": 0,
+        "status": "active",
+        "variants": [
+            {
+                "thumbnail": null,
+                "sku": "BAC-001-3ml",
+                "name": "BAC Water 3ML",
+                "price": {
+                    "retailer": {
+                        "unit_price": 5,
+                        "kit_price": 45
+                    },
+                    "wholesale_1": {
+                        "unit_price": 5,
+                        "kit_price": 45
+                    },
+                    "wholesale_2": {
+                        "unit_price": 4,
+                        "kit_price": 40
+                    },
+                    "distributor_1": {
+                        "unit_price": 3,
+                        "kit_price": 25
+                    },
+                    "distributor_2": {
+                        "unit_price": 3,
+                        "kit_price": 25
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "3ML"
+                    }
+                ]
+            },
+            {
+                "thumbnail": null,
+                "sku": "BAC-001-10ml",
+                "name": "BAC Water 10ML",
+                "price": {
+                    "retailer": {
+                        "unit_price": 10,
+                        "kit_price": 90
+                    },
+                    "wholesale_1": {
+                        "unit_price": 10,
+                        "kit_price": 90
+                    },
+                    "wholesale_2": {
+                        "unit_price": 9,
+                        "kit_price": 80
+                    },
+                    "distributor_1": {
+                        "unit_price": 5,
+                        "kit_price": 40
+                    },
+                    "distributor_2": {
+                        "unit_price": 5,
+                        "kit_price": 40
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "10ML"
+                    }
+                ]
+            },
+            {
+                "thumbnail": null,
+                "sku": "BAC-001-30ml",
+                "name": "BAC Water 30ML",
+                "price": {
+                    "retailer": {
+                        "unit_price": 20,
+                        "kit_price": 180
+                    },
+                    "wholesale_1": {
+                        "unit_price": 20,
+                        "kit_price": 180
+                    },
+                    "wholesale_2": {
+                        "unit_price": 18,
+                        "kit_price": 160
+                    },
+                    "distributor_1": {
+                        "unit_price": 10,
+                        "kit_price": 90
+                    },
+                    "distributor_2": {
+                        "unit_price": 10,
+                        "kit_price": 90
+                    }
+                },
+                "stock": 100,
+                "track_quantity": true,
+                "attributes": [
+                    {
+                        "name": "Strength",
+                        "value": "30ML"
+                    }
+                ]
+            }
+        ]
+    }
+]

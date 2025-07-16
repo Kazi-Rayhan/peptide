@@ -1,0 +1,47 @@
+// Theme Colors - Updated Blue Palette
+$primary: #B5D6DD; // Light blue as primary
+$primary-dark: #AAB6B9; // Silver as primary dark
+$secondary: #C0F0F9; // Non-photo blue as secondary
+$accent: #AAB6B9; // Silver as accent
+$success: #B5D6DD; // Light blue as success
+$danger: #AAB6B9; // Silver as danger (muted)
+$warning: #C0F0F9; // Non-photo blue as warning
+$info: #B5D6DD; // Light blue as info
+$light: #FFFFFF; // White as light
+$dark: #000000; // Black as dark
+$body-bg: #FFFFFF;
+$body-color: #000000;
+$border-color: #AAB6B9;
+
+// Body
+$body-bg: #FFFFFF;
+
+// Typography
+$font-family-sans-serif: 'Nunito', sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+// Additional color variables for the new palette
+$black: #000000;
+$non-photo-blue: #C0F0F9;
+$silver: #AAB6B9;
+$white: #FFFFFF;
+$light-blue: #B5D6DD;
+
+// CSS Custom Properties (for use in components)
+:root {
+  --primary-color: #{$primary};
+  --primary-dark: #{$primary-dark};
+  --secondary-color: #{$secondary};
+  --accent-color: #{$accent};
+  --success-color: #{$success};
+  --danger-color: #{$danger};
+  --warning-color: #{$warning};
+  --info-color: #{$info};
+  --light-bg: #{$light};
+  --dark-text: #{$dark};
+  --border-color: #{$border-color};
+  --non-photo-blue: #{$non-photo-blue};
+  --silver: #{$silver};
+  --light-blue: #{$light-blue};
+}

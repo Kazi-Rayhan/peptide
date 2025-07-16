@@ -1,0 +1,32 @@
+[
+{"type":"header","version":"5.2.0","comment":"Export to JSON plugin for PHPMyAdmin"},
+{"type":"database","name":"book_shop"},
+{"type":"table","name":"menu_items","database":"book_shop","data":
+[
+{"id":"1","menu_id":"2","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Shop","url":"\/products","target":"_self","order":"1","created_at":"2025-07-13 21:50:55","updated_at":"2025-07-13 21:50:55"},
+{"id":"2","menu_id":"2","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Gift Boxes","url":"\/products?category=gift-boxes","target":"_self","order":"2","created_at":"2025-07-13 21:51:28","updated_at":"2025-07-13 21:51:28"},
+{"id":"3","menu_id":"2","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Audiobooks","url":"\/products?category=audiobooks","target":"_self","order":"3","created_at":"2025-07-13 21:51:59","updated_at":"2025-07-13 21:51:59"},
+{"id":"4","menu_id":"2","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Blog","url":"\/blog","target":"_self","order":"4","created_at":"2025-07-13 21:52:25","updated_at":"2025-07-13 21:52:25"},
+{"id":"5","menu_id":"2","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"About Us","url":"\/about","target":"_self","order":"5","created_at":"2025-07-13 21:52:54","updated_at":"2025-07-13 21:52:54"},
+{"id":"6","menu_id":"3","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Contact Us","url":"\/contact","target":"_self","order":"1","created_at":"2025-07-13 21:54:01","updated_at":"2025-07-13 21:54:01"},
+{"id":"7","menu_id":"3","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"FAQ","url":"\/faq","target":"_self","order":"2","created_at":"2025-07-13 21:54:21","updated_at":"2025-07-13 21:54:21"},
+{"id":"8","menu_id":"3","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Shipping Info","url":"\/faq#shipping","target":"_self","order":"3","created_at":"2025-07-13 21:54:49","updated_at":"2025-07-13 21:54:49"},
+{"id":"9","menu_id":"3","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Returns","url":"\/faq#returns","target":"_self","order":"4","created_at":"2025-07-13 21:55:21","updated_at":"2025-07-13 21:55:21"},
+{"id":"10","menu_id":"3","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Privacy Policy","url":"\/faq#privacy","target":"_self","order":"5","created_at":"2025-07-13 21:55:58","updated_at":"2025-07-13 21:55:58"},
+{"id":"11","menu_id":"4","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Shop","url":"\/products","target":"_self","order":"1","created_at":"2025-07-13 21:59:51","updated_at":"2025-07-13 22:00:35"},
+{"id":"12","menu_id":"4","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Audiobooks","url":"\/products?category=audiobooks","target":"_self","order":"3","created_at":"2025-07-13 22:00:02","updated_at":"2025-07-13 22:00:35"},
+{"id":"13","menu_id":"4","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Gift Boxes","url":"\/products?category=gift-boxes","target":"_self","order":"2","created_at":"2025-07-13 22:00:27","updated_at":"2025-07-13 22:00:35"},
+{"id":"14","menu_id":"4","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"About","url":"\/about","target":"_self","order":"4","created_at":"2025-07-13 22:00:55","updated_at":"2025-07-13 22:00:55"},
+{"id":"15","menu_id":"4","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Blog","url":"\/blog","target":"_self","order":"5","created_at":"2025-07-13 22:01:23","updated_at":"2025-07-13 22:01:23"},
+{"id":"16","menu_id":"4","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Contact","url":"\/contact","target":"_self","order":"6","created_at":"2025-07-13 22:01:41","updated_at":"2025-07-13 22:01:41"},
+{"id":"17","menu_id":"4","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"FAQ","url":"\/faq","target":"_self","order":"7","created_at":"2025-07-13 22:02:00","updated_at":"2025-07-13 22:02:00"},
+{"id":"18","menu_id":"5","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Shop","url":"\/products","target":"_self","order":"1","created_at":"2025-07-13 22:02:57","updated_at":"2025-07-13 22:02:57"},
+{"id":"19","menu_id":"5","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Gift Boxes","url":"\/products?category=gift-boxes","target":"_self","order":"2","created_at":"2025-07-13 22:03:16","updated_at":"2025-07-13 22:03:16"},
+{"id":"20","menu_id":"5","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Audiobooks","url":"\/products?category=audiobooks","target":"_self","order":"3","created_at":"2025-07-13 22:03:28","updated_at":"2025-07-13 22:03:28"},
+{"id":"21","menu_id":"5","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"About","url":"\/about","target":"_self","order":"4","created_at":"2025-07-13 22:03:44","updated_at":"2025-07-13 22:03:44"},
+{"id":"22","menu_id":"5","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Blog","url":"\/blog","target":"_self","order":"5","created_at":"2025-07-13 22:03:52","updated_at":"2025-07-13 22:03:52"},
+{"id":"23","menu_id":"5","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"Contact","url":"\/contact","target":"_self","order":"6","created_at":"2025-07-13 22:04:16","updated_at":"2025-07-13 22:04:16"},
+{"id":"24","menu_id":"5","parent_id":null,"linkable_type":null,"linkable_id":null,"title":"FAQ","url":"\/faq","target":"_self","order":"7","created_at":"2025-07-13 22:04:28","updated_at":"2025-07-13 22:04:28"}
+]
+}
+]

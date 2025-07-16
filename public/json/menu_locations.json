@@ -1,0 +1,12 @@
+[
+{"type":"header","version":"5.2.0","comment":"Export to JSON plugin for PHPMyAdmin"},
+{"type":"database","name":"book_shop"},
+{"type":"table","name":"menu_locations","database":"book_shop","data":
+[
+{"id":"1","menu_id":"2","location":"quick_links","created_at":"2025-07-13 21:53:08","updated_at":"2025-07-13 21:53:08"},
+{"id":"2","menu_id":"3","location":"customer_service","created_at":"2025-07-13 21:58:52","updated_at":"2025-07-13 21:58:52"},
+{"id":"3","menu_id":"4","location":"main","created_at":"2025-07-13 22:02:12","updated_at":"2025-07-13 22:02:12"},
+{"id":"4","menu_id":"5","location":"mobile","created_at":"2025-07-13 22:04:50","updated_at":"2025-07-13 22:04:50"}
+]
+}
+]
