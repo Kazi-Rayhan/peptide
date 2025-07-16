@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeEmail;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,8 @@ use App\Mail\WelcomeEmail;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $products = Product::take(8)->get();
+    return view('home', compact('products'));
 })->name('home');
 
 // Static Pages

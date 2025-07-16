@@ -129,7 +129,7 @@
                 @if ($products->count() > 0)
                     <div class="row g-4" id="productsGrid">
                         @foreach ($products as $product)
-                            <div class="col-md-6 col-lg-6 ">
+                            <div class="col-md-6 col-lg-4 ">
                                 <x-product-card :product="$product" />
                             </div>
                         @endforeach
@@ -162,9 +162,7 @@
     <!-- Filters Partial -->
     @push('partials')
         @if (!View::exists('frontend.products._filters'))
-            @php
-                // Inline the filter form as a partial for DRYness
-            @endphp
+         
             @once
                 @push('partials')
                     <div id="_filters-partial" style="display:none">
@@ -194,7 +192,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                    
+
                                 <!-- Sort -->
                                 <div class="col-12">
                                     <label for="sort" class="form-label">Sort By</label>

@@ -14,519 +14,1166 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', setting('seo.meta_title', config('app.name')))</title>
-    <link rel="icon" href="{{ Storage::url(setting('store.favicon', 'favicon.ico')) }}" type="image/x-icon">
-    <meta name="description" content="@yield('meta_description', setting('seo.meta_description'))">
-    <meta name="keywords" content="@yield('meta_keywords', setting('seo.meta_keywords'))">
+    <title>@yield('title', 'American Peptide Co.')</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <!-- Font Awesome 6 Free -->
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/product.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/cart_checkout.css') }}">
 
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
+        /* Global Styles */
         :root {
-            --primary-color: #1e40af;
-            --primary-light: #3b82f6;
-            --primary-dark: #1e3a8a;
-            --secondary-color: #64748b;
-            --accent-color: #0ea5e9;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --warning-color: #f59e0b;
-            --info-color: #06b6d4;
-            --light-bg: #f8fafc;
-            --border-color: #e2e8f0;
-            --text-muted: #64748b;
-            --text-dark: #1e293b;
-            --white: #ffffff;
-            --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-strong: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --primary-color: #00687a;
+            --secondary-color: #00a3cc;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --border-color: #dee2e6;
+            --text-color: #6D6E71;
+            --transition: all 0.3s ease;
+            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 5px 20px rgba(0, 0, 0, 0.12);
+            --shadow-heavy: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
         * {
-            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--white);
-            color: var(--text-dark);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            font-weight: 400;
+            color: var(--text-color);
+            overflow-x: hidden;
         }
 
-        /* Navigation */
+        /* Table Styles */
+        .table,
+        .table th,
+        .table td {
+            color: var(--dark-color) !important;
+        }
+
+        .text-muted {
+            color: #6c757d !important;
+        }
+
+        .text-secondary {
+            color: #6c757d !important;
+        }
+
+        .text-body-secondary {
+            color: #6c757d !important;
+        }
+
+        /* Enhanced Navbar Styles */
         .navbar {
-            background: var(--white) !important;
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 0;
-            box-shadow: var(--shadow-soft);
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: var(--shadow-medium);
+            border-bottom: 1px solid rgba(222, 226, 230, 0.3);
+            padding: 0.75rem 0;
+            transition: var(--transition);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.95) !important;
+            box-shadow: var(--shadow-heavy);
         }
 
         .navbar-brand {
-            font-family: 'Inter', sans-serif;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--text-dark) !important;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-        }
-
-        .navbar-brand .logo-square {
-            width: 40px;
-            height: 40px;
-            background: var(--primary-color);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
+            gap: 0.7rem;
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
             font-weight: 700;
-            font-size: 1.2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
         }
 
-        .nav-link {
+        .navbar-brand:hover {
+            color: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+
+        .navbar-brand img {
+            height: clamp(28px, 5vw, 40px);
+            width: auto;
+            transition: var(--transition);
+        }
+
+        /* Desktop Navigation */
+        .navbar-nav {
+            flex-direction: row;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-color) !important;
             font-weight: 500;
-            color: var(--text-dark) !important;
-            transition: color 0.2s ease;
-            padding: 0.5rem 1rem !important;
-            border-radius: 6px;
-            margin: 0 0.25rem;
-        }
-
-        .nav-link:hover {
-            color: var(--primary-color) !important;
-            background-color: var(--light-bg);
-        }
-
-        .nav-link.active {
-            color: var(--primary-color) !important;
-            background-color: var(--light-bg);
-        }
-
-        /* Search Bar */
-        .search-container {
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
             position: relative;
-            max-width: 300px;
+            transition: var(--transition);
+            text-decoration: none;
+            white-space: nowrap;
         }
 
-        .search-input {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
-            width: 100%;
-            font-size: 0.9rem;
-            transition: border-color 0.2s ease;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
-        }
-
-        .search-icon {
+        .navbar-nav .nav-link::after {
+            content: '';
             position: absolute;
-            left: 0.75rem;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            transition: var(--transition);
+            border-radius: 1px;
+        }
+
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-link.active::after {
+            width: 100%;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--primary-color) !important;
+            transform: translateY(-1px);
+        }
+
+        /* Enhanced Search Box */
+        .search-box {
+            flex: 1 1 400px;
+            max-width: 450px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-box input[type="text"] {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            background: #fff;
+            outline: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow-light);
+        }
+
+        .search-box input[type="text"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(0, 104, 122, 0.25), var(--shadow-medium);
+            transform: translateY(-1px);
+        }
+
+        .search-box .fa-search {
+            position: absolute;
+            left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-muted);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: var(--transition);
         }
 
-        /* Cart Badge */
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--danger-color);
-            color: white;
-            border-radius: 50%;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
-            min-width: 20px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        /* Product Cards */
-        .product-card {
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            height: 100%;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-medium);
-            border-color: var(--primary-color);
-        }
-
-        .product-image {
-            height: 200px;
-            object-fit: contain;
-            background: var(--light-bg);
-            transition: transform 0.3s ease;
-        }
-
-        .product-card:hover .product-image {
-            transform: scale(1.05);
-        }
-
-        .card-body {
-            padding: 1.5rem;
-        }
-
-        /* Buttons */
-        .btn {
-            border-radius: 8px;
-            font-weight: 500;
-            padding: 0.75rem 1.5rem;
-            transition: all 0.2s ease;
-            border: none;
-            font-size: 0.9rem;
-        }
-
-        .btn-primary {
-            background: var(--primary-color);
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .btn-outline-primary {
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
-            background: transparent;
-        }
-
-        .btn-outline-primary:hover {
-            background: var(--primary-color);
-            color: var(--white);
-        }
-
-        /* Typography */
-        .price {
-            font-size: 1.25rem;
-            font-weight: 700;
+        .search-box input[type="text"]:focus + .fa-search {
             color: var(--primary-color);
         }
 
-        .original-price {
-            text-decoration: line-through;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Hero Section */
-        .hero-section {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
-            position: relative;
-            overflow: hidden;
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-content {
-            color: var(--white);
-            z-index: 2;
-            position: relative;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            line-height: 1.1;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .hero-description {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .hero-cta {
-            background: var(--white);
-            color: var(--primary-color);
-            font-weight: 700;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.2s ease;
-        }
-
-        .hero-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
-            color: var(--primary-color);
-        }
-
-        /* Product Vials */
-        .product-vials {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .vial {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: var(--shadow-medium);
-            width: 120px;
-            height: 120px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .vial-dosage {
-            font-weight: 700;
-            color: var(--primary-color);
-            font-size: 0.9rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .vial-name {
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 0.8rem;
-        }
-
-        /* Feature Section */
-        .feature-section {
-            background: var(--light-bg);
-            padding: 4rem 0;
-        }
-
-        .feature-card {
-            text-align: center;
-            padding: 2rem 1rem;
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 1rem;
-        }
-
-        .feature-description {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* Product Grid */
-        .product-grid {
-            padding: 4rem 0;
-            background: var(--white);
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            text-align: center;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .section-subtitle {
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 3rem;
-            font-size: 1.1rem;
-        }
-
-        /* Filters */
-        .filter-section {
-            background: var(--light-bg);
-            padding: 2rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .filter-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .filter-select {
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 0.5rem 1rem;
-            background: var(--white);
-            font-size: 0.9rem;
-        }
-
-        .filter-checkbox {
+        /* Enhanced Icon Buttons */
+        .icon-btn {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.9rem;
+            color: var(--text-color) !important;
+            font-size: 0.95rem;
+            background: none;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Responsive */
+        .icon-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .icon-btn:hover::before {
+            opacity: 0.1;
+        }
+
+        .icon-btn:hover {
+            color: var(--primary-color) !important;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .icon-btn i {
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        /* Enhanced Cart Badge */
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) !important;
+            color: white !important;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            min-width: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 104, 122, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Enhanced Dropdown */
+        .dropdown-menu {
+            border: none;
+            box-shadow: var(--shadow-heavy);
+            border-radius: 12px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            animation: dropdownFadeIn 0.3s ease;
+        }
+
+        @keyframes dropdownFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(0, 104, 122, 0.1);
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        /* Enhanced Mobile Menu */
+        .navbar-toggler {
+            border: none;
+            background: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-toggler:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .navbar-toggler:hover {
+            background: rgba(0, 104, 122, 0.1);
+            transform: scale(1.05);
+        }
+
+        .navbar-toggler-icon {
+            width: 24px;
+            height: 24px;
+            background: none;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .navbar-toggler-icon::before,
+        .navbar-toggler-icon::after,
+        .navbar-toggler-icon div {
+            content: '';
+            display: block;
+            height: 2px;
+            width: 100%;
+            background: var(--text-color);
+            border-radius: 1px;
+            position: absolute;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        .navbar-toggler-icon::before {
+            top: 6px;
+        }
+
+        .navbar-toggler-icon div {
+            top: 12px;
+        }
+
+        .navbar-toggler-icon::after {
+            top: 18px;
+        }
+
+        /* Hamburger Animation */
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+            transform: rotate(45deg);
+            top: 12px;
+        }
+
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon div {
+            opacity: 0;
+        }
+
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+            transform: rotate(-45deg);
+            top: 12px;
+        }
+
+        /* Enhanced Offcanvas */
+        .offcanvas {
+            border: none;
+            box-shadow: var(--shadow-heavy);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .offcanvas-header {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .offcanvas-header .btn-close {
+            filter: invert(1);
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .offcanvas-header .btn-close:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .offcanvas-body {
+            padding: 2rem 1.5rem;
+        }
+
+        .offcanvas .search-box {
+            max-width: 100%;
+            margin: 0 0 2rem 0;
+        }
+
+        .offcanvas .navbar-nav {
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 2rem;
+        }
+
+        .offcanvas .nav-link {
+            text-align: left;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.1rem;
+            color: var(--text-color) !important;
+            transition: var(--transition);
+        }
+
+        .offcanvas .nav-link:hover,
+        .offcanvas .nav-link.active {
+            color: var(--primary-color) !important;
+            background: rgba(0, 104, 122, 0.05);
+            padding-left: 1rem;
+            border-radius: 8px;
+        }
+
+        .offcanvas .icon-btn {
+            justify-content: flex-start;
+            width: 100%;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color) !important;
+            font-size: 1rem;
+        }
+
+        .offcanvas .icon-btn:hover {
+            color: var(--primary-color) !important;
+            background: rgba(0, 104, 122, 0.05);
+            padding-left: 1rem;
+            border-radius: 8px;
+        }
+
+        /* Enhanced Floating Cart */
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            display: none;
+        }
+
+        @media (max-width: 991.98px) {
+            .floating-cart {
+                display: block;
+            }
+        }
+
+        .cart-icon-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            box-shadow: var(--shadow-heavy);
+            transition: var(--transition);
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .cart-icon-link:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 104, 122, 0.4);
+            color: white;
+        }
+
+        .cart-icon-link i {
+            font-size: 1.5rem;
+        }
+
+        /* Enhanced Responsive Design */
+        @media (max-width: 991.98px) {
+            .navbar .search-box {
+                display: none;
+            }
+
+            .navbar-nav {
+                display: none;
+            }
+
+            .navbar-brand img {
+                height: 35px;
+            }
+
+            .navbar-brand {
+                font-size: 1.3rem;
+            }
+
+            .icon-btn span {
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
+            .navbar {
+                padding: 0.5rem 0;
             }
-            
-            .product-vials {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .filter-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
+
             .navbar-brand {
                 font-size: 1.2rem;
+                gap: 0.5rem;
+            }
+
+            .navbar-brand img {
+                height: 30px;
+            }
+
+            .icon-btn {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.9rem;
+            }
+
+            .icon-btn i {
+                font-size: 1.1rem;
+            }
+
+            .floating-cart {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .cart-icon-link {
+                width: 50px;
+                height: 50px;
+            }
+
+            .cart-icon-link i {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+
+            .navbar-brand img {
+                height: 28px;
+            }
+
+            .icon-btn {
+                padding: 0.3rem 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .icon-btn i {
+                font-size: 1rem;
+            }
+
+            .offcanvas-body {
+                padding: 1.5rem 1rem;
+            }
+
+            .floating-cart {
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        /* Enhanced Main Content */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px - 300px);
+            position: relative;
+        }
+
+        /* Enhanced Footer */
+        .core-peptides-footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .core-peptides-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-brand .core {
+            color: var(--primary-color);
+        }
+
+        .footer-brand .peptides {
+            color: var(--secondary-color);
+        }
+
+        .footer-disclaimer {
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-disclaimer p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: #bdc3c7;
+        }
+
+        .footer-warning {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #e74c3c;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links-title {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .compliance-title {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Enhanced Toast Notifications */
+        #toast-container {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .alert {
+            border: none;
+            border-radius: 12px;
+            box-shadow: var(--shadow-heavy);
+            margin-bottom: 10px;
+            min-width: 300px;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Enhanced Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        /* Loading States */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: -8px;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Scroll to top button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-medium);
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        @media (max-width: 768px) {
+            .scroll-to-top {
+                bottom: 80px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
             }
         }
     </style>
 
     @stack('styles')
-    @vite('resources/js/app.js')
 </head>
 
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <div class="container">
-            <!-- Logo -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid px-4">
+            <!-- Logo - Always visible -->
             <a class="navbar-brand" href="{{ route('home') }}">
-               <img src="{{ asset('logo.png') }}" alt="American Peptide" style="height: 40px;">
+                <img src="/logo.png" alt="American Peptide Logo" class="d-none d-lg-inline">
+                <img src="/mobil-logo.png" alt="American Peptide Mobile Logo" class="d-lg-none">
             </a>
 
-            <!-- Search Bar -->
-            <div class="search-container d-none d-lg-block mx-auto">
-                <i class="bi bi-search search-icon"></i>
-                <input type="text" class="search-input" placeholder="Search">
+            <!-- Desktop Search - Hidden on mobile -->
+            <form class="search-box d-none d-lg-block" action="{{ route('products.index') }}" method="get">
+                <i class="fas fa-search"></i>
+                <input type="text" name="q" placeholder="Search peptides..." value="{{ request('q') }}">
+            </form>
+
+            <!-- Desktop Navigation - Hidden on mobile -->
+            <div class="d-none d-lg-flex flex-grow-1 justify-content-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" 
+                           href="{{ route('products.index') }}">All Peptides</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" 
+                           href="{{ route('about') }}">Our Company</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" 
+                           href="{{ route('contact') }}">Contact Us</a>
+                    </li>
+                </ul>
             </div>
 
-            <!-- Navigation Links -->
-            <div class="navbar-nav mx-auto">
-                <a class="nav-link" href="{{ route('products.index') }}">All Peptides</a>
-                <a class="nav-link" href="{{ route('about') }}">Our Company</a>
-                <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
-            </div>
+            <!-- Desktop Actions - Hidden on mobile -->
+            <div class="d-none d-lg-flex align-items-center gap-3">
+                <a class="icon-btn position-relative" href="{{ route('cart.index') }}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
 
-            <!-- User Actions -->
-            <div class="navbar-nav ms-auto">
-                @guest
-                    <a class="nav-link" href="{{ route('login') }}">
-                        <i class="bi bi-person me-1"></i>Sign In
+                <div class="dropdown">
+                    <a class="icon-btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="far fa-user"></i>
+                        <span>Account</span>
                     </a>
-                @else
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person me-1"></i>{{ Auth::user()->name }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li><a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a></li>
-                            <li><a class="dropdown-item" href="{{ route('user.orders.index') }}">My Orders</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        @guest
+                            <li><a class="dropdown-item" href="{{ route('login') }}">
+                                <i class="fas fa-sign-in-alt"></i> Sign in
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ route('register') }}">
+                                <i class="fas fa-user-plus"></i> Register
+                            </a></li>
+                        @endguest
+                        @auth
+                            <li><a class="dropdown-item" href="{{ route('dashboard') }}">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                    </button>
+                                </form>
                             </li>
-                        </ul>
-                    </div>
-                @endguest
-                
-                <a class="nav-link position-relative" href="{{ route('cart.index') }}">
-                    <i class="bi bi-cart3"></i>My Cart
-                    <span class="cart-badge" id="cart-count">{{ \App\Facades\Cart::getItemCount() }}</span>
-                </a>
+                        @endauth
+                    </ul>
+                </div>
             </div>
 
-            <!-- Mobile Toggle -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <!-- Mobile Actions - Visible only on mobile -->
+            <div class="d-lg-none d-flex align-items-center gap-2">
+                <a class="icon-btn position-relative" href="{{ route('cart.index') }}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count-mobile" class="cart-badge">0</span>
+                </a>
+                
+                <a class="icon-btn" href="{{ route('login') }}">
+                    <i class="far fa-user"></i>
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu">
+                    <span class="navbar-toggler-icon">
+                        <i class="fas fa-bars"></i>
+                    </span>
+                </button>
+            </div>
         </div>
     </nav>
 
+    <!-- Mobile Menu Offcanvas -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+        <div class="offcanvas-header">
+            <a class="navbar-brand" href="{{ route('home') }}">
+                <img src="/mobil-logo.png" alt="American Peptide Mobile Logo">
+            </a>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <!-- Mobile Search -->
+            <form class="search-box mb-4" action="{{ route('products.index') }}" method="get">
+                <i class="fas fa-search"></i>
+                <input type="text" name="q" placeholder="Search peptides..." value="{{ request('q') }}">
+            </form>
+            
+            <!-- Mobile Navigation -->
+            <ul class="navbar-nav mb-4">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" 
+                       href="{{ route('products.index') }}">
+                        <i class="fas fa-flask me-2"></i>All Peptides
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" 
+                       href="{{ route('about') }}">
+                        <i class="fas fa-building me-2"></i>Our Company
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" 
+                       href="{{ route('contact') }}">
+                        <i class="fas fa-envelope me-2"></i>Contact Us
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Mobile Account Actions -->
+            <div class="d-flex flex-column gap-2">
+                @guest
+                    <a class="icon-btn" href="{{ route('login') }}">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Sign in</span>
+                    </a>
+                    <a class="icon-btn" href="{{ route('register') }}">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Register</span>
+                    </a>
+                @endguest
+                @auth
+                    <a class="icon-btn" href="{{ route('dashboard') }}">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="icon-btn w-100 text-start">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </form>
+                @endauth
+                <a class="icon-btn position-relative" href="{{ route('cart.index') }}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count-offcanvas" class="cart-badge">0</span>
+                    <span>Cart</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content -->
-    <main>
+    <main class="fade-in-up">
         @yield('content')
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-5 mt-5">
+    <footer class="core-peptides-footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
-                    <h5 class="mb-3">American Peptide</h5>
-                    <p class="text-muted">High-quality research peptides for scientific use only.</p>
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <div class="footer-brand">
+                        <span class="core">AMERICAN</span> <span class="peptides">PEPTIDES</span>
+                    </div>
+                    <div class="footer-disclaimer">
+                        <p>All products are sold for research, laboratory, or analytical purposes only, and are not for human consumption.</p>
+                        <p>American Peptides is a chemical supplier. We are not a compounding pharmacy or chemical compounding facility as defined under 503A of the Federal Food, Drug, and Cosmetic act.</p>
+                        <p>The statements made within this website have not been evaluated by the US Food and Drug Administration. The products we offer are not intended to diagnose, treat, cure or prevent any disease.</p>
+                    </div>
+                    <div class="footer-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Human/Animal Consumption Prohibited: Laboratory/in-Vitro Experimental Use Only
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <h5 class="mb-3">Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{{ route('products.index') }}" class="text-muted">All Products</a></li>
-                        <li><a href="{{ route('about') }}" class="text-muted">About Us</a></li>
-                        <li><a href="{{ route('contact') }}" class="text-muted">Contact</a></li>
+
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-links-title">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('products.index') }}">Peptides for Sale</a></li>
+                        <li><a href="{{ route('about') }}">About Us</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="{{ route('contact') }}">Contact</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <h5 class="mb-3">Contact Info</h5>
-                    <p class="text-muted">78206 Varner Rd., Suite D #2022<br>Palm Desert, CA 92211</p>
+
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="compliance-title">Payment Methods</h5>
+                    <img src="{{ asset('assets/images/home/payment.png') }}" alt="Payment Methods" class="img-fluid">
                 </div>
             </div>
-            <hr class="my-4">
-            <div class="text-center text-muted">
-                <small>&copy; {{ date('Y') }} American Peptide. All rights reserved.</small>
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="copyright">
+                        © <script>document.write(new Date().getFullYear())</script> American Peptides. All Rights Reserved.
+                    </p>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Logout Form -->
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-        @csrf
-    </form>
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        });
+    </script>
+
+    <script>
+        // Enhanced Cart count update
+        function updateCartCount() {
+            fetch('/cart/count')
+                .then(response => response.json())
+                .then(data => {
+                    // Update all cart count elements
+                    const cartElements = document.querySelectorAll('#cart-count, #cart-count-mobile, #cart-count-offcanvas, .cart-badge');
+                    cartElements.forEach(el => el.textContent = data.cart_count);
+                })
+                .catch(error => console.error('Error updating cart count:', error));
+        }
+
+        // Enhanced Toast notifications
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type} alert-dismissible fade show`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('fade');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Auto-hide alerts
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+
+        // Enhanced Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Show/hide scroll to top button
+            const scrollToTop = document.getElementById('scrollToTop');
+            if (window.scrollY > 300) {
+                scrollToTop.style.display = 'flex';
+            } else {
+                scrollToTop.style.display = 'none';
+            }
+        });
+
+        // Scroll to top functionality
+        document.getElementById('scrollToTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Enhanced mobile menu close on link click
+        document.querySelectorAll('.offcanvas .nav-link, .offcanvas .icon-btn').forEach(link => {
+            link.addEventListener('click', function() {
+                const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('mobileMenu'));
+                if (offcanvas) {
+                    offcanvas.hide();
+                }
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            setInterval(updateCartCount, 30000);
+
+            // Add loading states to forms
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function() {
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        submitBtn.classList.add('btn-loading');
+                        submitBtn.disabled = true;
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Floating Cart for Mobile -->
+    <div class="floating-cart d-lg-none" id="floatingCart">
+        <a href="{{ route('cart.index') }}" class="cart-icon-link">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge">0</span>
+        </a>
+    </div>
 
     @stack('scripts')
 </body>
+
 </html>

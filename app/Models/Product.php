@@ -15,17 +15,16 @@ class Product extends Model
         'slug',
         'description',
         'category_id',
-    
+        'price',
+        'sale_price',
+        'is_active',
+        'is_featured',
+        'is_on_sale',
         'thumbnail',
         'gallery',
-
- 
-
-
         'status',
         'published_at',
         'tags',
-   
         'variants',
         'meta_title',
         'meta_description',
@@ -41,6 +40,19 @@ class Product extends Model
         'published_at' => 'datetime',
         'has_variants' => 'boolean',
         'is_digital' => 'boolean',
+        'is_active' => 'boolean',
+        'is_featured' => 'boolean',
+        'is_on_sale' => 'boolean',
+        'price' => 'decimal:2',
+        'sale_price' => 'decimal:2',
+    ];
+
+    protected $attributes = [
+        'is_active' => true,
+        'is_featured' => false,
+        'is_on_sale' => false,
+        'price' => 0.00,
+        'sale_price' => 0.00,
     ];
 
     public function category()
@@ -48,10 +60,29 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Scope for active products
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 
-    
+    /**
+     * Scope for featured products
+     */
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', true);
+    }
 
-   
+    /**
+     * Scope for products on sale
+     */
+    public function scopeOnSale($query)
+    {
+        return $query->where('is_on_sale', true);
+    }
 
     /**
      * Get all variants as a collection
