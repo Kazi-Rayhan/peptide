@@ -46,10 +46,18 @@
                                             <div>
                                                 <div class="fw-semibold" style="font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--primary-color);">{{ $item['product_name'] }}</div>
                                                 @if(isset($item['variant']) && $item['variant'])
-                                               @php 
-                                               $variant = $item['variant']['attributes'][0];
-                                               @endphp
-                                                <small class="text-muted">Variant: {{ $variant['name'] }} {{ $variant['value'] }}</small>
+                                                <small class="text-muted">
+                                                    Variant: 
+                                                    @if(isset($item['variant']['attributes']) && is_array($item['variant']['attributes']))
+                                                        @if(isset($item['variant']['attributes'][0]))
+                                                            {{ $item['variant']['attributes'][0]['name'] ?? '' }} {{ $item['variant']['attributes'][0]['value'] ?? '' }}
+                                                        @else
+                                                            {{ implode(', ', array_values($item['variant']['attributes'])) }}
+                                                        @endif
+                                                    @else
+                                                        {{ $item['variant']['attributes'] ?? '' }}
+                                                    @endif
+                                                </small>
                                                 @endif
                                             </div>
                                         </td>
@@ -73,7 +81,13 @@
                                         </td>
                                         <!-- Price -->
                                         <td class="text-end">
-                                            <div class="fw-semibold" style="font-size: 1rem;">${{ number_format($item['price'], 2) }}</div>
+                                            <div class="fw-semibold" style="font-size: 1rem;">
+                                                @if(is_array($item['price']))
+                                                    ${{ number_format($item['price']['retail'] ?? 0, 2) }}
+                                                @else
+                                                    ${{ number_format($item['price'], 2) }}
+                                                @endif
+                                            </div>
                                         </td>
                                         <!-- Total -->
                                         <td class="text-end">
@@ -100,10 +114,19 @@
                                          alt="{{ $item['product_name'] }}">
                                     <div class="flex-grow-1">
                                         <div class="fw-semibold mb-1" style="font-family: 'Playfair Display', serif; color: var(--primary-color);">{{ $item['product_name'] }}</div>
-                                        @if(isset($item['variant']) && $item['variant'])   @php 
-                                        $variant = $item['variant']['attributes'][0];
-                                        @endphp
-                                        <small class="text-muted">Variant: {{ $variant['name'] }} {{ $variant['value'] }}</small>
+                                        @if(isset($item['variant']) && $item['variant'])
+                                        <small class="text-muted">
+                                            Variant: 
+                                            @if(isset($item['variant']['attributes']) && is_array($item['variant']['attributes']))
+                                                @if(isset($item['variant']['attributes'][0]))
+                                                    {{ $item['variant']['attributes'][0]['name'] ?? '' }} {{ $item['variant']['attributes'][0]['value'] ?? '' }}
+                                                @else
+                                                    {{ implode(', ', array_values($item['variant']['attributes'])) }}
+                                                @endif
+                                            @else
+                                                {{ $item['variant']['attributes'] ?? '' }}
+                                            @endif
+                                        </small>
                                         @endif
                                     </div>
                                     <button class="btn btn-link text-danger p-0 remove-item position-absolute top-0 end-0 mt-2 me-2" data-item-id="{{ $itemKey }}" title="Remove item">
@@ -127,7 +150,14 @@
                                     </div>
                                     @endif
                                     <div class="text-end">
-                                        <div class="fw-semibold small">Price: ${{ number_format($item['price'], 2) }}</div>
+                                        <div class="fw-semibold small">
+                                            Price: 
+                                            @if(is_array($item['price']))
+                                                ${{ number_format($item['price']['retail'] ?? 0, 2) }}
+                                            @else
+                                                ${{ number_format($item['price'], 2) }}
+                                            @endif
+                                        </div>
                                         <div class="fw-bold small" style="color: var(--primary-color);">Total: ${{ number_format($item['total'], 2) }}</div>
                                     </div>
                                 </div>

@@ -32,22 +32,22 @@
 
     <style>
         :root {
-            --primary-color: #9B8B7A;
-            --primary-dark: #7A6B5A;
-            --secondary-color: #A8B5A0;
-            --accent-color: #D4C4B7;
-            --success-color: #8BA892;
-            --danger-color: #B87A7A;
-            --warning-color: #D4B483;
-            --info-color: #8BA8B5;
-            --light-bg: #FAF9F7;
-            --border-color: #E8E0D8;
-            --text-muted: #8A7F72;
-            --text-dark: #4A3F35;
+            --primary-color: #B5D6DD;
+            --primary-dark: #AAB6B9;
+            --secondary-color: #C0F0F9;
+            --accent-color: #AAB6B9;
+            --success-color: #B5D6DD;
+            --danger-color: #AAB6B9;
+            --warning-color: #C0F0F9;
+            --info-color: #B5D6DD;
+            --light-bg: #FFFFFF;
+            --border-color: #AAB6B9;
+            --text-muted: #AAB6B9;
+            --text-dark: #000000;
             --white: #FFFFFF;
-            --shadow-soft: 0 2px 8px rgba(155, 139, 122, 0.08);
-            --shadow-medium: 0 4px 16px rgba(155, 139, 122, 0.12);
-            --shadow-strong: 0 8px 32px rgba(155, 139, 122, 0.16);
+            --shadow-soft: 0 2px 8px rgba(181, 214, 221, 0.08);
+            --shadow-medium: 0 4px 16px rgba(181, 214, 221, 0.12);
+            --shadow-strong: 0 8px 32px rgba(181, 214, 221, 0.16);
         }
 
         * {
@@ -103,12 +103,12 @@
 
         .nav-link:hover {
             color: var(--primary-color) !important;
-            background-color: rgba(155, 139, 122, 0.08);
+            background-color: rgba(181, 214, 221, 0.08);
         }
 
         .nav-link.active {
             color: var(--primary-color) !important;
-            background-color: rgba(155, 139, 122, 0.12);
+            background-color: rgba(181, 214, 221, 0.12);
         }
 
         .cart-badge {
@@ -249,7 +249,7 @@
 
         .form-control:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(155, 139, 122, 0.15);
+            box-shadow: 0 0 0 0.2rem rgba(181, 214, 221, 0.15);
         }
 
         .form-select {
@@ -260,7 +260,7 @@
 
         .form-select:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(155, 139, 122, 0.15);
+            box-shadow: 0 0 0 0.2rem rgba(181, 214, 221, 0.15);
         }
 
         /* Cards and Containers */
@@ -292,7 +292,7 @@
         }
 
         .dropdown-item:hover {
-            background-color: rgba(155, 139, 122, 0.08);
+            background-color: rgba(181, 214, 221, 0.08);
             color: var(--primary-color);
         }
 
@@ -320,6 +320,10 @@
         .hero-section {
             background: linear-gradient(135deg, var(--light-bg) 0%, rgba(168, 181, 160, 0.1) 100%);
             padding: 4rem 0;
+        }
+        
+        .min-vh-75 {
+            min-height: 75vh;
         }
 
         /* Quick Links */
@@ -529,10 +533,14 @@
             @else
                 <a class="navbar-brand d-flex align-items-center me-lg-5" href="{{ route('home') }}"
                     style="font-size: 2rem;">
-                    <i class="bi bi-book" style="font-size: 2.2rem; color: var(--secondary-color);"></i>
-                    <span class="ms-2 d-none d-sm-inline"
-                        style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 2rem; color: var(--primary-color); letter-spacing: 1px;">Eterna
-                        Reads</span>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary rounded-3 d-flex align-items-center justify-content-center me-2" 
+                             style="width: 40px; height: 40px; background: var(--primary-color) !important;">
+                            <span class="text-white fw-bold" style="font-size: 1.2rem;">AP</span>
+                        </div>
+                        <span class="d-none d-sm-inline"
+                            style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--text-dark); letter-spacing: 1px;">AMERICANPEPTIDE</span>
+                    </div>
                 </a>
             @endif
             <!-- Cart & Hamburger (mobile) -->

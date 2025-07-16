@@ -453,14 +453,22 @@
                                                id="variant_{{ $index }}" 
                                                value="{{ $index }}"
                                                data-sku="{{ $variant['sku'] }}"
-                                               data-price="{{ $variant['price']['retailer']['unit_price'] }}"
+                                               data-price="{{ is_array($variant['price']) ? ($variant['price']['retailer']['unit_price'] ?? $variant['price']['retail'] ?? 0) : $variant['price'] }}"
                                                data-stock="{{ $variant['stock'] }}"
                                                data-variant='@json($variant)'
                                                {{ $index === 0 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="variant_{{ $index }}">
-                                            <span class="variant-label">{{ $variant['attributes'][0]['value'] ?? $variant['name'] }}</span>
+                                            <span class="variant-label">
+                                                @if(isset($variant['attributes']) && is_array($variant['attributes']) && isset($variant['attributes'][0]))
+                                                    {{ $variant['attributes'][0]['value'] ?? $variant['name'] }}
+                                                @else
+                                                    {{ $variant['name'] ?? 'Variant' }}
+                                                @endif
+                                            </span>
                                         </label>
-                                        <span class="variant-price">${{ number_format($variant['price']['retailer']['unit_price'], 2) }}</span>
+                                        <span class="variant-price">
+                                            ${{ number_format(is_array($variant['price']) ? ($variant['price']['retailer']['unit_price'] ?? $variant['price']['retail'] ?? 0) : $variant['price'], 2) }}
+                                        </span>
                                         <span class="variant-checkmark">&#10003;</span>
                                     </div>
                                 @endforeach
