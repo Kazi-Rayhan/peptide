@@ -212,7 +212,6 @@
             text-decoration: none;
             font-weight: 500;
             position: relative;
-            overflow: hidden;
         }
 
         .icon-btn::before {
@@ -385,75 +384,166 @@
         .offcanvas {
             border: none;
             box-shadow: var(--shadow-heavy);
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: white;
+            width: 280px;
         }
 
         .offcanvas-header {
-            border-bottom: 1px solid var(--border-color);
-            padding: 1.5rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 1rem 1.5rem;
+            background: white;
+        }
+
+        .offcanvas-header .navbar-brand {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 600;
         }
 
         .offcanvas-header .btn-close {
-            filter: invert(1);
-            opacity: 0.8;
+            opacity: 0.7;
             transition: var(--transition);
+            background: none;
+            border: none;
+            padding: 0.5rem;
         }
 
         .offcanvas-header .btn-close:hover {
             opacity: 1;
-            transform: scale(1.1);
         }
 
         .offcanvas-body {
-            padding: 2rem 1.5rem;
+            padding: 0;
+            background: white;
         }
 
         .offcanvas .search-box {
             max-width: 100%;
-            margin: 0 0 2rem 0;
+            margin: 0;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .offcanvas .search-box input[type="text"] {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .offcanvas .search-box input[type="text"]:focus {
+            background: white;
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .offcanvas .search-box .fa-search {
+            color: #6c757d;
+            font-size: 0.9rem;
         }
 
         .offcanvas .navbar-nav {
             flex-direction: column;
             gap: 0;
-            margin-bottom: 2rem;
+            margin: 0;
+            padding: 0;
         }
 
         .offcanvas .nav-link {
             text-align: left;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 1.1rem;
+            padding: 1rem 1.5rem;
+            border: none;
+            font-size: 1rem;
             color: var(--text-color) !important;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .offcanvas .nav-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: #6c757d;
         }
 
         .offcanvas .nav-link:hover,
         .offcanvas .nav-link.active {
             color: var(--primary-color) !important;
-            background: rgba(0, 104, 122, 0.05);
-            padding-left: 1rem;
-            border-radius: 8px;
+            background: #f8f9fa;
         }
 
-        .offcanvas .icon-btn {
+        .offcanvas .nav-link.active {
+            color: var(--primary-color) !important;
+            font-weight: 600;
+        }
+
+        /* Mobile Account Actions */
+        .mobile-account-section {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e9ecef;
+            background: white;
+        }
+
+        .mobile-account-section .section-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .mobile-account-section .icon-btn {
             justify-content: flex-start;
             width: 100%;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 0;
+            border: none;
             color: var(--text-color) !important;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background: transparent;
+            border-radius: 0;
+            border-bottom: 1px solid #f8f9fa;
         }
 
-        .offcanvas .icon-btn:hover {
+        .mobile-account-section .icon-btn:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-account-section .icon-btn:hover {
             color: var(--primary-color) !important;
-            background: rgba(0, 104, 122, 0.05);
-            padding-left: 1rem;
-            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .mobile-account-section .icon-btn i {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        .mobile-account-section .icon-btn span {
+            margin-left: 0.5rem;
+        }
+
+        /* Cart badge in mobile menu */
+        .mobile-account-section .cart-badge {
+            position: static;
+            margin-left: auto;
+            background: var(--primary-color) !important;
+            color: white !important;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.4rem;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
         }
 
         /* Enhanced Floating Cart */
@@ -500,6 +590,10 @@
 
         .cart-icon-link i {
             font-size: 1.5rem;
+        }
+
+        .nav-link {
+         width: 100% !important;
         }
 
         /* Enhanced Responsive Design */
@@ -833,7 +927,7 @@
             <!-- Desktop Search - Hidden on mobile -->
             <form class="search-box d-none d-lg-block" action="{{ route('products.index') }}" method="get">
                 <i class="fas fa-search"></i>
-                <input type="text" name="q" placeholder="Search peptides..." value="{{ request('q') }}">
+                <input type="text" name="q" placeholder="Search research peptides..." value="{{ request('q') }}">
             </form>
 
             <!-- Desktop Navigation - Hidden on mobile -->
@@ -841,15 +935,15 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" 
-                           href="{{ route('products.index') }}">All Peptides</a>
+                           href="{{ route('products.index') }}">Research Peptides</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" 
-                           href="{{ route('about') }}">Our Company</a>
+                           href="{{ route('about') }}">About Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" 
-                           href="{{ route('contact') }}">Contact Us</a>
+                           href="{{ route('contact') }}">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -917,69 +1011,92 @@
     <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
         <div class="offcanvas-header">
             <a class="navbar-brand" href="{{ route('home') }}">
-                <img src="/mobil-logo.png" alt="American Peptide Mobile Logo">
+                <img src="{{ asset('logo.png') }}" alt="American Peptide Mobile Logo">
             </a>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <!-- Mobile Search -->
-            <form class="search-box mb-4" action="{{ route('products.index') }}" method="get">
-                <i class="fas fa-search"></i>
-                <input type="text" name="q" placeholder="Search peptides..." value="{{ request('q') }}">
-            </form>
+          
             
             <!-- Mobile Navigation -->
-            <ul class="navbar-nav mb-4">
+            <ul class="navbar-nav d-flex flex-column align-items-start mb-4">
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" 
                        href="{{ route('products.index') }}">
-                        <i class="fas fa-flask me-2"></i>All Peptides
+                        <i class="fas fa-flask "></i>Research Peptides
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" 
                        href="{{ route('about') }}">
-                        <i class="fas fa-building me-2"></i>Our Company
+                        <i class="fas fa-building "></i>About Us
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" 
                        href="{{ route('contact') }}">
-                        <i class="fas fa-envelope me-2"></i>Contact Us
+                        <i class="fas fa-envelope "></i>Contact
                     </a>
                 </li>
             </ul>
             
             <!-- Mobile Account Actions -->
-            <div class="d-flex flex-column gap-2">
+            <div class="mobile-account-section text-dark">
+                <h6 class="section-title">Account</h6>
                 @guest
-                    <a class="icon-btn" href="{{ route('login') }}">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>Sign in</span>
-                    </a>
-                    <a class="icon-btn" href="{{ route('register') }}">
-                        <i class="fas fa-user-plus"></i>
-                        <span>Register</span>
-                    </a>
+                <ul class="navbar-nav d-flex flex-column align-items-start mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link" 
+                           href="{{ route('login') }}">
+                           <i class="fas fa-sign-in-alt"></i>
+                           <span>Sign in</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" 
+                           href="{{ route('register') }}">
+                           <i class="fas fa-user-plus"></i>
+                           <span>Register</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                @else
+                <ul class="navbar-nav d-flex flex-column align-items-start mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link" 
+                           href="{{ route('dashboard') }}">
+                           <i class="fas fa-tachometer-alt"></i>
+                           <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" 
+                           href="{{ route('register') }}">
+                           <i class="fas fa-user-plus"></i>
+                           <span>Register</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="nav-link">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                    
+                </ul>
                 @endguest
-                @auth
-                    <a class="icon-btn" href="{{ route('dashboard') }}">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="icon-btn w-100 text-start">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </button>
-                    </form>
-                @endauth
-                <a class="icon-btn position-relative" href="{{ route('cart.index') }}">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count-offcanvas" class="cart-badge">0</span>
-                    <span>Cart</span>
+                
+              <ul class="navbar-nav d-flex flex-column align-items-start mb-4">
+                <li class="nav-item">
+                    <a class="nav-link" 
+                       href="{{ route('cart.index') }}">
+                       <i class="fas fa-shopping-cart"></i>
+                       <span>Cart</span>
                 </a>
+              
             </div>
         </div>
     </div>
@@ -1011,11 +1128,11 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h5 class="footer-links-title">Quick Links</h5>
                     <ul class="footer-links">
-                        <li><a href="{{ route('products.index') }}">Peptides for Sale</a></li>
+                        <li><a href="{{ route('products.index') }}">Research Peptides</a></li>
                         <li><a href="{{ route('about') }}">About Us</a></li>
-                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
                         <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Terms of Service</a></li>
                         <li><a href="{{ route('contact') }}">Contact</a></li>
                     </ul>
                 </div>

@@ -28,27 +28,17 @@ class LowStockAlert extends BaseWidget
         return $table
             ->query(
                 Product::query()
-                ->where('is_digital', false)
-                    ->where(function (Builder $query) {
-                        $query->where(function (Builder $subQuery) {
-                            // Regular products with low stock
-                            $subQuery->where('has_variants', false)
-                                    ->where('stock', '<=', 10)
-                                    ->where('track_quantity', true);
-                        })->orWhere(function (Builder $subQuery) {
-                            // Products with variants that have low stock
-                            $subQuery->where('has_variants', true)
-                                    ->whereJsonLength('variants', '>', 0)
-                                    ->whereRaw("JSON_EXTRACT(variants, '$[*].stock') IS NOT NULL")
-                                    ->whereRaw("EXISTS (
-                                        SELECT 1 FROM JSON_TABLE(
-                                            variants,
-                                            '$[*]' COLUMNS (stock INT PATH '$.stock')
-                                        ) AS jt WHERE jt.stock <= 10
-                                    )");
-                        });
-                    })
-                    ->orderBy('stock', 'asc')
+                    ->where('is_digital', false)
+                    ->whereJsonLength('variants', '>', 0)
+                    ->whereRaw("JSON_EXTRACT(variants, '$[*].stock') IS NOT NULL")
+                    ->whereRaw("
+                        EXISTS (
+                            SELECT 1 FROM JSON_TABLE(
+                                variants,
+                                '$[*]' COLUMNS (stock INT PATH '$.stock')
+                            ) AS jt WHERE jt.stock <= 10
+                        )
+                    ")
             )
             ->columns([
                 Tables\Columns\TextColumn::make('name')
@@ -66,20 +56,15 @@ class LowStockAlert extends BaseWidget
                 Tables\Columns\TextColumn::make('stock')
                     ->label('Current Stock')
                     ->formatStateUsing(function ($record) {
-                        if ($record->hasVariants()) {
-                            $minStock = collect($record->variants)
-                                ->pluck('stock')
-                                ->filter()
-                                ->min();
-                            return $minStock ?? 0;
-                        }
-                        return $record->stock;
+                        $minStock = collect($record->variants)
+                            ->pluck('stock')
+                            ->filter()
+                            ->min();
+                        return $minStock ?? 0;
                     })
                     ->sortable()
                     ->color(function ($record) {
-                        $stock = $record->hasVariants() 
-                            ? collect($record->variants)->pluck('stock')->filter()->min() ?? 0
-                            : $record->stock;
+                        $stock = collect($record->variants)->pluck('stock')->filter()->min() ?? 0;
                         return $stock <= 5 ? 'danger' : 'warning';
                     })
                     ->weight('bold'),
@@ -87,15 +72,12 @@ class LowStockAlert extends BaseWidget
                 Tables\Columns\TextColumn::make('price')
                     ->label('Price')
                     ->formatStateUsing(function ($record) {
-                        if ($record->hasVariants()) {
-                            $minPrice = $record->getMinPrice();
-                            $maxPrice = $record->getMaxPrice();
-                            if ($minPrice == $maxPrice) {
-                                return '$' . number_format($minPrice, 2);
-                            }
-                            return '$' . number_format($minPrice, 2) . ' - $' . number_format($maxPrice, 2);
+                        $minPrice = $record->getMinPrice();
+                        $maxPrice = $record->getMaxPrice();
+                        if ($minPrice == $maxPrice) {
+                            return '$' . number_format($minPrice, 2);
                         }
-                        return '$' . number_format($record->price, 2);
+                        return '$' . number_format($minPrice, 2) . ' - $' . number_format($maxPrice, 2);
                     })
                     ->sortable(),
                 
@@ -106,15 +88,6 @@ class LowStockAlert extends BaseWidget
                 Tables\Columns\TextColumn::make('brand.name')
                     ->label('Brand')
                     ->sortable(),
-                
-                Tables\Columns\IconColumn::make('has_variants')
-                    ->label('Type')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-squares-2x2')
-                    ->falseIcon('heroicon-o-cube')
-                    ->trueColor('info')
-                    ->falseColor('gray')
-                    ->getStateUsing(fn ($record) => $record->hasVariants()),
                 
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Active')
@@ -131,7 +104,6 @@ class LowStockAlert extends BaseWidget
                     ->icon('heroicon-o-pencil')
                     ->url(fn (Product $record): string => route('filament.admin.resources.products.edit', $record))
                     ->openUrlInNewTab(),
-            ])
-            ->defaultSort('stock', 'asc');
+            ]);
     }
 } 

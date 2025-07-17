@@ -1,29 +1,78 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Shop - Eterna Reads')
-@section('meta_description', 'Explore our collection of books, audiobooks, and gift boxes. Find your next great read or
-    the perfect gift for a book lover.')
-@section('meta_keywords', 'books, audiobooks, gift boxes, bookshop, online bookstore, reading, literature, book gifts')
+@section('title', 'Research Peptides - Premium Peptide Supplier')
+@section('meta_description', 'Explore our collection of high-quality research peptides for laboratory use. Find the perfect peptides for your research needs with guaranteed purity and quality.')
+@section('meta_keywords', 'research peptides, peptide supplier, laboratory peptides, peptide research, high purity peptides, research chemicals')
 
 @section('content')
-    <div class="container py-5">
-        <!-- Hero Section -->
-        <div class="section-header text-center mb-5">
-            <h1 class="section-title display-4 fw-bold">Discover Our Collection</h1>
-            <p class="section-subtitle lead">Find the perfect books, audiobooks, and gift boxes for your reading journey</p>
+    <!-- Hero Section with Background -->
+    <div class="hero-section position-relative bg-gradient-primary text-white py-5 mb-5" >
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-3">Research Peptide Collection</h1>
+                    <p class="lead mb-4 opacity-90">High-quality peptides for laboratory research with guaranteed purity and analytical documentation</p>
+                    <div class="hero-stats d-flex justify-content-center gap-4 flex-wrap">
+                        <div class="stat-item text-center">
+                            <div class="stat-number fw-bold fs-4">{{ $products->total() }}+</div>
+                            <div class="stat-label small opacity-75">Peptides</div>
+                        </div>
+                        <div class="stat-item text-center">
+                            <div class="stat-number fw-bold fs-4">99.9%</div>
+                            <div class="stat-label small opacity-75">Purity</div>
+                        </div>
+                        <div class="stat-item text-center">
+                            <div class="stat-number fw-bold fs-4">24/7</div>
+                            <div class="stat-label small opacity-75">Support</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Decorative Elements -->
+        <div class="hero-decoration position-absolute top-0 end-0 opacity-10">
+            <svg width="200" height="200" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="80" fill="currentColor"/>
+            </svg>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Quick Search Bar -->
+        <div class="quick-search-section mb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <form method="GET" action="{{ route('products.index') }}" class="search-form">
+                        <div class="input-group input-group-lg shadow-sm">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-search text-primary"></i>
+                            </span>
+                            <input type="text" 
+                                   class="form-control border-start-0 ps-0" 
+                                   name="search" 
+                                   value="{{ request('search') }}"
+                                   placeholder="Search peptides by name, sequence, or catalog number..."
+                                   aria-label="Search peptides">
+                            <button class="btn btn-primary px-4" type="submit">
+                                <i class="bi bi-search me-2"></i>Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
         <div class="row">
-            <!-- Sidebar Filters (Desktop) & Offcanvas (Mobile) -->
-            <div class="col-md-4 mb-4 d-none d-md-block">
-                <div class="position-sticky" style="top: 90px;">
-                    <div class="card">
-                        <div class="card-header">
+            <!-- Sidebar Filters (Desktop) -->
+            <div class="col-lg-3 mb-4 d-none d-lg-block">
+                <div class="position-sticky" style="top: 100px;">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-primary text-white">
                             <h5 class="mb-0">
                                 <i class="bi bi-funnel me-2"></i>Filters & Search
                             </h5>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-4">
                             @include('frontend.products._filters', [
                                 'categories' => $categories
                             ])
@@ -31,298 +80,407 @@
                     </div>
                 </div>
             </div>
-            <!-- Offcanvas Trigger (Mobile) -->
-            <div class="col-12 d-md-none mb-3">
-                <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="offcanvas"
+
+            <!-- Mobile Filter Toggle -->
+            <div class="col-12 d-lg-none mb-4">
+                <button class="btn btn-outline-primary w-100 py-3" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#filtersOffcanvas" aria-controls="filtersOffcanvas">
                     <i class="bi bi-funnel me-2"></i>Filters & Search
+                    <span class="badge bg-primary ms-2">{{ collect(request()->all())->filter()->count() }}</span>
                 </button>
             </div>
-            <!-- Offcanvas Filters (Mobile) -->
+
+            <!-- Mobile Offcanvas Filters -->
             <div class="offcanvas offcanvas-start" tabindex="-1" id="filtersOffcanvas"
                 aria-labelledby="filtersOffcanvasLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="filtersOffcanvasLabel"><i class="bi bi-funnel me-2"></i>Filters & Search
+                <div class="offcanvas-header bg-primary text-white">
+                    <h5 class="offcanvas-title" id="filtersOffcanvasLabel">
+                        <i class="bi bi-funnel me-2"></i>Filters & Search
                     </h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body">
+                <div class="offcanvas-body p-4">
                     @include('frontend.products._filters', [
                         'categories' => $categories
                     ])
                 </div>
             </div>
+
             <!-- Main Content: Products -->
-            <div class="col-md-8">
+            <div class="col-lg-9">
                 <!-- Active Filters Display -->
-                @if (request('search') ||
-                        request('category') ||
-                        request('brand') ||
-                        request('min_price') ||
-                        request('max_price') ||
-                        request('sort'))
-                    <div class="row mb-4">
-                        <div class="col-12">
-                            <div class="d-flex flex-wrap gap-2 align-items-center">
-                                <span class="text-muted">Active Filters:</span>
-                                @if (request('search'))
-                                    <span class="badge bg-primary">
-                                        Search: "{{ request('search') }}"
-                                        <a href="{{ route('products.index', request()->except('search')) }}"
-                                            class="text-white text-decoration-none ms-1">×</a>
-                                    </span>
-                                @endif
-                                @if (request('category'))
-                                    @php $category = $categories->firstWhere('slug', request('category')) @endphp
-                                    @if ($category)
-                                        <span class="badge bg-primary">
-                                            Category: {{ $category->name }}
-                                            <a href="{{ route('products.index', request()->except('category')) }}"
+                @if (request('search') || request('category') || request('brand') || request('min_price') || request('max_price') || request('sort'))
+                    <div class="active-filters mb-4">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body py-3">
+                                <div class="d-flex flex-wrap gap-2 align-items-center">
+                                    <span class="text-muted fw-medium me-2">Active Filters:</span>
+                                    @if (request('search'))
+                                        <span class="badge bg-primary rounded-pill">
+                                            <i class="bi bi-search me-1"></i>
+                                            "{{ request('search') }}"
+                                            <a href="{{ route('products.index', request()->except('search')) }}"
                                                 class="text-white text-decoration-none ms-1">×</a>
                                         </span>
                                     @endif
-                                @endif
-                              
-                                @if (request('min_price') || request('max_price'))
-                                    <span class="badge bg-primary">
-                                        Price: ${{ request('min_price', '0') }} - ${{ request('max_price', '∞') }}
-                                        <a href="{{ route('products.index', request()->except(['min_price', 'max_price'])) }}"
-                                            class="text-white text-decoration-none ms-1">×</a>
-                                    </span>
-                                @endif
-                                @if (request('sort'))
-                                    @php
-                                        $sortLabels = [
-                                            'name' => 'Name A-Z',
-                                            'name_desc' => 'Name Z-A',
-                                            'price' => 'Price Low-High',
-                                            'price_desc' => 'Price High-Low',
-                                            'newest' => 'Newest First',
-                                            'popular' => 'Most Popular',
-                                        ];
-                                    @endphp
-                                    <span class="badge bg-primary">
-                                        Sort: {{ $sortLabels[request('sort')] ?? request('sort') }}
-                                        <a href="{{ route('products.index', request()->except('sort')) }}"
-                                            class="text-white text-decoration-none ms-1">×</a>
-                                    </span>
-                                @endif
+                                    @if (request('category'))
+                                        @php $category = $categories->firstWhere('slug', request('category')) @endphp
+                                        @if ($category)
+                                            <span class="badge bg-primary rounded-pill">
+                                                <i class="bi bi-tag me-1"></i>
+                                                {{ $category->name }}
+                                                <a href="{{ route('products.index', request()->except('category')) }}"
+                                                    class="text-white text-decoration-none ms-1">×</a>
+                                            </span>
+                                        @endif
+                                    @endif
+                                    @if (request('min_price') || request('max_price'))
+                                        <span class="badge bg-primary rounded-pill">
+                                            <i class="bi bi-currency-dollar me-1"></i>
+                                            ${{ request('min_price', '0') }} - ${{ request('max_price', '∞') }}
+                                            <a href="{{ route('products.index', request()->except(['min_price', 'max_price'])) }}"
+                                                class="text-white text-decoration-none ms-1">×</a>
+                                        </span>
+                                    @endif
+                                    @if (request('sort'))
+                                        @php
+                                            $sortLabels = [
+                                                'name' => 'Name A-Z',
+                                                'name_desc' => 'Name Z-A',
+                                                'price' => 'Price Low-High',
+                                                'price_desc' => 'Price High-Low',
+                                                'newest' => 'Newest First',
+                                                'popular' => 'Most Popular',
+                                            ];
+                                        @endphp
+                                        <span class="badge bg-primary rounded-pill">
+                                            <i class="bi bi-sort-down me-1"></i>
+                                            {{ $sortLabels[request('sort')] ?? request('sort') }}
+                                            <a href="{{ route('products.index', request()->except('sort')) }}"
+                                                class="text-white text-decoration-none ms-1">×</a>
+                                        </span>
+                                    @endif
+                                    <a href="{{ route('products.index') }}" class="btn btn-sm btn-outline-secondary ms-auto">
+                                        <i class="bi bi-x-circle me-1"></i>Clear All
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 @endif
 
-                <!-- Results Summary -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <p class="text-muted mb-0">
-                                Showing {{ $products->firstItem() ?? 0 }} to {{ $products->lastItem() ?? 0 }} of
-                                {{ $products->total() }} products
-                            </p>
+                <!-- Results Header -->
+                <div class="results-header mb-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="results-summary">
+                                <h6 class="text-muted mb-0">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Showing {{ $products->firstItem() ?? 0 }} to {{ $products->lastItem() ?? 0 }} of
+                                    {{ $products->total() }} peptides
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="view-controls d-flex justify-content-md-end gap-2">
+                                <!-- Sort Dropdown -->
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-sort-down me-1"></i>
+                                        @php
+                                            $sortLabels = [
+                                                'name' => 'Name A-Z',
+                                                'name_desc' => 'Name Z-A',
+                                                'price' => 'Price Low-High',
+                                                'price_desc' => 'Price High-Low',
+                                                'newest' => 'Newest First',
+                                                'popular' => 'Most Popular',
+                                            ];
+                                            $currentSort = $sortLabels[request('sort')] ?? 'Newest First';
+                                        @endphp
+                                        {{ $currentSort }}
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @foreach($sortLabels as $value => $label)
+                                            <li>
+                                                <a class="dropdown-item {{ request('sort') == $value ? 'active' : '' }}" 
+                                                   href="{{ route('products.index', array_merge(request()->all(), ['sort' => $value])) }}">
+                                                    {{ $label }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                
+                                <!-- View Toggle -->
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-outline-secondary active" id="gridView" title="Grid View">
+                                        <i class="bi bi-grid-3x3-gap"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" id="listView" title="List View">
+                                        <i class="bi bi-list"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Products Grid -->
                 @if ($products->count() > 0)
-                    <div class="row g-4" id="productsGrid">
-                        @foreach ($products as $product)
-                            <div class="col-md-6 col-lg-4 ">
-                                <x-product-card :product="$product" />
-                            </div>
-                        @endforeach
-                    </div>
+                    <div class="products-container">
+                        <div class="row g-4" id="productsGrid">
+                            @foreach ($products as $product)
+                                <div class="col-md-6 col-xl-4">
+                                    <x-product-card :product="$product" />
+                                </div>
+                            @endforeach
+                        </div>
 
-                    <!-- Pagination -->
-                    <div class="row mt-5">
-                        <div class="col-12">
+                        <!-- Pagination -->
+                        <div class="pagination-section mt-5">
                             <nav aria-label="Products pagination">
                                 {{ $products->appends(request()->query())->links() }}
                             </nav>
                         </div>
                     </div>
                 @else
-                    <div class="text-center py-5">
-                        <div class="mb-4">
-                            <i class="bi bi-search fs-1 text-muted"></i>
+                    <!-- No Results State -->
+                    <div class="no-results text-center py-5">
+                        <div class="no-results-icon mb-4">
+                            <i class="bi bi-search display-1 text-muted"></i>
                         </div>
-                        <h4 class="text-muted mb-3">No products found</h4>
-                        <p class="text-muted mb-4">Try adjusting your search criteria or browse our full collection.</p>
-                        <a href="{{ route('products.index') }}" class="btn btn-primary">
-                            <i class="bi bi-arrow-clockwise me-2"></i>Clear Filters
-                        </a>
+                        <h4 class="text-muted mb-3">No peptides found</h4>
+                        <p class="text-muted mb-4">Try adjusting your search criteria or browse our complete research peptide collection.</p>
+                        <div class="d-flex gap-3 justify-content-center">
+                            <a href="{{ route('products.index') }}" class="btn btn-primary">
+                                <i class="bi bi-arrow-clockwise me-2"></i>Clear Filters
+                            </a>
+                            <button class="btn btn-outline-primary" data-bs-toggle="offcanvas" data-bs-target="#filtersOffcanvas">
+                                <i class="bi bi-funnel me-2"></i>Adjust Filters
+                            </button>
+                        </div>
                     </div>
                 @endif
             </div>
         </div>
     </div>
 
-    <!-- Filters Partial -->
-    @push('partials')
-        @if (!View::exists('frontend.products._filters'))
-         
-            @once
-                @push('partials')
-                    <div id="_filters-partial" style="display:none">
-                        <form id="filterForm" method="GET" action="{{ route('products.index') }}">
-                            <div class="row g-3">
-                                <!-- Search -->
-                                <div class="col-12">
-                                    <label for="search" class="form-label">Search Products</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <i class="bi bi-search text-muted"></i>
-                                        </span>
-                                        <input type="text" class="form-control" id="search" name="search"
-                                            value="{{ request('search') }}" placeholder="Search by name, description, or SKU...">
-                                    </div>
-                                </div>
-                                <!-- Category Filter -->
-                                <div class="col-12">
-                                    <label for="category" class="form-label">Category</label>
-                                    <select class="form-select" id="category" name="category">
-                                        <option value="">All Categories</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->slug }}"
-                                                {{ trim((string) request('category')) === trim((string) $category->slug) ? 'selected' : '' }}>
-                                                {{ $category->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <!-- Sort -->
-                                <div class="col-12">
-                                    <label for="sort" class="form-label">Sort By</label>
-                                    <select class="form-select" id="sort" name="sort">
-                                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First
-                                        </option>
-                                        <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name A-Z</option>
-                                        <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>Name Z-A
-                                        </option>
-                                        <option value="price" {{ request('sort') == 'price' ? 'selected' : '' }}>Price Low-High
-                                        </option>
-                                        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price
-                                            High-Low</option>
-                                        <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>Most Popular
-                                        </option>
-                                    </select>
-                                </div>
-                                <!-- Price Range -->
-                                <div class="col-12">
-                                    <label class="form-label">Price Range</label>
-                                    <div class="row g-2">
-                                        <div class="col-6">
-                                            <input type="number" class="form-control" id="min_price" name="min_price"
-                                                value="{{ request('min_price') }}" placeholder="Min Price" min="0">
-                                        </div>
-                                        <div class="col-6">
-                                            <input type="number" class="form-control" id="max_price" name="max_price"
-                                                value="{{ request('max_price') }}" placeholder="Max Price" min="0">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Filter Actions -->
-                                <div class="col-12 d-flex align-items-end">
-                                    <div class="d-flex gap-2 w-100">
-                                        <button type="submit" class="btn btn-primary flex-fill">
-                                            <i class="bi bi-search me-2"></i>Apply Filters
-                                        </button>
-                                        <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
-                                            <i class="bi bi-arrow-clockwise me-2"></i>Clear
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                @endpush
-            @endonce
-        @endif
-    @endpush
+    <!-- Enhanced Product Card Styles -->
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-decoration {
+            transform: translate(50%, -50%);
+        }
+        
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .search-form .form-control:focus {
+            box-shadow: none;
+            border-color: #667eea;
+        }
+        
+        .search-form .input-group {
+            border-radius: 50px;
+            overflow: hidden;
+        }
+        
+        .search-form .input-group-text {
+            border: none;
+        }
+        
+        .search-form .form-control {
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        .search-form .btn {
+            border-radius: 0 50px 50px 0;
+            padding: 1rem 2rem;
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
+        .badge {
+            font-weight: 500;
+        }
+        
+        .btn-group .btn {
+            border-radius: 8px;
+        }
+        
+        .btn-group .btn.active {
+            background-color: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+        
+        .dropdown-menu {
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .dropdown-item.active {
+            background-color: #667eea;
+        }
+        
+        .pagination .page-link {
+            border-radius: 8px;
+            margin: 0 2px;
+            border: none;
+            color: #667eea;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+        
+        .offcanvas {
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .stat-item {
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .active-filters .badge {
+            font-size: 0.875rem;
+            padding: 0.5rem 0.75rem;
+        }
+        
+        .results-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .no-results-icon {
+            opacity: 0.5;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-stats {
+                gap: 2rem;
+            }
+            
+            .stat-item {
+                padding: 0.75rem;
+            }
+            
+            .search-form .input-group {
+                border-radius: 12px;
+            }
+            
+            .search-form .btn {
+                border-radius: 0 12px 12px 0;
+            }
+        }
+    </style>
 
     <script>
+        // Enhanced addToCart function
         function addToCart(productId) {
             fetch('{{ route('cart.add') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        product_id: productId,
-                        quantity: 1
-                    })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: 1
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Update cart count
-                        if (typeof data.cart_count !== 'undefined') {
-                            document.getElementById('cart-count').textContent = data.cart_count;
-                        }
-                        // Show success message
-                        const alert = document.createElement('div');
-                        alert.className =
-                            'alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
-                        alert.style.zIndex = '9999';
-                        alert.innerHTML = `
-                <i class="bi bi-check-circle me-2"></i>
-                Product added to cart successfully!
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-                        document.body.appendChild(alert);
-
-                        // Auto-remove after 3 seconds
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update cart count
+                    const cartCount = document.getElementById('cart-count');
+                    if (cartCount) {
+                        cartCount.textContent = data.cart_count || 0;
+                        cartCount.classList.add('animate__animated', 'animate__pulse');
                         setTimeout(() => {
-                            if (alert.parentNode) {
-                                alert.remove();
-                            }
-                        }, 3000);
-                    } else {
-                        // Show error message
-                        const alert = document.createElement('div');
-                        alert.className =
-                            'alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
-                        alert.style.zIndex = '9999';
-                        alert.innerHTML = `
-                <i class="bi bi-exclamation-triangle me-2"></i>
-                ${data.message || 'Error adding product to cart'}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-                        document.body.appendChild(alert);
-
-                        // Auto-remove after 3 seconds
-                        setTimeout(() => {
-                            if (alert.parentNode) {
-                                alert.remove();
-                            }
-                        }, 3000);
+                            cartCount.classList.remove('animate__animated', 'animate__pulse');
+                        }, 1000);
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // Show error message
-                    const alert = document.createElement('div');
-                    alert.className =
-                        'alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
-                    alert.style.zIndex = '9999';
-                    alert.innerHTML = `
-            <i class="bi bi-exclamation-triangle me-2"></i>
-            Error adding product to cart
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-                    document.body.appendChild(alert);
+                    
+                    // Show success message
+                    showToast('Product added to cart successfully!', 'success');
+                } else {
+                    showToast(data.message || 'Error adding product to cart', 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Error adding product to cart', 'danger');
+            });
+        }
 
-                    // Auto-remove after 3 seconds
-                    setTimeout(() => {
-                        if (alert.parentNode) {
-                            alert.remove();
-                        }
-                    }, 3000);
-                });
+        // Enhanced toast function
+        function showToast(message, type = 'success') {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
+            alert.style.zIndex = '9999';
+            alert.style.borderRadius = '12px';
+            alert.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            alert.innerHTML = `
+                <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(alert);
+            
+            // Auto-remove after 3 seconds
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.remove();
+                }
+            }, 3000);
         }
 
         // View toggle functionality
@@ -336,14 +494,28 @@
                     gridView.classList.add('active');
                     listView.classList.remove('active');
                     productsGrid.className = 'row g-4';
+                    productsGrid.querySelectorAll('.col-md-6, .col-xl-4').forEach(col => {
+                        col.className = 'col-md-6 col-xl-4';
+                    });
                 });
 
                 listView.addEventListener('click', function() {
                     listView.classList.add('active');
                     gridView.classList.remove('active');
                     productsGrid.className = 'row g-3';
-                    productsGrid.querySelectorAll('.col-md-6, .col-lg-4, .col-xl-3').forEach(col => {
+                    productsGrid.querySelectorAll('.col-md-6, .col-xl-4').forEach(col => {
                         col.className = 'col-12';
+                    });
+                });
+            }
+
+            // Auto-submit form on filter change
+            const filterForm = document.getElementById('filterForm');
+            if (filterForm) {
+                const autoSubmitElements = filterForm.querySelectorAll('select, input[type="number"]');
+                autoSubmitElements.forEach(element => {
+                    element.addEventListener('change', function() {
+                        filterForm.submit();
                     });
                 });
             }

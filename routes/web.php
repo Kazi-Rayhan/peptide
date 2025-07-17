@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeEmail;
 use App\Models\Product;
+use App\Http\Controllers\User\BulkOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,11 +108,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/orders', [UserController::class, 'orders'])->name('user.orders.index');
     Route::get('/orders/{order}', [UserController::class, 'showOrder'])->name('user.orders.show');
 
-    Route::get('/dashboard/audiobooks', [\App\Http\Controllers\UserAudioBookController::class, 'index'])->name('user.audiobooks');
-    Route::get('/dashboard/audiobooks/{audiobook}/stream', [\App\Http\Controllers\UserAudioBookController::class, 'stream'])->name('user.audiobooks.stream');
-    Route::get('/dashboard/audiobooks/{audiobook}/download', [\App\Http\Controllers\UserAudioBookController::class, 'download'])->name('user.audiobooks.download');
-    Route::get('/dashboard/audiobooks/{audiobook}/download-zip', [\App\Http\Controllers\UserAudioBookController::class, 'downloadZip'])->name('user.audiobooks.download-zip');
-    Route::get('/audiobooks/{audiobook}/trial-stream', [\App\Http\Controllers\UserAudioBookController::class, 'trialStream'])->name('audiobooks.trial.stream');
+   });
+
+Route::middleware(['auth', 'wholesaler'])->get('/dashboard/bulk-order', function () {
+    return view('user.bulk-order');
+})->name('user.bulk-order');
+
+Route::middleware(['auth', 'wholesaler'])->prefix('user/bulk-order')->group(function () {
+    Route::get('download-product-list', [BulkOrderController::class, 'downloadProductListExcel'])->name('bulk-order.downloadProductList');
+    Route::get('download-example-csv', [BulkOrderController::class, 'downloadExampleCsv'])->name('bulk-order.downloadExampleCsv');
+    Route::post('parse-csv', [BulkOrderController::class, 'parseCsv'])->name('bulk-order.parseCsv');
+    Route::post('submit', [BulkOrderController::class, 'submit'])->name('bulk-order.submit');
 });
 
 Route::get('/order-confirmation/{order}', function (Order $order) {

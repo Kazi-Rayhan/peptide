@@ -101,6 +101,7 @@ class UserResource extends Resource
                     ->badge()
                     ->color('primary')
                     ->sortable(),
+              
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable()
                     ->toggleable(),

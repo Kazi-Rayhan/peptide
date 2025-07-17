@@ -702,40 +702,7 @@
     </div>
 </section>
 
-<!-- Category Section -->
-<section class="category-section">
-    <div class="container">
-        <div class="section-header fade-in-up">
-            <h2 class="section-title text-white">Product Categories</h2>
-            <p class="section-subtitle text-white-50">
-                Explore our specialized peptide categories
-            </p>
-        </div>
-        
-        <div class="row">
-            <div class="col-lg-6 mb-4 fade-in-left" style="animation-delay: 0.1s;">
-                <div class="category-card">
-                    <div class="category-icon">
-                        <img src="{{ asset('assets/images/home/pep.svg') }}" alt="Peptides" style="width: 50px; height: 50px;">
-                    </div>
-                    <h4 class="category-title">Peptides</h4>
-                    <p class="mb-3">High-quality individual peptides for research purposes</p>
-                    <a href="#" class="category-btn">Explore Peptides</a>
-                </div>
-            </div>
-            <div class="col-lg-6 mb-4 fade-in-right" style="animation-delay: 0.2s;">
-                <div class="category-card">
-                    <div class="category-icon">
-                        <img src="{{ asset('assets/images/home/pep_blend.svg') }}" alt="Peptide Blends" style="width: 50px; height: 50px;">
-                    </div>
-                    <h4 class="category-title">Peptide Blends</h4>
-                    <p class="mb-3">Specialized peptide combinations for advanced research</p>
-                    <a href="#" class="category-btn">Explore Blends</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <!-- Newsletter Section -->
 <section class="newsletter-section">

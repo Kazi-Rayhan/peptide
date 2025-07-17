@@ -206,6 +206,11 @@
                         <a href="{{ route('cart.index') }}" class="btn btn-outline-warning text-start">
                             <i class="fas fa-shopping-bag me-2"></i>View Cart
                         </a>
+                        @if(auth()->user()->is_wholesaler)
+                            <a href="{{ route('user.bulk-order') }}" class="btn btn-outline-dark text-start">
+                                <i class="fas fa-boxes me-2"></i>Bulk Order
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -259,6 +264,7 @@
         </div>
     </div>
     @endif
+
 </div>
 
 <style>

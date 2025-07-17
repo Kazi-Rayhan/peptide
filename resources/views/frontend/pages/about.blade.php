@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'About Us - Eterna Reads')
+@section('title', 'About Us - Premium Peptide Research Supplier')
 
 @section('content')
 <!-- Page Header -->
@@ -8,8 +8,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
-                <h1 class="text-white display-4 fw-bold mb-3">About Eterna Reads</h1>
-                <p class="text-white lead mb-0">Our story, mission, and the team behind your literary haven</p>
+                <h1 class="text-white display-4 fw-bold mb-3">About Our Research Peptide Company</h1>
+                <p class="text-white lead mb-0">Our story, mission, and the team behind your research peptide needs</p>
             </div>
         </div>
     </div>
@@ -23,27 +23,27 @@
                 <div class="story-content">
                     <h2 class="section-title mb-4">Our Story</h2>
                     <p class="lead mb-4">
-                        Eterna Reads was born from a simple yet powerful belief: that every person deserves access to 
-                        exceptional books that inspire, educate, and entertain. What started as a small local bookstore 
-                        has grown into a beloved literary destination for book lovers everywhere.
+                        Our company was founded on a fundamental principle: that researchers deserve access to the highest 
+                        quality peptides with guaranteed purity and comprehensive analytical documentation. What started as 
+                        a small laboratory supply company has grown into a trusted partner for research institutions worldwide.
                     </p>
                     <p class="mb-4">
-                        Founded in 2020 by a group of passionate bibliophiles, we began with a modest collection of 
-                        carefully curated books. Our founders shared a vision of creating more than just a place to 
-                        buy books – they wanted to build a community where readers could discover new worlds, share 
-                        their love for literature, and find the perfect book for every moment.
+                        Founded in 2020 by a team of experienced biochemists and research scientists, we began with a 
+                        focused collection of essential research peptides. Our founders shared a vision of creating more 
+                        than just a peptide supplier – they wanted to build a reliable partner where researchers could 
+                        access premium quality compounds with complete confidence in their purity and authenticity.
                     </p>
                     <p class="mb-4">
-                        Today, Eterna Reads continues to grow while staying true to our roots. We've expanded our 
-                        offerings to include audiobooks, curated gift boxes, and literary merchandise, but our 
-                        commitment to quality, community, and the love of reading remains unchanged.
+                        Today, we continue to grow while maintaining our commitment to excellence. We've expanded our 
+                        offerings to include a comprehensive range of research peptides, custom synthesis services, and 
+                        analytical support, but our dedication to quality, reliability, and scientific integrity remains unchanged.
                     </p>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="story-image text-center">
-                    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                         alt="Eterna Reads Story" 
+                    <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Research Laboratory" 
                          class="img-fluid rounded-3 shadow-lg" 
                          style="max-height: 400px; object-fit: cover;">
                 </div>
@@ -60,31 +60,31 @@
                 <div class="mission-content">
                     <h2 class="section-title mb-4">Our Mission</h2>
                     <p class="lead mb-4">
-                        To inspire a lifelong love of reading by providing access to exceptional books and creating 
-                        meaningful connections within our literary community.
+                        To advance scientific research by providing researchers with the highest quality peptides, 
+                        comprehensive analytical documentation, and exceptional technical support.
                     </p>
                     <p class="mb-4">
-                        We believe that books have the power to transform lives, broaden perspectives, and bring 
-                        people together. Our mission is to be the bridge between readers and the stories that will 
-                        change their lives.
+                        We believe that reliable, high-purity research compounds are essential for advancing scientific 
+                        knowledge and discovery. Our mission is to be the trusted partner that enables researchers to 
+                        focus on their groundbreaking work with complete confidence in their research materials.
                     </p>
                     <div class="mission-stats row text-center">
                         <div class="col-4">
                             <div class="stat-item">
-                                <h3 class="fw-bold" style="color: var(--primary-color);">1000+</h3>
-                                <p class="text-muted">Books Curated</p>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="stat-item">
-                                <h3 class="fw-bold" style="color: var(--primary-color);">50+</h3>
-                                <p class="text-muted">Gift Boxes</p>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="stat-item">
                                 <h3 class="fw-bold" style="color: var(--primary-color);">500+</h3>
-                                <p class="text-muted">Happy Readers</p>
+                                <p class="text-muted">Peptides Available</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-item">
+                                <h3 class="fw-bold" style="color: var(--primary-color);">99.5%+</h3>
+                                <p class="text-muted">Purity Guarantee</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-item">
+                                <h3 class="fw-bold" style="color: var(--primary-color);">1000+</h3>
+                                <p class="text-muted">Research Partners</p>
                             </div>
                         </div>
                     </div>
@@ -99,8 +99,8 @@
                                 <i class="bi bi-heart-fill fs-4" style="color: var(--primary-color);"></i>
                             </div>
                             <div class="value-content">
-                                <h4 class="h5 mb-2">Passion for Literature</h4>
-                                <p class="text-muted mb-0">We're driven by our love for books and storytelling, and we share that passion with every customer.</p>
+                                <h4 class="h5 mb-2">Scientific Excellence</h4>
+                                <p class="text-muted mb-0">We're driven by our commitment to scientific accuracy and research integrity, ensuring every peptide meets the highest standards.</p>
                             </div>
                         </div>
                         <div class="value-item d-flex align-items-start mb-4">
@@ -108,8 +108,8 @@
                                 <i class="bi bi-people-fill fs-4" style="color: var(--secondary-color);"></i>
                             </div>
                             <div class="value-content">
-                                <h4 class="h5 mb-2">Community First</h4>
-                                <p class="text-muted mb-0">We believe in building strong relationships with our customers and creating a welcoming literary community.</p>
+                                <h4 class="h5 mb-2">Research Partnership</h4>
+                                <p class="text-muted mb-0">We believe in building strong relationships with researchers and institutions to advance scientific discovery together.</p>
                             </div>
                         </div>
                         <div class="value-item d-flex align-items-start mb-4">
@@ -117,8 +117,8 @@
                                 <i class="bi bi-award-fill fs-4" style="color: var(--success-color);"></i>
                             </div>
                             <div class="value-content">
-                                <h4 class="h5 mb-2">Quality Curation</h4>
-                                <p class="text-muted mb-0">Every book in our collection is carefully selected to ensure the highest quality and relevance for our readers.</p>
+                                <h4 class="h5 mb-2">Quality Assurance</h4>
+                                <p class="text-muted mb-0">Every peptide in our collection undergoes rigorous testing to ensure the highest purity and analytical documentation.</p>
                             </div>
                         </div>
                         <div class="value-item d-flex align-items-start">
@@ -127,7 +127,7 @@
                             </div>
                             <div class="value-content">
                                 <h4 class="h5 mb-2">Innovation</h4>
-                                <p class="text-muted mb-0">We continuously evolve to meet the changing needs of our readers while staying true to our core mission.</p>
+                                <p class="text-muted mb-0">We continuously evolve our synthesis methods and analytical techniques to meet the advancing needs of research.</p>
                             </div>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
     <div class="container">
         <div class="text-center mb-5">
             <h2 class="section-title mb-3">Meet Our Team</h2>
-            <p class="section-subtitle">The passionate individuals behind Eterna Reads</p>
+            <p class="section-subtitle">The experienced scientists behind our research peptide company</p>
         </div>
         
         <div class="row g-4">
@@ -154,10 +154,10 @@
                              class="img-fluid rounded-circle shadow" 
                              style="width: 200px; height: 200px; object-fit: cover;">
                     </div>
-                    <h4 class="h5 mb-2">Sarah Johnson</h4>
+                    <h4 class="h5 mb-2">Dr. Sarah Johnson</h4>
                     <p class="text-muted mb-2">Founder & CEO</p>
                     <p class="small text-muted">
-                        A lifelong book lover with 15+ years in the publishing industry. Sarah's vision drives our mission to connect readers with exceptional stories.
+                        A PhD in Biochemistry with 15+ years in peptide research. Dr. Johnson's vision drives our mission to provide researchers with the highest quality compounds.
                     </p>
                 </div>
             </div>
@@ -169,10 +169,10 @@
                              class="img-fluid rounded-circle shadow" 
                              style="width: 200px; height: 200px; object-fit: cover;">
                     </div>
-                    <h4 class="h5 mb-2">Michael Chen</h4>
-                    <p class="text-muted mb-2">Head of Curation</p>
+                    <h4 class="h5 mb-2">Dr. Michael Chen</h4>
+                    <p class="text-muted mb-2">Head of Quality Control</p>
                     <p class="small text-muted">
-                        With a Master's in Literature, Michael ensures every book in our collection meets our high standards for quality and relevance.
+                        With a PhD in Analytical Chemistry, Dr. Chen ensures every peptide meets our rigorous purity standards and analytical requirements.
                     </p>
                 </div>
             </div>
@@ -184,10 +184,10 @@
                              class="img-fluid rounded-circle shadow" 
                              style="width: 200px; height: 200px; object-fit: cover;">
                     </div>
-                    <h4 class="h5 mb-2">Emily Rodriguez</h4>
-                    <p class="text-muted mb-2">Customer Experience Manager</p>
+                    <h4 class="h5 mb-2">Dr. Emily Rodriguez</h4>
+                    <p class="text-muted mb-2">Technical Support Manager</p>
                     <p class="small text-muted">
-                        Emily ensures every customer interaction is exceptional, from personalized recommendations to seamless shopping experiences.
+                        Dr. Rodriguez ensures every researcher receives exceptional technical support, from peptide selection to experimental guidance.
                     </p>
                 </div>
             </div>
@@ -199,8 +199,8 @@
 <section class="why-choose-us py-5" style="background: var(--light-bg);">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="section-title mb-3">Why Choose Eterna Reads?</h2>
-            <p class="section-subtitle">What makes us different from other bookstores</p>
+            <h2 class="section-title mb-3">Why Choose Our Research Peptide Company?</h2>
+            <p class="section-subtitle">What makes us different from other peptide suppliers</p>
         </div>
         
         <div class="row g-4">
@@ -209,8 +209,8 @@
                     <div class="feature-icon mb-3">
                         <i class="bi bi-search fs-1" style="color: var(--primary-color);"></i>
                     </div>
-                    <h4 class="h5 mb-3">Curated Selection</h4>
-                    <p class="text-muted">Every book is handpicked by our expert team to ensure quality and relevance for our readers.</p>
+                    <h4 class="h5 mb-3">Premium Quality</h4>
+                    <p class="text-muted">Every peptide is synthesized and tested by our expert team to ensure the highest purity and analytical documentation.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">

@@ -23,6 +23,9 @@ return new class extends Migration
             $table->string('zip')->nullable();
             $table->string('country')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->json('details')->nullable();
+            $table->boolean('is_wholesaler')->default(false);
+        
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

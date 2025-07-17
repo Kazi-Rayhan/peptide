@@ -110,6 +110,14 @@ class CustomerResource extends Resource
                     ->badge()
                     ->color('primary')
                     ->sortable(),
+                    Tables\Columns\IconColumn::make('is_wholesaler')
+                    ->label('Wholesaler')
+                    ->boolean()
+                    ->getStateUsing(fn ($record) => $record->is_wholesaler)
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable()
                     ->toggleable(),

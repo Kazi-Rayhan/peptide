@@ -18,6 +18,7 @@ class User extends Authenticatable implements FilamentUser
 
     public const ROLE_CUSTOMER = 2;
     public const ROLE_ADMIN = 1;
+    public const ROLE_WHOLESALER = 3;
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -39,6 +40,8 @@ class User extends Authenticatable implements FilamentUser
         'state',
         'zip',
         'country',
+        'details',
+        'is_wholesaler',
     ];
 
     /**
@@ -126,6 +129,22 @@ class User extends Authenticatable implements FilamentUser
     public function isAdmin(): bool
     {
         return $this->role && $this->role->isAdmin();
+    }
+
+    /**
+     * Check if user is wholesaler.
+     */
+    public function isWholesaler(): bool
+    {
+        return $this->role_id === self::ROLE_WHOLESALER;
+    }
+
+    /**
+     * Check if user is retailer.
+     */
+    public function isRetailer(): bool
+    {
+        return $this->role_id === self::ROLE_CUSTOMER;
     }
 
     /**
