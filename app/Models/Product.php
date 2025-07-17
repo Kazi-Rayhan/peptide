@@ -47,13 +47,13 @@ class Product extends Model
         'sale_price' => 'decimal:2',
     ];
 
-    protected $attributes = [
-        'is_active' => true,
-        'is_featured' => false,
-        'is_on_sale' => false,
-        'price' => 0.00,
-        'sale_price' => 0.00,
-    ];
+    // protected $attributes = [
+    //     'is_active' => true,
+    //     'is_featured' => false,
+    //     'is_on_sale' => false,
+    //     'price' => 0.00,
+    //     'sale_price' => 0.00,
+    // ];
 
     public function category()
     {

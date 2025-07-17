@@ -193,7 +193,7 @@
             transition: var(--transition);
         }
 
-        .search-box input[type="text"]:focus + .fa-search {
+        .search-box input[type="text"]:focus+.fa-search {
             color: var(--primary-color);
         }
 
@@ -264,9 +264,17 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         /* Enhanced Dropdown */
@@ -284,6 +292,7 @@
                 opacity: 0;
                 transform: translateY(-10px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -578,8 +587,15 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .cart-icon-link:hover {
@@ -593,7 +609,7 @@
         }
 
         .nav-link {
-         width: 100% !important;
+            width: 100% !important;
         }
 
         /* Enhanced Responsive Design */
@@ -825,6 +841,7 @@
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -837,6 +854,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -927,23 +945,24 @@
             <!-- Desktop Search - Hidden on mobile -->
             <form class="search-box d-none d-lg-block" action="{{ route('products.index') }}" method="get">
                 <i class="fas fa-search"></i>
-                <input type="text" name="q" placeholder="Search research peptides..." value="{{ request('q') }}">
+                <input type="text" name="q" placeholder="Search research peptides..."
+                    value="{{ request('q') }}">
             </form>
 
             <!-- Desktop Navigation - Hidden on mobile -->
             <div class="d-none d-lg-flex flex-grow-1 justify-content-center">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" 
-                           href="{{ route('products.index') }}">Research Peptides</a>
+                        <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}"
+                            href="{{ route('products.index') }}">Research Peptides</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" 
-                           href="{{ route('about') }}">About Us</a>
+                        <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}"
+                            href="{{ route('about') }}">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" 
-                           href="{{ route('contact') }}">Contact</a>
+                        <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}"
+                            href="{{ route('contact') }}">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -952,7 +971,7 @@
             <div class="d-none d-lg-flex align-items-center gap-3">
                 <a class="icon-btn position-relative" href="{{ route('cart.index') }}">
                     <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count" class="cart-badge">0</span>
+                    <span id="cart-count-navbar" class="cart-badge">0</span>
                 </a>
 
                 <div class="dropdown">
@@ -963,17 +982,19 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         @guest
                             <li><a class="dropdown-item" href="{{ route('login') }}">
-                                <i class="fas fa-sign-in-alt"></i> Sign in
-                            </a></li>
+                                    <i class="fas fa-sign-in-alt"></i> Sign in
+                                </a></li>
                             <li><a class="dropdown-item" href="{{ route('register') }}">
-                                <i class="fas fa-user-plus"></i> Register
-                            </a></li>
+                                    <i class="fas fa-user-plus"></i> Register
+                                </a></li>
                         @endguest
                         @auth
                             <li><a class="dropdown-item" href="{{ route('dashboard') }}">
-                                <i class="fas fa-tachometer-alt"></i> Dashboard
-                            </a></li>
-                            <li><hr class="dropdown-divider"></li>
+                                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                                </a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -989,16 +1010,17 @@
 
             <!-- Mobile Actions - Visible only on mobile -->
             <div class="d-lg-none d-flex align-items-center gap-2">
-                <a class="icon-btn position-relative" href="{{ route('cart.index') }}">
+                {{-- <a class="icon-btn position-relative" href="{{ route('cart.index') }}">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count-mobile" class="cart-badge">0</span>
-                </a>
-                
+                </a> --}}
+
                 <a class="icon-btn" href="{{ route('login') }}">
                     <i class="far fa-user"></i>
                 </a>
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu">
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
+                    aria-controls="mobileMenu">
                     <span class="navbar-toggler-icon">
                         <i class="fas fa-bars"></i>
                     </span>
@@ -1016,87 +1038,83 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          
-            
+
+
             <!-- Mobile Navigation -->
             <ul class="navbar-nav d-flex flex-column align-items-start mb-4">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" 
-                       href="{{ route('products.index') }}">
+                    <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}"
+                        href="{{ route('products.index') }}">
                         <i class="fas fa-flask "></i>Research Peptides
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" 
-                       href="{{ route('about') }}">
+                    <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}"
+                        href="{{ route('about') }}">
                         <i class="fas fa-building "></i>About Us
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" 
-                       href="{{ route('contact') }}">
+                    <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}"
+                        href="{{ route('contact') }}">
                         <i class="fas fa-envelope "></i>Contact
                     </a>
                 </li>
             </ul>
-            
+
             <!-- Mobile Account Actions -->
             <div class="mobile-account-section text-dark">
                 <h6 class="section-title">Account</h6>
                 @guest
-                <ul class="navbar-nav d-flex flex-column align-items-start mb-4">
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                           href="{{ route('login') }}">
-                           <i class="fas fa-sign-in-alt"></i>
-                           <span>Sign in</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                           href="{{ route('register') }}">
-                           <i class="fas fa-user-plus"></i>
-                           <span>Register</span>
-                        </a>
-                    </li>
-                    
-                </ul>
+                    <ul class="navbar-nav d-flex flex-column align-items-start mb-4">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>Sign in</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Register</span>
+                            </a>
+                        </li>
+
+                    </ul>
                 @else
-                <ul class="navbar-nav d-flex flex-column align-items-start mb-4">
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                           href="{{ route('dashboard') }}">
-                           <i class="fas fa-tachometer-alt"></i>
-                           <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" 
-                           href="{{ route('register') }}">
-                           <i class="fas fa-user-plus"></i>
-                           <span>Register</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="nav-link">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </button>
-                        </form>
-                    </li>
-                    
-                </ul>
+                    <ul class="navbar-nav d-flex flex-column align-items-start mb-4">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('dashboard') }}">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Register</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="nav-link">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+
+                    </ul>
                 @endguest
-                
-              <ul class="navbar-nav d-flex flex-column align-items-start mb-4">
-                <li class="nav-item">
-                    <a class="nav-link" 
-                       href="{{ route('cart.index') }}">
-                       <i class="fas fa-shopping-cart"></i>
-                       <span>Cart</span>
-                </a>
-              
+
+                {{-- <ul class="navbar-nav d-flex flex-column align-items-start mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('cart.index') }}">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Cart</span>
+                        </a>
+                    </li>
+                </ul> --}}
             </div>
         </div>
     </div>
@@ -1115,9 +1133,13 @@
                         <span class="core">AMERICAN</span> <span class="peptides">PEPTIDES</span>
                     </div>
                     <div class="footer-disclaimer">
-                        <p>All products are sold for research, laboratory, or analytical purposes only, and are not for human consumption.</p>
-                        <p>American Peptides is a chemical supplier. We are not a compounding pharmacy or chemical compounding facility as defined under 503A of the Federal Food, Drug, and Cosmetic act.</p>
-                        <p>The statements made within this website have not been evaluated by the US Food and Drug Administration. The products we offer are not intended to diagnose, treat, cure or prevent any disease.</p>
+                        <p>All products are sold for research, laboratory, or analytical purposes only, and are not for
+                            human consumption.</p>
+                        <p>American Peptides is a chemical supplier. We are not a compounding pharmacy or chemical
+                            compounding facility as defined under 503A of the Federal Food, Drug, and Cosmetic act.</p>
+                        <p>The statements made within this website have not been evaluated by the US Food and Drug
+                            Administration. The products we offer are not intended to diagnose, treat, cure or prevent
+                            any disease.</p>
                     </div>
                     <div class="footer-warning">
                         <i class="fas fa-exclamation-triangle me-2"></i>
@@ -1139,14 +1161,18 @@
 
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h5 class="compliance-title">Payment Methods</h5>
-                    <img src="{{ asset('assets/images/home/payment.png') }}" alt="Payment Methods" class="img-fluid">
+                    <img src="{{ asset('assets/images/home/payment.png') }}" alt="Payment Methods"
+                        class="img-fluid">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12">
                     <p class="copyright">
-                        © <script>document.write(new Date().getFullYear())</script> American Peptides. All Rights Reserved.
+                        ©
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script> American Peptides. All Rights Reserved.
                     </p>
                 </div>
             </div>
@@ -1157,7 +1183,16 @@
     <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">
         <i class="fas fa-chevron-up"></i>
     </button>
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
 
+    <!-- Floating Cart for Mobile -->
+    <div class="floating-cart d-lg-none" id="floatingCart">
+        <a href="{{ route('cart.index') }}" class="cart-icon-link">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count-floating" class="cart-badge">0</span>
+        </a>
+    </div>
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -1169,23 +1204,38 @@
     </script>
 
     <script>
-        // Enhanced Cart count update
-        function updateCartCount() {
-            fetch('/cart/count')
-                .then(response => response.json())
-                .then(data => {
-                    // Update all cart count elements
-                    const cartElements = document.querySelectorAll('#cart-count, #cart-count-mobile, #cart-count-offcanvas, .cart-badge');
-                    cartElements.forEach(el => el.textContent = data.cart_count);
-                })
-                .catch(error => console.error('Error updating cart count:', error));
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateCartCount() {
+                fetch('/cart/count')
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network error');
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Cart count response:', data);
+
+                        const count = data.cart_count ?? 0;
+
+                        const navbarBadge = document.getElementById('cart-count-navbar');
+                        const floatingBadge = document.getElementById('cart-count-floating');
+
+                        if (navbarBadge) navbarBadge.textContent = count;
+                        if (floatingBadge) floatingBadge.textContent = count;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching cart count:', error);
+                    });
+            }
+
+            updateCartCount(); // initial load
+            setInterval(updateCartCount, 30000); // optional auto-refresh
+        });
 
         // Enhanced Toast notifications
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             if (!container) return;
-            
+
             const toast = document.createElement('div');
             toast.className = `alert alert-${type} alert-dismissible fade show`;
             toast.innerHTML = `
@@ -1193,9 +1243,9 @@
                 ${message}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             `;
-            
+
             container.appendChild(toast);
-            
+
             setTimeout(() => {
                 toast.classList.add('fade');
                 setTimeout(() => toast.remove(), 300);
@@ -1279,16 +1329,7 @@
         });
     </script>
 
-    <!-- Toast Container -->
-    <div id="toast-container"></div>
 
-    <!-- Floating Cart for Mobile -->
-    <div class="floating-cart d-lg-none" id="floatingCart">
-        <a href="{{ route('cart.index') }}" class="cart-icon-link">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="cart-badge">0</span>
-        </a>
-    </div>
 
     @stack('scripts')
 </body>
