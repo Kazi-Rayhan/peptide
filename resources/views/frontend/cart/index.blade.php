@@ -45,48 +45,20 @@
                                                  style="width: 56px; height: 56px; object-fit: cover;">
                                             <div>
                                                 <div class="fw-semibold" style="font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--primary-color);">{{ $item['product_name'] }}</div>
-                                                @if(isset($item['variant']) && $item['variant'])
-                                                <small class="text-muted">
-                                                    Variant: 
-                                                    @if(isset($item['variant']['attributes']) && is_array($item['variant']['attributes']))
-                                                        @if(isset($item['variant']['attributes'][0]))
-                                                            {{ $item['variant']['attributes'][0]['name'] ?? '' }} {{ $item['variant']['attributes'][0]['value'] ?? '' }}
-                                                        @else
-                                                            {{ implode(', ', array_values($item['variant']['attributes'])) }}
-                                                        @endif
-                                                    @else
-                                                        {{ $item['variant']['attributes'] ?? '' }}
-                                                    @endif
-                                                </small>
-                                                @endif
                                             </div>
                                         </td>
                                         <!-- Quantity -->
                                         <td class="text-center">
-                                            @php 
-                                                $isDigital = $item['product']['is_digital'] ?? false; 
-                                                $hasVariants = $item['product']['has_variants'] ?? false;
-                                                $variantStock = $item['variant']['stock'] ?? null;
-                                                $maxStock = $hasVariants && $variantStock ? $variantStock : ($item['product']['stock'] ?? 999);
-                                            @endphp
-                                            @if($isDigital)
-                                                <span class="badge bg-info text-dark">Digital Product (Qty: 1)</span>
-                                            @else
                                             <div class="d-flex align-items-center justify-content-center gap-2">
                                                 <button class="btn btn-outline-secondary btn-sm quantity-btn px-2" data-action="decrease" data-item-id="{{ $itemKey }}"><i class="bi bi-dash"></i></button>
-                                                <input type="number" class="form-control form-control-sm text-center mx-1 quantity-input" value="{{ $item['quantity'] }}" min="1" max="{{ $maxStock }}" data-item-id="{{ $itemKey }}" style="width: 48px;">
+                                                <input type="number" class="form-control form-control-sm text-center mx-1 quantity-input" value="{{ $item['quantity'] }}" min="1" max="{{ $item['product']['stock'] ?? 999 }}" data-item-id="{{ $itemKey }}" style="width: 48px;">
                                                 <button class="btn btn-outline-secondary btn-sm quantity-btn px-2" data-action="increase" data-item-id="{{ $itemKey }}"><i class="bi bi-plus"></i></button>
                                             </div>
-                                            @endif
                                         </td>
                                         <!-- Price -->
                                         <td class="text-end">
                                             <div class="fw-semibold" style="font-size: 1rem;">
-                                                @if(is_array($item['price']))
-                                                    ${{ number_format($item['price']['retail'] ?? 0, 2) }}
-                                                @else
-                                                    ${{ number_format($item['price'], 2) }}
-                                                @endif
+                                                ${{ number_format($item['price'], 2) }}
                                             </div>
                                         </td>
                                         <!-- Total -->
@@ -114,49 +86,20 @@
                                          alt="{{ $item['product_name'] }}">
                                     <div class="flex-grow-1">
                                         <div class="fw-semibold mb-1" style="font-family: 'Playfair Display', serif; color: var(--primary-color);">{{ $item['product_name'] }}</div>
-                                        @if(isset($item['variant']) && $item['variant'])
-                                        <small class="text-muted">
-                                            Variant: 
-                                            @if(isset($item['variant']['attributes']) && is_array($item['variant']['attributes']))
-                                                @if(isset($item['variant']['attributes'][0]))
-                                                    {{ $item['variant']['attributes'][0]['name'] ?? '' }} {{ $item['variant']['attributes'][0]['value'] ?? '' }}
-                                                @else
-                                                    {{ implode(', ', array_values($item['variant']['attributes'])) }}
-                                                @endif
-                                            @else
-                                                {{ $item['variant']['attributes'] ?? '' }}
-                                            @endif
-                                        </small>
-                                        @endif
                                     </div>
                                     <button class="btn btn-link text-danger p-0 remove-item position-absolute top-0 end-0 mt-2 me-2" data-item-id="{{ $itemKey }}" title="Remove item">
                                         <i class="bi bi-trash fs-5"></i>
                                     </button>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mt-2">
-                                    @php 
-                                        $isDigital = $item['product']['is_digital'] ?? false; 
-                                        $hasVariants = $item['product']['has_variants'] ?? false;
-                                        $variantStock = $item['variant']['stock'] ?? null;
-                                        $maxStock = $hasVariants && $variantStock ? $variantStock : ($item['product']['stock'] ?? 999);
-                                    @endphp
-                                    @if($isDigital)
-                                        <span class="badge bg-info text-dark">Digital Product (Qty: 1)</span>
-                                    @else
                                     <div class="d-flex align-items-center gap-2">
                                         <button class="btn btn-outline-secondary btn-sm quantity-btn px-2" data-action="decrease" data-item-id="{{ $itemKey }}"><i class="bi bi-dash"></i></button>
-                                        <input type="number" class="form-control form-control-sm text-center mx-1 quantity-input" value="{{ $item['quantity'] }}" min="1" max="{{ $maxStock }}" data-item-id="{{ $itemKey }}" style="width: 48px;">
+                                        <input type="number" class="form-control form-control-sm text-center mx-1 quantity-input" value="{{ $item['quantity'] }}" min="1" max="{{ $item['product']['stock'] ?? 999 }}" data-item-id="{{ $itemKey }}" style="width: 48px;">
                                         <button class="btn btn-outline-secondary btn-sm quantity-btn px-2" data-action="increase" data-item-id="{{ $itemKey }}"><i class="bi bi-plus"></i></button>
                                     </div>
-                                    @endif
                                     <div class="text-end">
                                         <div class="fw-semibold small">
-                                            Price: 
-                                            @if(is_array($item['price']))
-                                                ${{ number_format($item['price']['retail'] ?? 0, 2) }}
-                                            @else
-                                                ${{ number_format($item['price'], 2) }}
-                                            @endif
+                                            Price: ${{ number_format($item['price'], 2) }}
                                         </div>
                                         <div class="fw-bold small" style="color: var(--primary-color);">Total: ${{ number_format($item['total'], 2) }}</div>
                                     </div>

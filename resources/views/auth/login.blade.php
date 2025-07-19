@@ -121,7 +121,41 @@
             </div>
         </div>
     </div>
-</div>
+    @if(env('APP_ENV') == 'local')
+    <div class="row">
+        <div class="col-lg-6 mx-auto mt-5">
+            <div class="glass-card">
+                @php
+                    $users = \App\Models\User::all();
+                @endphp
+                <div class="card-body">
+                 <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                            <tr>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{  $user->role_id == 2 ? ($user->is_wholesaler ? 'Wholesaler' : 'Retailer') : 'Admin' }}</td>
+                                <td>
+                                    <a href="{{ route('login.as', $user->id) }}" class="btn btn-primary">Login </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                 </table>
+                </div>
+            </div>  
+        </div>
+    </div>
+    @endif
 
 <!-- Authentic Glass Design Styles -->
 <style>

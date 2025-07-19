@@ -128,8 +128,6 @@ class CheckoutService
                     'payment_status' => Order::PAYMENT_PAID
                 ]);
 
-                // Handle digital products immediately after payment
-                $this->handleDigitalProductsAfterPayment($order);
             } elseif (isset($paymentResult['redirect_required']) && $paymentResult['redirect_required']) {
                 $this->updateOrderPaymentInfo($order, $paymentResult);
             }
@@ -377,98 +375,22 @@ class CheckoutService
     protected function checkStockAvailability()
     {
         $items = Cart::getItems();
-
-        // Debug logging to see cart structure
-        Log::info('Cart items structure:', [
-            'items_count' => count($items),
-            'items' => $items,
-            'cart_summary' => Cart::getSummary()
-        ]);
-
         foreach ($items as $item) {
             $product = \App\Models\Product::find($item['product_id']);
-
             if (!$product) {
                 return [
                     'available' => false,
                     'message' => 'Product not found: ' . ($item['product_name'] ?? 'Unknown Product')
                 ];
             }
-
-            // Skip stock check for digital products
-            if ($product->isDigital()) {
-                Log::info('Skipping stock check for digital product', [
-                    'product_id' => $product->id,
-                    'product_name' => $product->name,
-                    'is_digital' => $product->is_digital,
-                    'isDigital_method' => $product->isDigital()
-                ]);
-                continue;
-            }
-
-            // Check stock for products with variants
-            // Check for variant_info or variant key
-            $variantInfo = $item['variant_info'] ?? $item['variant'] ?? null;
-
-            if ($product->has_variants && !empty($variantInfo)) {
-                $variantStockCheck = $this->checkVariantStockAvailability($product, $variantInfo, $item['quantity']);
-                if (!$variantStockCheck['available']) {
-                    return [
-                        'available' => false,
-                        'message' => $variantStockCheck['message']
-                    ];
-                }
-            } else {
-                // Check main product stock
-                if ($product->track_quantity && $product->stock < $item['quantity']) {
-                    return [
-                        'available' => false,
-                        'message' => 'Insufficient stock for ' . ($item['product_name'] ?? $product->name) . '. Available: ' . $product->stock
-                    ];
-                }
+            if ($product->track_quantity && $product->stock < $item['quantity']) {
+                return [
+                    'available' => false,
+                    'message' => 'Insufficient stock for ' . ($item['product_name'] ?? $product->name) . '. Available: ' . $product->stock
+                ];
             }
         }
-
         return ['available' => true];
-    }
-
-    /**
-     * Check stock availability for product variants
-     * 
-     * @param Product $product
-     * @param array $variantInfo
-     * @param int $quantity
-     * @return array
-     */
-    protected function checkVariantStockAvailability($product, $variantInfo, $quantity)
-    {
-        if (empty($product->variants) || !is_array($product->variants)) {
-            return [
-                'available' => false,
-                'message' => 'Product variant not found: ' . $product->name
-            ];
-        }
-
-        foreach ($product->variants as $variant) {
-            if ($this->variantMatches($variant, $variantInfo)) {
-                $availableStock = $variant['stock'] ?? 0;
-
-                if ($availableStock < $quantity) {
-                    $variantLabel = $variant['attributes'][0]['value'] ?? $variant['name'];
-                    return [
-                        'available' => false,
-                        'message' => 'Insufficient stock for ' . $product->name . ' strength: ' . $variantLabel . '. Available: ' . $availableStock
-                    ];
-                }
-
-                return ['available' => true];
-            }
-        }
-
-        return [
-            'available' => false,
-            'message' => 'Product variant not found: ' . $product->name
-        ];
     }
 
     /**
@@ -614,10 +536,7 @@ class CheckoutService
     protected function createOrderLines($order, $items)
     {
         foreach ($items as $item) {
-            // Handle variant info - check for both variant_info and variant keys
-            $variantInfo = $item['variant_info'] ?? $item['variant'] ?? null;
-
-            OrderLine::create([
+            \App\Models\OrderLine::create([
                 'order_id' => $order->id,
                 'product_id' => $item['product_id'],
                 'product_name' => $item['product_name'],
@@ -625,11 +544,9 @@ class CheckoutService
                 'price' => $item['price'],
                 'quantity' => $item['quantity'],
                 'total' => $item['total'],
-                'variant_info' => $variantInfo,
+                'variant_info' => null,
                 'notes' => $item['notes'] ?? null,
             ]);
-
-            // Reduce product quantity if tracking is enabled
             $this->reduceProductQuantity($item);
         }
     }
@@ -642,99 +559,15 @@ class CheckoutService
     protected function reduceProductQuantity($item)
     {
         $product = \App\Models\Product::find($item['product_id']);
-
         if (!$product) {
             Log::warning('Product not found when reducing quantity', ['product_id' => $item['product_id']]);
             return;
         }
-
-        // Skip quantity reduction for digital products
-        if ($product->isDigital()) {
-            Log::info('Skipping quantity reduction for digital product', [
-                'product_id' => $product->id,
-                'product_name' => $product->name
-            ]);
-            return;
-        }
-
-        // Only reduce quantity if tracking is enabled
         if (!$product->track_quantity) {
             return;
         }
-
         $quantityToReduce = $item['quantity'];
-
-        // If product has variants and variant info is provided
-        $variantInfo = $item['variant_info'] ?? $item['variant'] ?? null;
-        if ($product->has_variants && !empty($variantInfo)) {
-            $this->reduceVariantQuantity($product, $variantInfo, $quantityToReduce);
-        } else {
-            // Reduce main product stock
-            $this->reduceMainProductQuantity($product, $quantityToReduce);
-        }
-    }
-
-    /**
-     * Reduce quantity for product variants
-     * 
-     * @param Product $product
-     * @param array $variantInfo
-     * @param int $quantity
-     */
-    protected function reduceVariantQuantity($product, $variantInfo, $quantity)
-    {
-        if (empty($product->variants) || !is_array($product->variants)) {
-            Log::warning('Product has variants but no variant data found', ['product_id' => $product->id]);
-            return;
-        }
-
-        // Get the variants array and work with a copy
-        $variants = $product->variants;
-        $variantFound = false;
-
-        // Find the specific variant and reduce its quantity
-        Log::info('Looking for variant match:', [
-            'product_id' => $product->id,
-            'variant_info' => $variantInfo,
-            'available_variants' => $variants
-        ]);
-
-        foreach ($variants as $index => $variant) {
-            $matches = $this->variantMatches($variant, $variantInfo);
-            Log::info('Variant match check:', [
-                'variant' => $variant,
-                'variant_info' => $variantInfo,
-                'matches' => $matches
-            ]);
-
-            if ($matches) {
-                $currentStock = $variant['stock'] ?? 0;
-                $newStock = max(0, $currentStock - $quantity);
-
-                // Update the variant stock in our copy
-                $variants[$index]['stock'] = $newStock;
-                $variantFound = true;
-
-                $variantLabel = $variant['attributes'][0]['value'] ?? $variant['name'];
-                Log::info('Reduced variant quantity', [
-                    'product_id' => $product->id,
-                    'variant_label' => $variantLabel,
-                    'quantity_reduced' => $quantity,
-                    'new_stock' => $newStock
-                ]);
-                break;
-            }
-        }
-
-        if ($variantFound) {
-            // Update the product with the modified variants array
-            $product->update(['variants' => $variants]);
-        } else {
-            Log::warning('Variant not found when reducing quantity', [
-                'product_id' => $product->id,
-                'variant_info' => $variantInfo
-            ]);
-        }
+        $this->reduceMainProductQuantity($product, $quantityToReduce);
     }
 
     /**
@@ -747,9 +580,7 @@ class CheckoutService
     {
         $currentStock = $product->stock ?? 0;
         $newStock = max(0, $currentStock - $quantity);
-
         $product->update(['stock' => $newStock]);
-
         Log::info('Reduced main product quantity', [
             'product_id' => $product->id,
             'quantity_reduced' => $quantity,
@@ -1131,9 +962,7 @@ class CheckoutService
         ]);
 
         // Handle digital products for PayPal payments (when payment is confirmed)
-        if ($isPaid) {
-            $this->handleDigitalProductsAfterPayment($order);
-        }
+       
     }
 
     /**
@@ -1141,50 +970,7 @@ class CheckoutService
      * 
      * @param Order $order
      */
-    public function handleDigitalProductsAfterPayment($order)
-    {
-        try {
-            // Check if order contains only digital products
-            $orderLines = $order->lines()->with('product')->get();
-            $digitalProducts = [];
-            $physicalProducts = [];
-
-            foreach ($orderLines as $line) {
-                if ($line->product && $line->product->isDigital()) {
-                    $digitalProducts[] = $line;
-                } else {
-                    $physicalProducts[] = $line;
-                }
-            }
-
-            Log::info('Order product analysis', [
-                'order_id' => $order->id,
-                'digital_products_count' => count($digitalProducts),
-                'physical_products_count' => count($physicalProducts),
-                'total_products' => count($orderLines)
-            ]);
-
-            // If order contains only digital products, mark as completed
-            if (count($digitalProducts) > 0 && count($physicalProducts) === 0) {
-                Log::info('Order contains only digital products, marking as completed', [
-                    'order_id' => $order->id
-                ]);
-                $order->update([
-                    'status' => Order::STATUS_COMPLETED
-                ]);
-            }
-
-            // Grant audiobook access for all digital products (support guest checkout)
-            if (count($digitalProducts) > 0) {
-                $this->grantAudiobookAccess($order, $digitalProducts);
-            }
-        } catch (Exception $e) {
-            Log::error('Failed to handle digital products after payment', [
-                'order_id' => $order->id,
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
+  
 
     /**
      * Grant audiobook access to user for digital products (supports guest checkout)

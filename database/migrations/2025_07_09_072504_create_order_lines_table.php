@@ -13,10 +13,10 @@ return new class extends Migration {
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->string('product_name');
             $table->string('sku')->nullable();
+            $table->string('type')->default('unit');
             $table->decimal('price', 10, 2);
             $table->integer('quantity');
             $table->decimal('total', 10, 2);
-            $table->json('variant')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });

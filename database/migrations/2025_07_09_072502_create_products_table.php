@@ -13,21 +13,22 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->bigInteger('views')->default(0);
-            $table->unsignedBigInteger('category_id')->nullable();
             $table->string('thumbnail')->nullable();
             $table->json('gallery')->nullable();
             $table->enum('status', ['draft', 'active', 'archived'])->default('draft');
-            $table->timestamp('published_at')->nullable();
-            $table->json('tags')->nullable();
-            $table->json('variants')->nullable();
-            $table->text('meta_title')->nullable();
+            $table->string('name');
+            $table->string('sku');
+            $table->foreignId('category_id')->constrained('categories');
+            $table->json('price');
+            $table->integer('stock');
+            $table->boolean('track_quantity');
+            $table->boolean('is_featured')->default(false);
+            $table->json('attributes');
+            $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
             $table->text('meta_keywords')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories')->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -47,7 +47,7 @@ class SettingsSeeder extends Seeder
                     'enable_paypal' => true,
                     'paypal_sandbox' => true,
                     'paypal_client_id' => env('PAYPAL_CLIENT_ID'),
-                    'paypal_secret' => env('PAYPAL_SECRET'),
+                    'paypal_secret' => env('PAYPAL_CLIENT_SECRET'),
                 ]
             ],
         ];

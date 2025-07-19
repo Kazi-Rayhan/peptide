@@ -339,20 +339,12 @@
             <div class="product-gallery">
                 <!-- Main Image -->
                 <div class="main-image-container" id="mainImageContainer">
-                    <img src="{{ $product->image_url ?? 'https://via.placeholder.com/600x400?text=No+Image' }}" 
+                    <img src="{{ $product->thumbnail ? asset('storage/' . $product->thumbnail) : 'https://via.placeholder.com/600x400?text=No+Image' }}" 
                          class="main-image" id="mainImage" alt="{{ $product->name }}">
                     
                     <div class="gallery-overlay">
                         <i class="bi bi-zoom-in"></i>
                     </div>
-                    
-                    @if($product->discount_price)
-                        <div class="position-absolute top-0 start-0 m-3">
-                            <span class="badge bg-danger fs-6">
-                                {{ round((($product->price - $product->discount_price) / $product->price) * 100) }}% OFF
-                            </span>
-                        </div>
-                    @endif
                     
                     @if($product->is_featured)
                         <div class="position-absolute top-0 end-0 m-3">
@@ -361,11 +353,31 @@
                             </span>
                         </div>
                     @endif
+                    @if($product->status !== 'active')
+                        <div class="position-absolute top-0 start-0 m-3">
+                            <span class="badge bg-secondary fs-6">
+                                {{ ucfirst($product->status) }}
+                            </span>
+                        </div>
+                    @endif
                 </div>
                 
                 <!-- Thumbnail Gallery -->
                 <div class="thumbnail-gallery" id="thumbnailGallery">
-                    <!-- Thumbnails will be populated by JavaScript -->
+                    @php
+                        $galleryImages = [];
+                        if ($product->gallery && is_array(json_decode($product->gallery, true))) {
+                            $galleryImages = json_decode($product->gallery, true);
+                        }
+                    @endphp
+                    <div class="thumbnail-item active" data-index="0">
+                        <img src="{{ $product->thumbnail ? asset('storage/' . $product->thumbnail) : 'https://via.placeholder.com/600x400?text=No+Image' }}" alt="Product Image 1" class="thumbnail-image">
+                    </div>
+                    @foreach($galleryImages as $i => $galleryImage)
+                        <div class="thumbnail-item" data-index="{{ $i + 1 }}">
+                            <img src="{{ asset('storage/' . $galleryImage) }}" alt="Product Image {{ $i + 2 }}" class="thumbnail-image">
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -378,24 +390,9 @@
                     
                     <!-- Price -->
                     <div class="mb-3">
-                        @if($product->hasVariants())
-                            @php
-                                $minPrice = $product->getMinPrice();
-                                $maxPrice = $product->getMaxPrice();
-                            @endphp
-                            @if($minPrice == $maxPrice)
-                                <span class="price fs-2">${{ number_format($minPrice, 2) }}</span>
-                            @else
-                                <span class="price fs-2">${{ number_format($minPrice, 2) }} - ${{ number_format($maxPrice, 2) }}</span>
-                            @endif
-                        @else
-                            @if($product->discount_price)
-                                <span class="price fs-2">${{ number_format($product->discount_price, 2) }}</span>
-                                <span class="original-price fs-5 ms-2">${{ number_format($product->price, 2) }}</span>
-                            @else
-                                <span class="price fs-2">${{ number_format($product->price, 2) }}</span>
-                            @endif
-                        @endif
+                        <span class="price fs-2">
+                            ${{ method_exists($product, 'getPrice') ? number_format($product->getPrice(), 2) : (is_array($product->price) ? number_format($product->price['retail'] ?? $product->price[0] ?? $product->price, 2) : number_format(json_decode($product->price, true)['retail'] ?? $product->price ?? 0, 2)) }}
+                        </span>
                     </div>
 
                     <!-- Product Meta -->
@@ -403,27 +400,18 @@
                         <small class="text-muted">
                             <i class="bi bi-eye"></i> {{ $product->views ?? 0 }} views
                             <span class="mx-2">|</span>
-                            @if($product->hasVariants() && !empty($variants))
-                                <span class="badge bg-info">
-                                    <i class="bi bi-box"></i> SKU: <span id="variant-sku">{{ $variants[0]['sku'] }}</span>
-                                </span>
-                                <span class="badge bg-success ms-2">
-                                    <i class="bi bi-check-circle"></i> In Stock (<span id="variant-stock">{{ $variants[0]['stock'] }}</span> available)
-                                </span>
-                            @else
-                                <i class="bi bi-box"></i> SKU: {{ $product->sku }}
-                                @if($product->brand)
-                                    <span class="mx-2">|</span>
-                                    <i class="bi bi-star"></i> {{ $product->brand->name }}
-                                @endif
+                            <i class="bi bi-box"></i> SKU: {{ $product->sku }}
+                            @if($product->brand)
+                                <span class="mx-2">|</span>
+                                <i class="bi bi-star"></i> {{ $product->brand->name }}
                             @endif
                         </small>
                     </div>
 
                     <!-- Stock Status -->
-                    @if($product->track_quantity && !$product->hasVariants())
+                    @if($product->track_quantity)
                         <div class="mb-3">
-                            @if($product->getStock() > 0)
+                            @if($product->stock > 0)
                                 <span class="badge bg-success">
                                     <i class="bi bi-check-circle"></i> In Stock ({{ $product->stock }} available)
                                 </span>
@@ -442,40 +430,7 @@
                     </div>
 
                     <!-- Product Variants -->
-                    @if($product->hasVariants() && !empty($variants))
-                        <div class="mb-4">
-                            <h6>Available Strengths</h6>
-                            <div class="variants-container">
-                                @foreach($variants as $index => $variant)
-                                    <div class="form-check variant-option mb-2">
-                                        <input class="form-check-input variant-radio" type="radio" 
-                                               name="selected_variant" 
-                                               id="variant_{{ $index }}" 
-                                               value="{{ $index }}"
-                                               data-sku="{{ $variant['sku'] }}"
-                                               data-price="{{ is_array($variant['price']) ? ($variant['price']['retailer']['unit_price'] ?? $variant['price']['retail'] ?? 0) : $variant['price'] }}"
-                                               data-stock="{{ $variant['stock'] }}"
-                                               data-variant='@json($variant)'
-                                               {{ $index === 0 ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="variant_{{ $index }}">
-                                            <span class="variant-label">
-                                                @if(isset($variant['attributes']) && is_array($variant['attributes']) && isset($variant['attributes'][0]))
-                                                    {{ $variant['attributes'][0]['value'] ?? $variant['name'] }}
-                                                @else
-                                                    {{ $variant['name'] ?? 'Variant' }}
-                                                @endif
-                                            </span>
-                                        </label>
-                                        <span class="variant-price">
-                                            ${{ number_format(is_array($variant['price']) ? ($variant['price']['retailer']['unit_price'] ?? $variant['price']['retail'] ?? 0) : $variant['price'], 2) }}
-                                        </span>
-                                        <span class="variant-checkmark">&#10003;</span>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <small class="text-muted">Select a strength to add to cart</small>
-                        </div>
-                    @endif
+                    {{-- Variant selection removed: no variants in this store --}}
 
                     <!-- Add to Cart Form -->
                     <form id="add-to-cart-form" class="mb-4">
@@ -483,12 +438,12 @@
                             <div class="col-md-4 mb-3">
                                 <label for="quantity" class="form-label">Quantity</label>
                                 <input type="number" class="form-control" id="quantity" value="1" min="1" 
-                                       max="{{ $product->track_quantity ? $product->getStock() : 999 }}">
+                                       max="{{ $product->track_quantity ? $product->stock : 999 }}">
                             </div>
                             <div class="col-md-8 mb-3">
                                 <label class="form-label">&nbsp;</label>
                                 <button type="submit" class="btn btn-primary w-100 btn-lg" 
-                                        {{ $product->track_quantity && $product->getStock() <= 0 ? 'disabled' : '' }}>
+                                        {{ $product->track_quantity && $product->stock <= 0 ? 'disabled' : '' }}>
                                     <i class="bi bi-cart-plus"></i> Add to Cart
                                 </button>
                             </div>
@@ -496,16 +451,7 @@
                     </form>
 
                     <!-- Product Features -->
-                    @if($product->features)
-                        <div class="mb-4">
-                            <h6>Features</h6>
-                            <ul class="list-unstyled">
-                                @foreach(json_decode($product->features, true) ?? [] as $feature)
-                                    <li><i class="bi bi-check text-success"></i> {{ $feature }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    {{-- Features removed: not present in migration --}}
 
                     <!-- Share -->
                     <div class="border-top pt-3">
@@ -528,12 +474,21 @@
     </div>
 
     <!-- Related Products -->
-    @if($relatedProducts->count() > 0)
+    @php
+        // Find similar products by title (80%+ similarity)
+        $similarProducts = collect($allProducts ?? [])
+            ->filter(function($p) use ($product) {
+                if ($p->id === $product->id) return false;
+                similar_text(strtolower($p->name), strtolower($product->name), $percent);
+                return $percent >= 80;
+            });
+    @endphp
+    @if($similarProducts->count() > 0)
         <div class="row mt-5">
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="mb-0">
-                        <i class="bi bi-grid"></i> Related Products
+                        <i class="bi bi-grid"></i> Similar Products
                     </h3>
                     <div class="d-flex align-items-center gap-3">
                         <span class="text-muted">View:</span>
@@ -550,9 +505,9 @@
             </div>
             <div class="col-12">
                 <div class="row" id="relatedProductsContainer">
-                    @foreach($relatedProducts as $relatedProduct)
+                    @foreach($similarProducts as $similarProduct)
                         <div class="col-md-6 col-lg-3 mb-4 related-product-item">
-                            <x-product-card :product="$relatedProduct" />
+                            <x-product-card :product="$similarProduct" />
                         </div>
                     @endforeach
                 </div>
@@ -582,9 +537,15 @@
 <script>
     // Product gallery data
     const productGallery = {
-        images: [],
-        currentIndex: 0,
-        currentVariantIndex: -1
+        images: [
+            '{{ $product->thumbnail ? asset('storage/' . $product->thumbnail) : 'https://via.placeholder.com/600x400?text=No+Image' }}',
+            @if($product->gallery && is_array(json_decode($product->gallery, true)))
+                @foreach(json_decode($product->gallery, true) as $galleryImage)
+                    '{{ asset('storage/' . $galleryImage) }}',
+                @endforeach
+            @endif
+        ],
+        currentIndex: 0
     };
 
     // Initialize gallery on page load
@@ -594,35 +555,10 @@
         initializeLightbox();
         
         // Variant selection handling
-        $(document).on('change', '.variant-radio', function() {
-            updateVariantDisplay();
-        });
+        // No variants, nothing to initialize
         
         function initializeGallery() {
-            // Start with product thumbnail
-            const thumbnailUrl = '{{ $product->image_url ?? "https://via.placeholder.com/600x400?text=No+Image" }}';
-            productGallery.images = [thumbnailUrl];
-            
-            // Add gallery images
-            @if($product->gallery_urls && count($product->gallery_urls) > 0)
-                @foreach($product->gallery_urls as $galleryImage)
-                    productGallery.images.push('{{ $galleryImage }}');
-                @endforeach
-            @endif
-            
-            // Add variant images
-            @if($product->hasVariants() && !empty($variants))
-                @foreach($variants as $index => $variant)
-                    @if($variant['thumbnail'])
-                        productGallery.images.push('{{ asset('storage/') }}/{{ $variant['thumbnail'] }}');
-                    @endif
-                @endforeach
-            @endif
-            
-            // Remove duplicates
-            productGallery.images = [...new Set(productGallery.images)];
-            
-            // Build thumbnail gallery
+            // Already initialized above, so just build the thumbnail gallery
             buildThumbnailGallery();
         }
         
@@ -658,63 +594,10 @@
         }
         
         function initializeVariantSelection() {
-            // Initialize variant selection on page load
-            updateVariantDisplay();
+            // No variants, nothing to initialize
         }
         
-        function updateVariantDisplay() {
-            const selectedVariant = $('.variant-radio:checked');
-            const quantityInput = $('#quantity');
-            
-            if (selectedVariant.length === 0) {
-                // No variant selected, show base product price and stock
-                $('.price').text('${{ number_format($product->price, 2) }}');
-                setActiveImage(0); // Show main product image
-                $('#variant-sku').text('');
-                $('#variant-stock').text('');
-                quantityInput.attr('max', {{ $product->getStock() }});
-                quantityInput.val(1);
-            } else {
-                // Single variant selected
-                const price = parseFloat(selectedVariant.data('price'));
-                const stock = parseInt(selectedVariant.data('stock'));
-                const sku = selectedVariant.data('sku');
-                const isOutOfStock = {{ $product->track_quantity ? 'true' : 'false' }} && stock <= 0;
-
-                // Update price display
-                $('.price').text('$' + price.toFixed(2));
-
-                // Update product image if variant has a specific image
-                const variantData = selectedVariant.data('variant');
-                if (variantData && variantData.thumbnail) {
-                    // Find variant image in gallery by constructing the full path
-                    const variantImagePath = "{{ asset('storage/') }}/" + variantData.thumbnail;
-                    const variantImageIndex = productGallery.images.findIndex(img => img === variantImagePath);
-                  
-                    if (variantImageIndex !== -1) {
-                        setActiveImage(variantImageIndex);
-                    }
-                } else {
-                    // Show main product image if variant has no specific image
-                    setActiveImage(0);
-                }
-
-                // Update SKU and stock display
-                $('#variant-sku').text(sku);
-                $('#variant-stock').text(stock);
-
-                // Update quantity max value and reset if needed
-                quantityInput.attr('max', stock);
-                if (parseInt(quantityInput.val()) > stock) {
-                    quantityInput.val(stock > 0 ? stock : 1);
-                }
-                if (isOutOfStock) {
-                    $('#add-to-cart-form button[type="submit"]').prop('disabled', true).text('Out of Stock');
-                } else {
-                    $('#add-to-cart-form button[type="submit"]').prop('disabled', false).html('<i class="bi bi-cart-plus"></i> Add to Cart');
-                }
-            }
-        }
+        // No updateVariantDisplay needed: no variants
         
         function initializeLightbox() {
             // Open lightbox on main image click
@@ -791,13 +674,7 @@
             const originalText = button.html();
             
             // Get selected variant
-            const selectedVariant = $('.variant-radio:checked');
-            
-            if (@json($product->hasVariants()) && @json(!empty($variants)) && selectedVariant.length === 0) {
-                // If product has variants but none selected, show error
-                showToast('Please select a strength before adding to cart', 'warning');
-                return;
-            }
+            // No variants, nothing to get
             
             // Show loading state
             button.html('Adding...');
@@ -805,9 +682,7 @@
 
             // Add selected variant to cart
             let variantData = null;
-            if (selectedVariant.length > 0) {
-                variantData = selectedVariant.data('variant');
-            }
+            // No variants, nothing to add
             
             addVariantToCart(variantData, quantity, button, originalText);
         });

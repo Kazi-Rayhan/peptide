@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
@@ -15,24 +16,7 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        // Disable foreign key constraints
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        
-        // Clear existing products
-        DB::table('products')->truncate();
-        
-        // Re-enable foreign key constraints
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // Create a default category if none exists
-        $category = Category::firstOrCreate(
-            ['name' => 'Peptides'],
-            [
-                'name' => 'Peptides',
-                'slug' => 'peptides',
-                'description' => 'Peptide products for various applications'
-            ]
-        );
 
         // Load products from JSON file
         $jsonPath = public_path('json/products.json');
@@ -42,7 +26,7 @@ class ProductSeeder extends Seeder
         }
 
         $productsData = json_decode(file_get_contents($jsonPath), true);
-        
+
         if (!$productsData) {
             $this->command->error('Failed to parse products JSON file');
             return;
@@ -51,18 +35,28 @@ class ProductSeeder extends Seeder
         $this->command->info('Seeding ' . count($productsData) . ' products...');
 
         foreach ($productsData as $productData) {
+            foreach ($productData['variants'] as $variant) {
+                $product = Product::create([
+                    'name' => $variant['name'],
+                    'slug' => Str::slug($variant['name']),
+                    'sku' => $variant['sku'],
+                    'category_id' => 1,
+                    'price' => $variant['price'],
+                    'stock' => $variant['stock'],
+                    'track_quantity' => $variant['track_quantity'],
+                    'attributes' => $variant['attributes'],
+                    'meta_title' => $variant['name'],
+                    'meta_description' => $productData['description'],
+                    'meta_keywords' => str_replace(' ', ',', $productData['description']),
+                    'status' => 'active',
+                    'thumbnail' => $variant['thumbnail'],
+                    'is_featured' => rand(0, 1),
+                    'description' => $productData['description'],
+                    
+                ]);
+            }
             // Create the product
-            $product = Product::create([
-                'name' => $productData['name'],
-                'slug' => $productData['slug'],
-                'description' => $productData['description'],
-                'category_id' => $category->id,
-          
-                'thumbnail' => $productData['thumbnail'],
-                'status' => $productData['status'],
-                'views' => $productData['views'] ?? 0,
-                'variants' => $productData['variants'],
-            ]);
+
 
             $this->command->info("Created product: {$product->name} with " . count($productData['variants']) . " variants");
         }

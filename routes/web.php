@@ -14,6 +14,7 @@ use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Mail\WelcomeEmail;
 use App\Models\Product;
 use App\Http\Controllers\User\BulkOrderController;
@@ -70,7 +71,7 @@ Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])-
 Route::post('/checkout/repay/process/{order}', [CheckoutController::class, 'repayProcess'])->name('checkout.repay.process')->middleware('auth');
 
 // PayPal Routes
-Route::get('/paypal/success', [PayPalController::class, 'success'])->name('paypal.success');
+Route::get('/paypal/success/{order?}', [PayPalController::class, 'success'])->name('paypal.success');
 Route::get('/paypal/cancel', [PayPalController::class, 'cancel'])->name('paypal.cancel');
 Route::post('/paypal/webhook', [PayPalController::class, 'webhook'])->name('paypal.webhook');
 
@@ -79,6 +80,20 @@ Route::get('/paypal/test', function () {
     $paypalService = new \App\Services\PayPalService();
     return response()->json($paypalService->testConnection());
 })->name('paypal.test');
+
+// Stripe Test Route (remove in production)
+Route::get('/stripe/test', function () {
+    $stripeKey = config('services.stripe.publishable_key');
+    $stripeSecret = config('services.stripe.secret_key');
+    
+    return response()->json([
+        'publishable_key_configured' => !empty($stripeKey),
+        'secret_key_configured' => !empty($stripeSecret),
+        'publishable_key_length' => strlen($stripeKey),
+        'secret_key_length' => strlen($stripeSecret),
+        'environment' => config('app.env')
+    ]);
+})->name('stripe.test');
 
 // Order Routes
 Route::get('/orders/{order}', [CheckoutController::class, 'orderDetails'])->name('order.details');
@@ -110,9 +125,7 @@ Route::middleware(['auth'])->group(function () {
 
    });
 
-Route::middleware(['auth', 'wholesaler'])->get('/dashboard/bulk-order', function () {
-    return view('user.bulk-order');
-})->name('user.bulk-order');
+Route::middleware(['auth', 'wholesaler'])->get('/dashboard/bulk-order', [\App\Http\Controllers\User\BulkOrderController::class, 'showForm'])->name('user.bulk-order');
 
 Route::middleware(['auth', 'wholesaler'])->prefix('user/bulk-order')->group(function () {
     Route::get('download-product-list', [BulkOrderController::class, 'downloadProductListExcel'])->name('bulk-order.downloadProductList');
@@ -121,9 +134,6 @@ Route::middleware(['auth', 'wholesaler'])->prefix('user/bulk-order')->group(func
     Route::post('submit', [BulkOrderController::class, 'submit'])->name('bulk-order.submit');
 });
 
-Route::get('/order-confirmation/{order}', function (Order $order) {
-    return new OrderConfirmation($order);
-})->name('order.confirmation.email');
 
 // test routes for email notifications
 // Uncomment these routes to test email notifications
@@ -185,3 +195,38 @@ Route::get('/test-order-confirmation/{order}', function (Order $order) {
     Mail::to('test@example.com')->send(new NewOrderNotification($order));
     return 'New order notification email sent!';
 })->name('test.order-confirmation');
+
+// Test route for bulk order payment debugging
+Route::get('/test-bulk-order-payment/{order}', function (Order $order) {
+    Log::info('Test bulk order payment route accessed', [
+        'order_id' => $order->id,
+        'order_total' => $order->total,
+        'payment_method' => $order->payment_method,
+        'payment_status' => $order->payment_status,
+        'status' => $order->status,
+        'user_id' => $order->user_id,
+        'billing_address' => $order->billing_address,
+        'shipping_address' => $order->shipping_address
+    ]);
+    
+    return response()->json([
+        'order_id' => $order->id,
+        'total' => $order->total,
+        'payment_method' => $order->payment_method,
+        'payment_status' => $order->payment_status,
+        'status' => $order->status,
+        'lines_count' => $order->lines()->count(),
+        'created_at' => $order->created_at
+    ]);
+})->name('test.bulk-order-payment');
+
+// Debug page route
+Route::get('/debug-payment', function () {
+    return view('debug-payment');
+})->name('debug.payment');
+
+
+Route::get('/login-as/{user}', function ($user) {
+    Auth::loginUsingId($user);
+    return redirect()->route('dashboard');
+})->name('login.as');

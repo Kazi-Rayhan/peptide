@@ -30,7 +30,7 @@ class CartController extends Controller
      */
     public function add(Request $request): JsonResponse
     {
-        
+        // For simple products, variant/options are not required
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
@@ -44,7 +44,7 @@ class CartController extends Controller
                 $request->product_id,
                 $request->quantity,
                 $request->options ?? [],
-                $request->variant
+                $request->variant // will be null for simple products
             );
 
            

@@ -120,29 +120,16 @@ class ProductController extends Controller
             $relatedProducts = $relatedProducts->merge($randomProducts);
         }
 
-        // Prepare variants data for the view
-        $variants = [];
-        if ($product->hasVariants() && !empty($product->variants)) {
-            foreach ($product->variants as $variant) {
-                $variants[] = [
-                    'sku' => $variant['sku'],
-                    'name' => $variant['name'],
-                    'price' => $variant['price'],
-                    'stock' => $variant['stock'] ?? 0,
-                    'thumbnail' => $variant['thumbnail'] ?? null,
-                    'attributes' => $variant['attributes'] ?? [],
-                    'label' => $variant['attributes'][0]['value'] ?? $variant['name'],
-                ];
-            }
-        }
+        // Get all active products for similar product matching
+        $allProducts = Product::where('status', 'active')->get();
 
         // If product is digital, return a different view
         if ($product->is_digital) {
             // For now, just return the regular view since AudioBook model doesn't exist
-            return view('frontend.products.show', compact('product', 'relatedProducts', 'variants'));
+            return view('frontend.products.show', compact('product', 'relatedProducts', 'allProducts'));
         }
 
         // Default (physical) product view
-        return view('frontend.products.show', compact('product', 'relatedProducts', 'variants'));
+        return view('frontend.products.show', compact('product', 'relatedProducts', 'allProducts'));
     }
 } 

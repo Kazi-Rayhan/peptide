@@ -27,15 +27,24 @@ class PayPalController extends Controller
     /**
      * Handle PayPal payment success
      */
-    public function success(Request $request)
+    public function success(Request $request, $order = null)
     {
+ 
+        Log::info('PayPalController@success started', [
+            'request_data' => $request->all(),
+            'query_params' => $request->query(),
+            'headers' => $request->headers->all(),
+            'order_parameter' => $order
+        ]);
     
         try {
             Cart::clear();
+            $order = Order::find($order);
             $token = $request->get('token');
-            $orderId = $request->get('order');
+            $orderId = $order ? $order->id : $request->get('order');
+            
 
-            Log::info('PayPalController@success', [
+            Log::info('PayPalController@success extracted parameters', [
                 'token' => $token,
                 'orderId' => $orderId,
                 'query' => $request->query()
@@ -52,7 +61,9 @@ class PayPalController extends Controller
             }
 
             // Get the order
-            $order = Order::find($orderId);
+            if (!$order) {
+                $order = Order::find($orderId);
+            }
             if (!$order) {
                 Log::error('Order not found for PayPal payment', ['order_id' => $orderId]);
                 return redirect()->route('checkout.index')
@@ -60,7 +71,17 @@ class PayPalController extends Controller
             }
 
             // Capture the order
+            Log::info('PayPalController executing payment', [
+                'token' => $token,
+                'order_id' => $orderId
+            ]);
+            
             $result = $this->paypalService->executePayment($token, null);
+
+            Log::info('PayPalController payment execution result', [
+                'result' => $result,
+                'success' => $result['success'] ?? false
+            ]);
 
             if ($result['success']) {
                 DB::beginTransaction();
@@ -73,8 +94,6 @@ class PayPalController extends Controller
                         'status' => 'confirmed'
                     ]);
 
-                    // Handle digital products immediately after payment
-                    $this->checkoutService->handleDigitalProductsAfterPayment($order);
 
                     // Send confirmation emails
                     $emailService = new OrderEmailService();
@@ -219,8 +238,6 @@ class PayPalController extends Controller
                     'status' => 'confirmed'
                 ]);
 
-                // Handle digital products for webhook payments
-                $this->checkoutService->handleDigitalProductsAfterPayment($order);
 
                 Log::info('Order payment confirmed via PayPal webhook', [
                     'order_id' => $order->id,

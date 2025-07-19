@@ -34,6 +34,5 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
         // Register the Order observer
-        Order::observe(OrderObserver::class);
     }
 }
