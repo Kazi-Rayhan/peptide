@@ -542,6 +542,7 @@ class CheckoutService
                 'product_name' => $item['product_name'],
                 'sku' => $item['sku'],
                 'price' => $item['price'],
+                'type' => $item['pricing_type'],
                 'quantity' => $item['quantity'],
                 'total' => $item['total'],
                 'variant_info' => null,

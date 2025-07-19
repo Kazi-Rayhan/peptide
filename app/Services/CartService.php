@@ -114,7 +114,7 @@ class CartService
             
             foreach ($this->cart->items as $item) {
                 // Create unique key based on product and variant
-                $itemKey = $this->getItemKey($item->product_id, $item->options ?? [], $item->variant);
+                $itemKey = $this->getItemKey($item->product_id, $item->options ?? [], $item->variant, $item->pricing_type);
                 
                 $this->items[$itemKey] = [
                     'product_id' => $item->product_id,
@@ -124,6 +124,7 @@ class CartService
                     'quantity' => $item->quantity,
                     'variant' => $item->variant,
                     'options' => $item->options ?? [],
+                    'pricing_type' => $item->pricing_type,
                     'total' => $item->total,
                     'image_url' => $item->product->image_url ?? null,
                     'added_at' => $item->created_at,
@@ -144,9 +145,11 @@ class CartService
      * @param int $productId
      * @param int $quantity
      * @param array $options
+     * @param array|null $variantData
+     * @param string|null $pricingType
      * @return array
      */
-    public function add($productId, $quantity = 1, $options = [], $variantData = null)
+    public function add($productId, $quantity = 1, $options = [], $variantData = null, $pricingType = null)
     {
         $product = Product::find($productId);
         
@@ -155,7 +158,14 @@ class CartService
         }
 
         $sku = $product->sku;
-        $price = method_exists($product, 'getPrice') ? $product->getPrice() : (is_array($product->price) ? ($product->price['retail'] ?? $product->price[0] ?? $product->price) : (is_numeric($product->price) ? $product->price : 0));
+        
+        // Get price based on pricing type for wholesalers
+        if ($pricingType && method_exists($product, 'getPrice')) {
+            $price = $product->getPrice($pricingType);
+        } else {
+            $price = method_exists($product, 'getPrice') ? $product->getPrice() : (is_array($product->price) ? ($product->price['retail'] ?? $product->price[0] ?? $product->price) : (is_numeric($product->price) ? $product->price : 0));
+        }
+        
         $productName = $product->name;
 
         // Check stock
@@ -163,8 +173,8 @@ class CartService
             return ['success' => false, 'message' => 'Insufficient stock'];
         }
 
-        // Create unique item key
-        $itemKey = $this->getItemKey($productId, $options);
+        // Create unique item key (include pricing type for wholesalers)
+        $itemKey = $this->getItemKey($productId, $options, $variantData, $pricingType);
         
         if (isset($this->items[$itemKey])) {
             $this->items[$itemKey]['quantity'] += $quantity;
@@ -177,8 +187,9 @@ class CartService
                 'sku' => $sku,
                 'price' => $price,
                 'quantity' => $quantity,
-                'variant' => null,
+                'variant' => $variantData,
                 'options' => $options,
+                'pricing_type' => $pricingType,
                 'total' => $price * $quantity,
                 'image_url' => $product->image_url,
                 'added_at' => Carbon::now(),
@@ -631,6 +642,7 @@ class CartService
                 'price' => $item['price'],
                 'quantity' => $item['quantity'],
                 'options' => $item['options'] ?? [],
+                'pricing_type' => $item['pricing_type'] ?? null,
                 'variant' => $item['variant'] ?? null,
                 'variant_sku' => $item['variant']['sku'] ?? null,
                 'total' => $item['total'],
@@ -686,9 +698,19 @@ class CartService
      * @param array|null $variant
      * @return string
      */
-    protected function getItemKey($productId, $options = [], $variant = null)
+    protected function getItemKey($productId, $options = [], $variant = null, $pricingType = null)
     {
-        return $productId . '_' . md5(serialize($options));
+        $key = $productId . '_' . md5(serialize($options));
+        
+        if ($variant) {
+            $key .= '_' . md5(serialize($variant));
+        }
+        
+        if ($pricingType) {
+            $key .= '_' . $pricingType;
+        }
+        
+        return $key;
     }
 
     /**
@@ -741,6 +763,7 @@ class CartService
                     'price' => $item['price'],
                     'quantity' => $item['quantity'],
                     'options' => $item['options'] ?? [],
+                    'pricing_type' => $item['pricing_type'] ?? null,
                     'variant' => $item['variant'] ?? null,
                     'variant_sku' => $item['variant']['sku'] ?? null,
                     'total' => $item['total'],

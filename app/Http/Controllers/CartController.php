@@ -36,6 +36,7 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
             'variant' => 'nullable|array',
             'options' => 'nullable|array',
+            'pricing_type' => 'nullable|string|in:unit,kit',
         ]);
         
        
@@ -44,7 +45,8 @@ class CartController extends Controller
                 $request->product_id,
                 $request->quantity,
                 $request->options ?? [],
-                $request->variant // will be null for simple products
+                $request->variant, // will be null for simple products
+                $request->pricing_type // new parameter for unit/kit selection
             );
 
            
@@ -65,7 +67,8 @@ class CartController extends Controller
             Log::error('Cart add error: ' . $e->getMessage(), [
                 'product_id' => $request->product_id,
                 'variant' => $request->variant,
-                'quantity' => $request->quantity
+                'quantity' => $request->quantity,
+                'pricing_type' => $request->pricing_type
             ]);
             return response()->json([
                 'success' => false,
