@@ -611,7 +611,6 @@
                         }, 1500);
                     }
                 } else {
-                    console.log('Checkout failed:', response.message);
                     showToast(response.message || 'Order failed. Please try again.', 'error');
                     $('#place-order-btn').html('<i class="bi bi-check-circle"></i> Place Order');
                     $('#place-order-btn').prop('disabled', false);

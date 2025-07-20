@@ -428,7 +428,7 @@ class OrderResource extends Resource
                     ->modalDescription('Update shipping method and tracking information for this order.')
                     ->modalSubmitActionLabel('Update Shipping Method')
                     ->color('info'),
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('print_invoice')
                     ->label('Print Invoice')
                     ->icon('heroicon-o-printer')
@@ -789,9 +789,9 @@ class OrderResource extends Resource
     {
         return [
             'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
+            // 'create' => Pages\CreateOrder::route('/create'),
             'view' => Pages\ViewOrder::route('/{record}'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
+            // 'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 
