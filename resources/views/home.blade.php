@@ -33,12 +33,12 @@
     }
 
     .hero-title {
-        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-size: 3rem;
         font-weight: 700;
-        color: #2c3e50;
+        color: #0082CA;
         line-height: 1.2;
         margin-bottom: 1.5rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .hero-subtitle {
@@ -50,13 +50,13 @@
     }
 
     .hero-btn {
-        background: linear-gradient(45deg, #00687a, #00a3cc);
+        background-color: #0082CA;
         border: none;
         padding: clamp(12px, 2vw, 18px) clamp(25px, 4vw, 45px);
-        font-size: clamp(0.9rem, 2vw, 1.1rem);
-        font-weight: 600;
+        font-size: 22px;
+        font-weight: 700;
         color: white;
-        border-radius: 50px;
+        border-radius: 5px;
         text-decoration: none;
         display: inline-flex;
         align-items: center;
@@ -74,7 +74,7 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
         transition: left 0.5s;
     }
 
@@ -283,7 +283,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
         opacity: 0;
         transition: opacity 0.3s ease;
     }
@@ -412,7 +412,7 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
         transition: left 0.5s;
     }
 
@@ -542,6 +542,7 @@
             opacity: 0;
             transform: translateY(30px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
@@ -553,6 +554,7 @@
             opacity: 0;
             transform: translateX(-30px);
         }
+
         to {
             opacity: 1;
             transform: translateX(0);
@@ -564,6 +566,7 @@
             opacity: 0;
             transform: translateX(30px);
         }
+
         to {
             opacity: 1;
             transform: translateX(0);
@@ -596,212 +599,225 @@
             transform: rotate(360deg);
         }
     }
+
+
+    .custom-max-width {
+        display: flex;
+         max-width: 1180px !important;
+        max-height: 500px;
+        margin: 0 auto;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 
 @section('content')
-<!-- Hero Section -->
-<section class="hero-section" style="background-image: url('{{ asset('assets/DNAimage.jpg') }}'); background-size: cover; background-position: center;">
-    <div class="container" style="background-color: rgba(255, 252, 252, 0.87);padding: 40px;border-radius: 30px">
-        <div class="row align-items-center">
-            <div class="col-lg-6 hero-content fade-in-left">
-                <h1 class="hero-title fw-bold">Highest Quality Peptides For Sale</h1>
-                <p class="hero-subtitle">
-                    We are proud to carry the highest quality peptides and peptide blends in the research industry. 
-                    All products undergo rigorous quality control procedures.
-                </p>
-                <a href="{{ route('products.index') }}" class="hero-btn">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>SHOP PEPTIDES</span>
-                </a>
-            </div>
-            <div class="col-lg-6 text-center ">
-                <img src="{{ asset('assets/peptides.png') }}" class="img-fluid" alt="Research Peptides" >
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Features Section -->
-<section class="features-section" style="background-color: #8fb5db;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6 mb-4 fade-in-up" style="animation-delay: 0.1s;">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shipping-fast"></i>
-                    </div>
-                    <h5 class="feature-title">Free Delivery</h5>
-                    <p class="feature-text">
-                        Any purchase of $200 or more qualifies for free delivery within the USA.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4 fade-in-up" style="animation-delay: 0.2s;">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-award"></i>
-                    </div>
-                    <h5 class="feature-title">Highest Quality Peptides</h5>
-                    <p class="feature-text">
-                        Our products are scientifically-formulated and produced in cGMP facilities.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4 fade-in-up" style="animation-delay: 0.3s;">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h5 class="feature-title">Online Support</h5>
-                    <p class="feature-text">
-                        Have questions? We can help. Email us or connect via our Contact page.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Products Section -->
-<section class="products-section">
-    <div class="container">
-        <div class="section-header fade-in-up">
-            <h2 class="section-title">Research Peptides For Sale</h2>
-            <p class="section-subtitle">
-                Discover our comprehensive collection of high-quality research peptides
-            </p>
-        </div>
-
-        <!-- Filter Bar -->
-        <div class="filter-bar fade-in-up" style="animation-delay: 0.1s;">
+    <!-- Hero Section -->
+    <section class="hero-section"
+        style="background-image: url('{{ asset('assets/DNAimage.jpg') }}'); background-size: cover; background-position: center;">
+        <div class="container custom-max-width"
+            style="background-color: rgba(255, 252, 252, 0.748);padding: 40px;border-radius: 30px;">
             <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="mb-0 text-muted">Showing all {{ $products->count() }} results</p>
+                <div class="col-lg-6 hero-content fade-in-left">
+                    <h1 class="hero-title fw-bold">Highest Quality Peptides For Sale</h1>
+                    <p class="hero-subtitle">
+                        We are proud to carry the highest quality peptides and peptide blends in the research industry.
+                        All products undergo rigorous quality control procedures.
+                    </p>
+                    <a href="{{ route('products.index') }}" class="hero-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>SHOP PEPTIDES</span>
+                    </a>
                 </div>
-                <div class="col-md-6 text-md-end">
-                    <select class="form-select d-inline-block w-auto">
-                        <option value="popularity">Sort by popularity</option>
-                        <option value="date">Sort by latest</option>
-                        <option value="price">Sort by price: low to high</option>
-                        <option value="price-desc">Sort by price: high to low</option>
-                        <option value="title" selected>Sort by title (A-Z)</option>
-                        <option value="title-desc">Sort by title (Z-A)</option>
-                    </select>
+                <div class="col-lg-6 text-center ">
+                    <img src="{{ asset('assets/peptides.png') }}" class="img-fluid" alt="Research Peptides">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" style="background-color: #8fb5db;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4 fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <h5 class="feature-title">Free Delivery</h5>
+                        <p class="feature-text">
+                            Any purchase of $200 or more qualifies for free delivery within the USA.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h5 class="feature-title">Highest Quality Peptides</h5>
+                        <p class="feature-text">
+                            Our products are scientifically-formulated and produced in cGMP facilities.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h5 class="feature-title">Online Support</h5>
+                        <p class="feature-text">
+                            Have questions? We can help. Email us or connect via our Contact page.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Products Grid -->
-        <div class="row">
-            @foreach ($products as $index => $product)
-                <div class="col-lg-3 col-md-6 col-sm-6 mb-4 fade-in-up" style="animation-delay: {{ 0.2 + ($index * 0.1) }}s;">
-                    <x-product-card :product="$product" />
-                </div>
-            @endforeach
-        </div>
-    </div>
-</section>
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <h2 class="section-title">Research Peptides For Sale</h2>
+                <p class="section-subtitle">
+                    Discover our comprehensive collection of high-quality research peptides
+                </p>
+            </div>
 
-
-
-<!-- Newsletter Section -->
-<section class="newsletter-section">
-    <div class="container">
-        <div class="text-center mb-5 fade-in-up">
-            <h2 class="section-title text-white">Stay Updated</h2>
-            <p class="section-subtitle text-white-50">
-                Subscribe to our newsletter for exclusive promotions and research updates
-            </p>
-        </div>
-
-        <form action="" method="POST" class="newsletter-form fade-in-up" style="animation-delay: 0.1s;">
-            @csrf
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <input type="text" name="first_name" class="form-control newsletter-input" 
-                           placeholder="First Name" required>
-                </div>
-                <div class="col-md-3">
-                    <input type="email" name="email" class="form-control newsletter-input" 
-                           placeholder="Email Address" required>
-                </div>
-                <div class="col-md-3">
-                    <input type="tel" name="phone" class="form-control newsletter-input" 
-                           placeholder="Contact Number" required>
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn newsletter-btn w-100">
-                        <i class="fas fa-paper-plane me-2"></i>Subscribe
-                    </button>
+            <!-- Filter Bar -->
+            <div class="filter-bar fade-in-up" style="animation-delay: 0.1s;">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="mb-0 text-muted">Showing all {{ $products->count() }} results</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <select class="form-select d-inline-block w-auto">
+                            <option value="popularity">Sort by popularity</option>
+                            <option value="date">Sort by latest</option>
+                            <option value="price">Sort by price: low to high</option>
+                            <option value="price-desc">Sort by price: high to low</option>
+                            <option value="title" selected>Sort by title (A-Z)</option>
+                            <option value="title-desc">Sort by title (Z-A)</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-        </form>
-    </div>
-</section>
 
-<script>
-function addToCart(productId) {
-    const btn = event.target.closest('.btn');
-    const originalText = btn.innerHTML;
-    
-    // Add loading state
-    btn.classList.add('btn-loading');
-    btn.innerHTML = '<span>Adding...</span>';
-    
-    fetch('{{ route('cart.add') }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-            product_id: productId,
-            quantity: 1
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            updateCartCount();
-            showToast('Product added to cart successfully!', 'success');
-        } else {
-            showToast(data.message || 'Error adding product to cart', 'danger');
+            <!-- Products Grid -->
+            <div class="row">
+                @foreach ($products as $index => $product)
+                    <div class="col-lg-3 col-md-6 col-sm-6 mb-4 fade-in-up"
+                        style="animation-delay: {{ 0.2 + $index * 0.1 }}s;">
+                        <x-product-card :product="$product" />
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="text-center mb-5 fade-in-up">
+                <h2 class="section-title text-white">Stay Updated</h2>
+                <p class="section-subtitle text-white-50">
+                    Subscribe to our newsletter for exclusive promotions and research updates
+                </p>
+            </div>
+
+            <form action="" method="POST" class="newsletter-form fade-in-up" style="animation-delay: 0.1s;">
+                @csrf
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <input type="text" name="first_name" class="form-control newsletter-input"
+                            placeholder="First Name" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="email" name="email" class="form-control newsletter-input"
+                            placeholder="Email Address" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="tel" name="phone" class="form-control newsletter-input"
+                            placeholder="Contact Number" required>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn newsletter-btn w-100">
+                            <i class="fas fa-paper-plane me-2"></i>Subscribe
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        function addToCart(productId) {
+            const btn = event.target.closest('.btn');
+            const originalText = btn.innerHTML;
+
+            // Add loading state
+            btn.classList.add('btn-loading');
+            btn.innerHTML = '<span>Adding...</span>';
+
+            fetch('{{ route('cart.add') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        quantity: 1
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        updateCartCount();
+                        showToast('Product added to cart successfully!', 'success');
+                    } else {
+                        showToast(data.message || 'Error adding product to cart', 'danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast('Error adding product to cart', 'danger');
+                })
+                .finally(() => {
+                    // Remove loading state
+                    btn.classList.remove('btn-loading');
+                    btn.innerHTML = originalText;
+                });
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showToast('Error adding product to cart', 'danger');
-    })
-    .finally(() => {
-        // Remove loading state
-        btn.classList.remove('btn-loading');
-        btn.innerHTML = originalText;
-    });
-}
 
-// Intersection Observer for animations
-document.addEventListener('DOMContentLoaded', function() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+        // Intersection Observer for animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all animated elements
+            document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(el);
+            });
         });
-    }, observerOptions);
-
-    // Observe all animated elements
-    document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        observer.observe(el);
-    });
-});
-</script>
+    </script>
 @endsection
