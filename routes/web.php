@@ -85,7 +85,7 @@ Route::get('/paypal/test', function () {
 Route::get('/stripe/test', function () {
     $stripeKey = config('services.stripe.publishable_key');
     $stripeSecret = config('services.stripe.secret_key');
-    
+
     return response()->json([
         'publishable_key_configured' => !empty($stripeKey),
         'secret_key_configured' => !empty($stripeSecret),
@@ -122,8 +122,7 @@ Route::middleware(['auth'])->group(function () {
     // Order Management
     Route::get('/orders', [UserController::class, 'orders'])->name('user.orders.index');
     Route::get('/orders/{order}', [UserController::class, 'showOrder'])->name('user.orders.show');
-
-   });
+    });
 
 Route::middleware(['auth', 'wholesaler'])->get('/dashboard/bulk-order', [\App\Http\Controllers\User\BulkOrderController::class, 'showForm'])->name('user.bulk-order');
 
@@ -208,7 +207,7 @@ Route::get('/test-bulk-order-payment/{order}', function (Order $order) {
         'billing_address' => $order->billing_address,
         'shipping_address' => $order->shipping_address
     ]);
-    
+
     return response()->json([
         'order_id' => $order->id,
         'total' => $order->total,
@@ -230,3 +229,4 @@ Route::get('/login-as/{user}', function ($user) {
     Auth::loginUsingId($user);
     return redirect()->route('dashboard');
 })->name('login.as');
+

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\Level;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,6 +53,10 @@ class User extends Authenticatable implements FilamentUser
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $casts = [
+        'current_level' => Level::class,
     ];
 
     /**
@@ -121,6 +126,65 @@ class User extends Authenticatable implements FilamentUser
         return collect($permissions)->every(function ($permission) {
             return $this->hasPermission($permission);
         });
+    }
+
+    public function getCurrentLevel(): string
+    {
+        return $this->current_level->value;
+    }
+
+    public function setCurrentLevel(Level $level): void
+    {
+        $this->current_level = $level;
+        $this->save();
+    }
+    
+    public function getNextLevel()
+    {
+        return match ($this->current_level->value) {
+            Level::RETAILER->value => Level::RETAILER->value,
+            Level::WHOLESALER_ONE->value => Level::WHOLESALER_TWO->value,
+            Level::WHOLESALER_TWO->value => Level::DISTRIBUTOR_ONE->value,
+            Level::DISTRIBUTOR_ONE->value => Level::DISTRIBUTOR_TWO->value,
+            Level::DISTRIBUTOR_TWO->value => Level::DISTRIBUTOR_TWO->value,
+        };
+    }
+
+    public function getPreviousLevel()
+    {
+        return match ($this->current_level->value) {
+            Level::RETAILER->value => Level::RETAILER->value,
+            Level::WHOLESALER_ONE->value => Level::WHOLESALER_ONE->value,
+            Level::WHOLESALER_TWO->value => Level::WHOLESALER_ONE->value,
+            Level::DISTRIBUTOR_ONE->value => Level::WHOLESALER_TWO->value,
+            Level::DISTRIBUTOR_TWO->value => Level::DISTRIBUTOR_ONE->value,
+        };
+    }
+
+    public function promoteToNextLevel(): void
+    {
+        $this->current_level = $this->getNextLevel();
+        $this->save();
+    }
+
+    public function demoteToPreviousLevel(): void
+    {
+        $this->current_level = $this->getPreviousLevel();
+        $this->save();
+    }
+
+    public function isAtMaxLevel(): bool
+    {
+        return $this->current_level === Level::DISTRIBUTOR_TWO;
+    }
+
+    public function isAtMinLevel(): bool
+    {
+        if($this->is_wholesaler){
+            return $this->current_level === Level::WHOLESALER_ONE;
+        }else{
+            return $this->current_level === Level::RETAILER;
+        }
     }
 
     /**

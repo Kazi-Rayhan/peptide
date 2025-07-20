@@ -18,6 +18,7 @@ class CartItem extends Model
         'price',
         'quantity',
         'options',
+        'pricing_type',
         'total',
         'variant',
         'variant_sku',

@@ -28,17 +28,8 @@ class LowStockAlert extends BaseWidget
         return $table
             ->query(
                 Product::query()
-                    ->where('is_digital', false)
-                    ->whereJsonLength('variants', '>', 0)
-                    ->whereRaw("JSON_EXTRACT(variants, '$[*].stock') IS NOT NULL")
-                    ->whereRaw("
-                        EXISTS (
-                            SELECT 1 FROM JSON_TABLE(
-                                variants,
-                                '$[*]' COLUMNS (stock INT PATH '$.stock')
-                            ) AS jt WHERE jt.stock <= 10
-                        )
-                    ")
+                  ->where('stock', '<', 10)
+                   
             )
             ->columns([
                 Tables\Columns\TextColumn::make('name')

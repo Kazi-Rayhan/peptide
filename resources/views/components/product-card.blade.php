@@ -17,12 +17,15 @@
         
         <!-- Price -->
         <div class=" mb-3 text-center h4 fw-bold" style="color: #232dbe;">
-           
-             
-         
-                    ${{ number_format($product->getPrice(), 2) }}
-              
-          
+            @if($product->isWholesalerUser() && $product->hasBothPricingTypes())
+                <div class="small text-muted mb-1">From {{ $product->getDisplayPrice() }}</div>
+                <div class="small">
+                    <span class="badge bg-primary me-1">Unit</span>
+                    <span class="badge bg-success">Kit</span>
+                </div>
+            @else
+                ${{ number_format($product->getPrice(), 2) }}
+            @endif
         </div>
     </div>
     </a>

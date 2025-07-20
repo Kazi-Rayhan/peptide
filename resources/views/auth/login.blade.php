@@ -135,6 +135,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
+                            <th>Level</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -144,6 +145,7 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{  $user->role_id == 2 ? ($user->is_wholesaler ? 'Wholesaler' : 'Retailer') : 'Admin' }}</td>
+                                <td>{{ $user->current_level }}</td>
                                 <td>
                                     <a href="{{ route('login.as', $user->id) }}" class="btn btn-primary">Login </a>
                                 </td>

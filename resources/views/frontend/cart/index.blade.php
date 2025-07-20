@@ -45,6 +45,11 @@
                                                  style="width: 56px; height: 56px; object-fit: cover;">
                                             <div>
                                                 <div class="fw-semibold" style="font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--primary-color);">{{ $item['product_name'] }}</div>
+                                                @if(isset($item['pricing_type']) && $item['pricing_type'])
+                                                    <small class="text-muted">
+                                                        <i class="bi bi-tag"></i> {{ ucfirst($item['pricing_type']) }} Pricing
+                                                    </small>
+                                                @endif
                                             </div>
                                         </td>
                                         <!-- Quantity -->
@@ -86,6 +91,11 @@
                                          alt="{{ $item['product_name'] }}">
                                     <div class="flex-grow-1">
                                         <div class="fw-semibold mb-1" style="font-family: 'Playfair Display', serif; color: var(--primary-color);">{{ $item['product_name'] }}</div>
+                                        @if(isset($item['pricing_type']) && $item['pricing_type'])
+                                            <small class="text-muted">
+                                                <i class="bi bi-tag"></i> {{ ucfirst($item['pricing_type']) }} Pricing
+                                            </small>
+                                        @endif
                                     </div>
                                     <button class="btn btn-link text-danger p-0 remove-item position-absolute top-0 end-0 mt-2 me-2" data-item-id="{{ $itemKey }}" title="Remove item">
                                         <i class="bi bi-trash fs-5"></i>

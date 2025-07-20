@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\Level;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 
 use App\Models\Traits\SelfHealingSlug;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -47,8 +49,6 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-
-
     /**
      * Scope for featured products
      */
@@ -57,19 +57,116 @@ class Product extends Model
         return $query->where('is_featured', true);
     }
 
+    protected function currnetLevel()
+    {
+        if(Auth::check()){
+            return Auth::user()->current_level->value;
+        }
+        return Level::RETAILER->value;
+    }
 
-
-
-
-
-
+    /**
+     * Get price for specific type (unit or kit)
+     */
     public function getPrice($type = 'unit')
     {
-        if($type == 'unit'){
-            return $this->price['wholesale_1']['unit_price'];
-        }else{
-            return $this->price['wholesale_1']['kit_price'];
+        $level = $this->currnetLevel();
+        
+        if (!isset($this->price[$level])) {
+            return 0;
         }
+        
+        if($type == 'unit'){
+            return $this->price[$level]['unit_price'] ?? 0;
+        }else{
+            return $this->price[$level]['kit_price'] ?? 0;
+        }
+    }
+
+    /**
+     * Check if product has both unit and kit pricing for current user level
+     */
+    public function hasBothPricingTypes(): bool
+    {
+        $level = $this->currnetLevel();
+        
+        if (!isset($this->price[$level])) {
+            return false;
+        }
+        
+        return isset($this->price[$level]['unit_price']) && 
+               isset($this->price[$level]['kit_price']) && 
+               $this->price[$level]['unit_price'] > 0 && 
+               $this->price[$level]['kit_price'] > 0;
+    }
+
+    /**
+     * Check if current user is a wholesaler
+     */
+    public function isWholesalerUser(): bool
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+        
+        $user = Auth::user();
+        return $user->is_wholesaler || 
+               in_array($user->current_level->value, [
+                   Level::WHOLESALER_ONE->value,
+                   Level::WHOLESALER_TWO->value,
+                   Level::DISTRIBUTOR_ONE->value,
+                   Level::DISTRIBUTOR_TWO->value
+               ]);
+    }
+
+    /**
+     * Get unit price for current user level
+     */
+    public function getUnitPrice()
+    {
+        return $this->getPrice('unit');
+    }
+
+    /**
+     * Get kit price for current user level
+     */
+    public function getKitPrice()
+    {
+        return $this->getPrice('kit');
+    }
+
+    /**
+     * Get minimum price between unit and kit for current user level
+     */
+    public function getMinPrice()
+    {
+        $unitPrice = $this->getUnitPrice();
+        $kitPrice = $this->getKitPrice();
+        
+        if ($unitPrice == 0 && $kitPrice == 0) {
+            return 0;
+        }
+        
+        if ($unitPrice == 0) {
+            return $kitPrice;
+        }
+        
+        if ($kitPrice == 0) {
+            return $unitPrice;
+        }
+        
+        return min($unitPrice, $kitPrice);
+    }
+
+    /**
+     * Get maximum price between unit and kit for current user level
+     */
+    public function getMaxPrice()
+    {
+        $unitPrice = $this->getUnitPrice();
+        $kitPrice = $this->getKitPrice();
+        
+        return max($unitPrice, $kitPrice);
     }
 
     public function getPriceRange(): string
@@ -80,6 +177,15 @@ class Product extends Model
             return '$' . number_format($min, 2);
         }
         return '$' . number_format($min, 2) . ' - $' . number_format($max, 2);
+    }
+
+    /**
+     * Get display price based on selected type
+     */
+    public function getDisplayPrice($type = 'unit'): string
+    {
+        $price = $this->getPrice($type);
+        return '$' . number_format($price, 2);
     }
 
     /*

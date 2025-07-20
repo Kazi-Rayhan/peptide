@@ -390,9 +390,32 @@
                     
                     <!-- Price -->
                     <div class="mb-3">
-                        <span class="price fs-2">
-                            ${{ method_exists($product, 'getPrice') ? number_format($product->getPrice(), 2) : (is_array($product->price) ? number_format($product->price['retail'] ?? $product->price[0] ?? $product->price, 2) : number_format(json_decode($product->price, true)['retail'] ?? $product->price ?? 0, 2)) }}
-                        </span>
+                        @if($product->isWholesalerUser() && $product->hasBothPricingTypes())
+                            <!-- Pricing Type Selection for Wholesalers -->
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Select Pricing Type:</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" name="pricing_type" id="unit_pricing" value="unit" checked>
+                                    <label class="btn btn-outline-primary" for="unit_pricing">
+                                        Unit: {{ $product->getDisplayPrice('unit') }}
+                                    </label>
+                                    
+                                    <input type="radio" class="btn-check" name="pricing_type" id="kit_pricing" value="kit">
+                                    <label class="btn btn-outline-primary" for="kit_pricing">
+                                        Kit: {{ $product->getDisplayPrice('kit') }}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="price fs-2" id="selectedPrice">
+                                    {{ $product->getDisplayPrice('unit') }}
+                                </span>
+                            </div>
+                        @else
+                            <span class="price fs-2">
+                                {{ $product->getDisplayPrice() }}
+                            </span>
+                        @endif
                     </div>
 
                     <!-- Product Meta -->
@@ -434,6 +457,10 @@
 
                     <!-- Add to Cart Form -->
                     <form id="add-to-cart-form" class="mb-4">
+                        @if($product->isWholesalerUser() && $product->hasBothPricingTypes())
+                            <!-- Hidden input for pricing type -->
+                            <input type="hidden" id="selected_pricing_type" name="pricing_type" value="unit">
+                        @endif
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="quantity" class="form-label">Quantity</label>
@@ -665,6 +692,20 @@
             openLightbox(newIndex);
         }
         
+        // Pricing type selection handling
+        $(document).on('change', 'input[name="pricing_type"]', function() {
+            const selectedType = $(this).val();
+            const unitPrice = {{ $product->getUnitPrice() }};
+            const kitPrice = {{ $product->getKitPrice() }};
+            
+            // Update displayed price
+            const price = selectedType === 'unit' ? unitPrice : kitPrice;
+            $('#selectedPrice').text('$' + price.toFixed(2));
+            
+            // Update hidden input
+            $('#selected_pricing_type').val(selectedType);
+        });
+
         // Add to cart form submission
         $(document).on('submit', '#add-to-cart-form', function(e) {
             e.preventDefault();
@@ -673,28 +714,25 @@
             const button = $(this).find('button[type="submit"]');
             const originalText = button.html();
             
-            // Get selected variant
-            // No variants, nothing to get
+            // Get selected pricing type for wholesalers
+            const pricingType = $('#selected_pricing_type').val() || 'unit';
             
             // Show loading state
             button.html('Adding...');
             button.prop('disabled', true);
 
-            // Add selected variant to cart
-            let variantData = null;
-            // No variants, nothing to add
-            
-            addVariantToCart(variantData, quantity, button, originalText);
+            // Add product to cart with pricing type
+            addProductToCart(quantity, pricingType, button, originalText);
         });
         
-        function addVariantToCart(variantData, quantity, button, originalText) {
+        function addProductToCart(quantity, pricingType, button, originalText) {
             $.ajax({
                 url: '{{ route("cart.add") }}',
                 method: 'POST',
                 data: {
                     product_id: {{ $product->id }},
                     quantity: quantity,
-                    variant: variantData
+                    pricing_type: pricingType
                 },
                 success: function(response) {
                     if (response.success) {

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->json('details')->nullable();
             $table->boolean('is_wholesaler')->default(false);
-        
+            $table->string('current_level')->default('retailer');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
