@@ -41,6 +41,7 @@ class VerifyCsrfToken
      */
     protected $except = [
         'user/bulk-order/parse-csv',
+        '/checkout/calculate-totals',
     ];
 
     /**

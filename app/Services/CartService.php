@@ -508,12 +508,94 @@ class CartService
     }
 
     /**
-     * Get tax amount
-     * 
+     * Calculate tax for the cart based on billing country and state
+     *
+     * @param int|null $countryId
+     * @param int|null $stateId
      * @return float
      */
-    public function getTaxAmount()
+    public function calculateTax($countryId = null, $stateId = null)
     {
+        $taxTotal = 0;
+        foreach ($this->items as $item) {
+            $product = Product::find($item['product_id']);
+            if (!$product || !$product->tax_class_id) {
+                continue;
+            }
+            $taxClass = $product->taxClass;
+            $rate = 0;
+            if ($taxClass) {
+                $taxRateQuery = $taxClass->taxRates();
+                if ($countryId) {
+                    $taxRateQuery->where('country_id', $countryId);
+                }
+                if ($stateId) {
+                    $taxRateQuery->where('state_id', $stateId);
+                }
+                $taxRate = $taxRateQuery->first();
+                if ($taxRate) {
+                    $rate = $taxRate->rate;
+                } elseif ($taxClass->rate !== null) {
+                    $rate = $taxClass->rate;
+                }
+            }
+            // If no rate found, use 0
+            $lineTax = ($item['total'] - 0) * ($rate / 100);
+            $taxTotal += $lineTax;
+        }
+        return $taxTotal;
+    }
+
+    /**
+     * Calculate shipping for the cart based on shipping country and state
+     *
+     * @param int|null $countryId
+     * @param int|null $stateId
+     * @param int|null $storeShippingMethodId
+     * @return float
+     */
+    public function calculateShipping($countryId = null, $stateId = null, $storeShippingMethodId = null)
+    {
+        $shippingRates = [];
+        if ($countryId) {
+            // Find all shipping zones that include this country
+            $zones = \App\Models\ShippingZone::whereHas('countries', function($q) use ($countryId) {
+                $q->where('countries.id', $countryId);
+            })->get();
+            foreach ($zones as $zone) {
+                foreach ($zone->shippingMethods as $method) {
+                    $shippingRates[] = $method->rate;
+                }
+            }
+        }
+        // Use the lowest rate if any found
+        if (count($shippingRates) > 0) {
+            return min($shippingRates);
+        }
+        // Fallback to StoreSettings shipping_method_id
+        if ($storeShippingMethodId) {
+            $method = \App\Models\ShippingMethod::find($storeShippingMethodId);
+            if ($method) {
+                return $method->rate;
+            }
+        }
+        // If still not found, return 0
+        return 0;
+    }
+
+    /**
+     * Get tax amount (overrides previous logic)
+     *
+     * @param int|null $countryId
+     * @param int|null $stateId
+     * @return float
+     */
+    public function getTaxAmount($countryId = null, $stateId = null)
+    {
+        if ($countryId) {
+            return $this->calculateTax($countryId, $stateId);
+        }
+        // fallback to old logic if no country provided
         $subtotal = $this->getSubtotal();
         $discount = $this->getDiscountTotal();
         return ($subtotal - $discount) * ($this->taxRate / 100);
@@ -540,12 +622,18 @@ class CartService
     }
 
     /**
-     * Get shipping cost
-     * 
+     * Get shipping cost (overrides previous logic)
+     *
+     * @param int|null $countryId
+     * @param int|null $stateId
+     * @param int|null $storeShippingMethodId
      * @return float
      */
-    public function getShippingCost()
+    public function getShippingCost($countryId = null, $stateId = null, $storeShippingMethodId = null)
     {
+        if ($countryId) {
+            return $this->calculateShipping($countryId, $stateId, $storeShippingMethodId);
+        }
         return $this->shippingCost;
     }
 

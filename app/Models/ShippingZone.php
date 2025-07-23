@@ -15,4 +15,9 @@ class ShippingZone extends Model
     {
         return $this->belongsToMany(\App\Models\Country::class, 'country_shipping_zone');
     }
+
+    public function shippingMethods()
+    {
+        return $this->hasMany(\App\Models\ShippingMethod::class);
+    }
 }

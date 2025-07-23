@@ -39,7 +39,11 @@ class CheckoutController extends Controller
             $user->last_name = $nameParts[1] ?? '';
         }
 
-        return view('frontend.checkout.index', compact('cart', 'paymentMethodsArray', 'user'));
+        // Pass all countries and states for dynamic dropdowns
+        $countries = \App\Models\Country::orderBy('name')->get();
+        $states = \App\Models\State::orderBy('name')->get();
+
+        return view('frontend.checkout.index', compact('cart', 'paymentMethodsArray', 'user', 'countries', 'states'));
     }
 
     /**
@@ -437,5 +441,47 @@ class CheckoutController extends Controller
                 'message' => 'An unexpected error occurred. Please try again.'
             ], 500);
         }
+    }
+
+    /**
+     * Calculate tax, shipping, and total dynamically (AJAX)
+     */
+    public function calculateTotals(Request $request)
+    {
+        // Convert ISO2 to ID if needed
+        $billingCountry = $request->input('billing_country');
+        $shippingCountry = $request->input('shipping_country');
+        $billingCountryId = $billingCountry;
+        $shippingCountryId = $shippingCountry;
+        if ($billingCountry && !is_numeric($billingCountry)) {
+            $country = \App\Models\Country::where('iso2', $billingCountry)->first();
+            $billingCountryId = $country ? $country->id : null;
+        }
+        if ($shippingCountry && !is_numeric($shippingCountry)) {
+            $country = \App\Models\Country::where('iso2', $shippingCountry)->first();
+            $shippingCountryId = $country ? $country->id : null;
+        }else{
+            $shippingCountryId = $billingCountryId;
+        }
+        $billingStateId = $request->input('billing_state');
+        $shippingStateId = $request->input('shipping_state');
+        $storeShippingMethodId = setting('shipping_method_id');
+
+        $cartService = app(\App\Services\CartService::class);
+        $cart = $cartService->getSummary();
+        $tax = $cartService->getTaxAmount($billingCountryId, $billingStateId);
+        $shipping = $cartService->getShippingCost($shippingCountryId, $shippingStateId, $storeShippingMethodId);
+        $subtotal = $cart['subtotal'];
+        $discount = $cart['discount'];
+        $total = $subtotal - $discount + $tax + $shipping;
+
+        return response()->json([
+            'success' => true,
+            'tax' => round($tax, 2),
+            'shipping' => round($shipping, 2),
+            'subtotal' => round($subtotal, 2),
+            'discount' => round($discount, 2),
+            'total' => round($total, 2),
+        ]);
     }
 } 

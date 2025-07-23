@@ -2,11 +2,13 @@
 
 namespace App\Filament\Pages\Settings;
 
+use App\Models\ShippingMethod;
 use Closure;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Outerweb\FilamentSettings\Filament\Pages\Settings as BaseSettings;
 
@@ -26,6 +28,14 @@ class StoreSettings extends BaseSettings
                 ->schema([
                     Tabs\Tab::make('General')
                         ->schema([
+                            Section::make('Shipping Settings')
+                                ->description('Shipping settings for your store.')
+                                ->schema([
+                                    Select::make('shipping_method_id')
+                                        ->label('Shipping Method')
+                                        ->options(ShippingMethod::all()->pluck('name', 'id'))
+                                        ->helperText('The shipping method for your store.'),
+                                ]),
                             Section::make('Store Information')
                                 ->description('Basic information about your store.')
                                 ->schema([

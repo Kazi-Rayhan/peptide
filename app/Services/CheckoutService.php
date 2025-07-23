@@ -83,14 +83,30 @@ class CheckoutService
                 ];
             }
 
-            // 2. Create order
+            // 2. Calculate tax and shipping dynamically
+            $billingCountryId = $checkoutData['billing_address']['country'] ?? null;
+            $billingStateId = $checkoutData['billing_address']['state'] ?? null;
+            $shippingCountryId = $checkoutData['shipping_address']['country'] ?? null;
+            $shippingStateId = $checkoutData['shipping_address']['state'] ?? null;
+            $storeShippingMethodId = setting('shipping_method_id');
+
+            $cartService = app(\App\Services\CartService::class);
+            $tax = $cartService->getTaxAmount($billingCountryId, $billingStateId);
+            $shipping = $cartService->getShippingCost($shippingCountryId, $shippingStateId, $storeShippingMethodId);
+
+            // 3. Create order
             $order = $this->createOrder($checkoutData);
             Log::info('Order created', [
                 'order_id' => $order->id ?? 'unknown',
                 'total' => $order->total ?? 'unknown'
             ]);
 
-            // 3. Process payment
+            // 4. Update order with calculated tax and shipping
+            $order->tax_amount = $tax;
+            $order->shipping_amount = $shipping;
+            $order->save();
+
+            // 5. Process payment
             Log::info('Starting payment processing', [
                 'payment_method' => $paymentMethod,
                 'order_id' => $order->id
@@ -121,7 +137,7 @@ class CheckoutService
                 return $paymentResult;
             }
 
-            // 4. Update order with payment info
+            // 6. Update order with payment info
             if ($paymentMethod === 'stripe' && $paymentResult['success']) {
                 $this->updateOrderPaymentInfo($order, [
                     'payment_id' => $paymentResult['payment_id'] ?? null,
@@ -132,16 +148,14 @@ class CheckoutService
                 $this->updateOrderPaymentInfo($order, $paymentResult);
             }
 
-            // 5. Clear cart (only if not PayPal redirect)
+            // 7. Clear cart (only if not PayPal redirect)
             if (!isset($paymentResult['redirect_required']) || !$paymentResult['redirect_required']) {
                 Cart::clear();
-                // 6. Send confirmation emails
+                // 8. Send confirmation emails
                 $this->sendConfirmationEmails($order);
             }
 
             DB::commit();
-
-
 
             return [
                 'success' => true,

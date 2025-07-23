@@ -88,7 +88,7 @@ class RecentOrdersTable extends BaseWidget
                 Tables\Actions\Action::make('view')
                     ->label('View')
                     ->icon('heroicon-o-eye')
-                    ->url(fn (Order $record): string => route('filament.admin.resources.orders.edit', $record))
+                    ->url(fn (Order $record): string => route('filament.admin.resources.orders.view', $record))
                     ->openUrlInNewTab(),
             ])
             ->defaultSort('created_at', 'desc');

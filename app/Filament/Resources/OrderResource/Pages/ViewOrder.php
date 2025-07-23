@@ -265,68 +265,68 @@ class ViewOrder extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('add_discount')
-                ->label('Add Discount')
-                ->icon('heroicon-o-plus-circle')
-                ->form([
-                    \Filament\Forms\Components\TextInput::make('amount')
-                        ->label('Discount Amount')
-                        ->numeric()
-                        ->required()
-                        ->prefix('$')
-                        ->helperText('Enter the discount amount'),
-                    \Filament\Forms\Components\Select::make('type')
-                        ->label('Discount Type')
-                        ->options([
-                            'manual' => 'Manual Discount',
-                            'coupon' => 'Coupon',
-                            'loyalty' => 'Loyalty',
-                            'promotion' => 'Promotion',
-                        ])
-                        ->default('manual')
-                        ->required(),
-                    \Filament\Forms\Components\Textarea::make('reason')
-                        ->label('Reason')
-                        ->helperText('Optional reason for the discount')
-                        ->rows(3),
-                ])
-                ->action(function (array $data): void {
-                    $this->record->discounts()->create([
-                        'amount' => $data['amount'],
-                        'type' => $data['type'],
-                        'reason' => $data['reason'],
-                        'applied_by' => \Filament\Facades\Filament::auth()->id(),
-                    ]);
+            // Action::make('add_discount')
+            //     ->label('Add Discount')
+            //     ->icon('heroicon-o-plus-circle')
+            //     ->form([
+            //         \Filament\Forms\Components\TextInput::make('amount')
+            //             ->label('Discount Amount')
+            //             ->numeric()
+            //             ->required()
+            //             ->prefix('$')
+            //             ->helperText('Enter the discount amount'),
+            //         \Filament\Forms\Components\Select::make('type')
+            //             ->label('Discount Type')
+            //             ->options([
+            //                 'manual' => 'Manual Discount',
+            //                 'coupon' => 'Coupon',
+            //                 'loyalty' => 'Loyalty',
+            //                 'promotion' => 'Promotion',
+            //             ])
+            //             ->default('manual')
+            //             ->required(),
+            //         \Filament\Forms\Components\Textarea::make('reason')
+            //             ->label('Reason')
+            //             ->helperText('Optional reason for the discount')
+            //             ->rows(3),
+            //     ])
+            //     ->action(function (array $data): void {
+            //         $this->record->discounts()->create([
+            //             'amount' => $data['amount'],
+            //             'type' => $data['type'],
+            //             'reason' => $data['reason'],
+            //             'applied_by' => \Filament\Facades\Filament::auth()->id(),
+            //         ]);
 
-                    // Recalculate order total
-                    $this->record->recalculateTotal();
+            //         // Recalculate order total
+            //         $this->record->recalculateTotal();
 
-                    \Filament\Notifications\Notification::make()
-                        ->success()
-                        ->title('Discount added successfully')
-                        ->body('The discount has been added to the order.')
-                        ->send();
-                })
-                ->modalHeading('Add Discount to Order')
-                ->modalDescription('Add a discount to this order. This will be tracked with your user information.')
-                ->modalSubmitActionLabel('Add Discount')
-                ->color('primary'),
-            Action::make('recalculate_total')
-                ->label('Recalculate Total')
-                ->icon('heroicon-o-calculator')
-                ->action(function (): void {
-                    $this->record->recalculateTotal();
-                    \Filament\Notifications\Notification::make()
-                        ->success()
-                        ->title('Order total recalculated')
-                        ->body('The order total has been recalculated.')
-                        ->send();
-                })
-                ->requiresConfirmation()
-                ->modalHeading('Recalculate Order Total')
-                ->modalDescription('This will recalculate the order total based on current order lines and discounts.')
-                ->modalSubmitActionLabel('Recalculate')
-                ->color('warning'),
+            //         \Filament\Notifications\Notification::make()
+            //             ->success()
+            //             ->title('Discount added successfully')
+            //             ->body('The discount has been added to the order.')
+            //             ->send();
+            //     })
+            //     ->modalHeading('Add Discount to Order')
+            //     ->modalDescription('Add a discount to this order. This will be tracked with your user information.')
+            //     ->modalSubmitActionLabel('Add Discount')
+            //     ->color('primary'),
+            // Action::make('recalculate_total')
+            //     ->label('Recalculate Total')
+            //     ->icon('heroicon-o-calculator')
+            //     ->action(function (): void {
+            //         $this->record->recalculateTotal();
+            //         \Filament\Notifications\Notification::make()
+            //             ->success()
+            //             ->title('Order total recalculated')
+            //             ->body('The order total has been recalculated.')
+            //             ->send();
+            //     })
+            //     ->requiresConfirmation()
+            //     ->modalHeading('Recalculate Order Total')
+            //     ->modalDescription('This will recalculate the order total based on current order lines and discounts.')
+            //     ->modalSubmitActionLabel('Recalculate')
+            //     ->color('warning'),
             Action::make('print_invoice')
                 ->label('Print Invoice')
                 ->icon('heroicon-o-printer')
@@ -346,13 +346,13 @@ class ViewOrder extends ViewRecord
                 ->action(function (): void {
                     $this->record->delete();
                 }),
-            EditAction::make('edit')
-                ->label('Edit Order')
-                ->icon('heroicon-o-pencil')
-                ->color('primary')
-                ->action(function (): void {
-                    $this->record->update($this->record->toArray());
-                }),
+            // EditAction::make('edit')
+            //     ->label('Edit Order')
+            //     ->icon('heroicon-o-pencil')
+            //     ->color('primary')
+            //     ->action(function (): void {
+            //         $this->record->update($this->record->toArray());
+            //     }),
         ];
     }
     

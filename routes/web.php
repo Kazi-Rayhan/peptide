@@ -69,6 +69,7 @@ Route::post('/checkout/remove-coupon', [CheckoutController::class, 'removeCoupon
 Route::get('/checkout/summary', [CheckoutController::class, 'getSummary'])->name('checkout.summary');
 Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::post('/checkout/repay/process/{order}', [CheckoutController::class, 'repayProcess'])->name('checkout.repay.process')->middleware('auth');
+Route::post('/checkout/calculate-totals', [App\Http\Controllers\CheckoutController::class, 'calculateTotals'])->name('checkout.calculate-totals');
 
 // PayPal Routes
 Route::get('/paypal/success/{order?}', [PayPalController::class, 'success'])->name('paypal.success');

@@ -1,5 +1,5 @@
 <div class="py-4">
-    @if($getState()->count() > 0)
+    @if( $getState() && $getState()->count() > 0)
         <ul class="relative border-l-2 border-gray-200 pl-8">
             @foreach($getState() as $history)
             <li class="mb-10 flex items-start group">

@@ -87,10 +87,22 @@
                                            value="{{ old('billing_address.city', $user ? $user->city : '') }}">
                                 </div>
                                 <div class="col-md-3 mb-3">
+                                    <label for="billing_country" class="form-label">Country *</label>
+                                    <select class="form-select" id="billing_country" name="billing_address[country]" required>
+                                        <option value="">Select Country</option>
+                                        @foreach($countries as $country)
+                                            <option value="{{ $country->iso2 }}" {{ old('billing_address.country', $user ? $user->country : '') == $country->iso2 ? 'selected' : '' }}>{{ $country->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3">
                                     <label for="billing_state" class="form-label">State *</label>
-                                    <input type="text" class="form-control" id="billing_state" 
-                                           name="billing_address[state]" required 
-                                           value="{{ old('billing_address.state', $user ? $user->state : '') }}">
+                                    <select class="form-select" id="billing_state" name="billing_address[state]" required>
+                                        <option value="">Select State</option>
+                                        @foreach($states as $state)
+                                            <option value="{{ $state->id }}" data-country="{{ $countries->firstWhere('id', $state->country_id)->iso2 ?? '' }}" {{ old('billing_address.state', $user ? $user->state : '') == $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="billing_zip" class="form-label">ZIP Code *</label>
@@ -100,16 +112,6 @@
                                 </div>
                             </div>
                             
-                            <div class="mb-3">
-                                <label for="billing_country" class="form-label">Country *</label>
-                                <select class="form-select" id="billing_country" name="billing_address[country]" required>
-                                    <option value="">Select Country</option>
-                                    <option value="US" {{ old('billing_address.country', $user ? $user->country : '') == 'US' ? 'selected' : '' }}>United States</option>
-                                    <option value="CA" {{ old('billing_address.country', $user ? $user->country : '') == 'CA' ? 'selected' : '' }}>Canada</option>
-                                    <option value="GB" {{ old('billing_address.country', $user ? $user->country : '') == 'GB' ? 'selected' : '' }}>United Kingdom</option>
-                                    <option value="AU" {{ old('billing_address.country', $user ? $user->country : '') == 'AU' ? 'selected' : '' }}>Australia</option>
-                                </select>
-                            </div>
                         </div>
                     </div>
 
@@ -159,10 +161,22 @@
                                                value="{{ old('shipping_address.city', $user ? $user->city : '') }}">
                                     </div>
                                     <div class="col-md-3 mb-3">
+                                        <label for="shipping_country" class="form-label">Country *</label>
+                                        <select class="form-select" id="shipping_country" name="shipping_address[country]">
+                                            <option value="">Select Country</option>
+                                            @foreach($countries as $country)
+                                                <option value="{{ $country->iso2 }}" {{ old('shipping_address.country', $user ? $user->country : '') == $country->iso2 ? 'selected' : '' }}>{{ $country->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
                                         <label for="shipping_state" class="form-label">State *</label>
-                                        <input type="text" class="form-control" id="shipping_state" 
-                                               name="shipping_address[state]" 
-                                               value="{{ old('shipping_address.state', $user ? $user->state : '') }}">
+                                        <select class="form-select" id="shipping_state" name="shipping_address[state]">
+                                            <option value="">Select State</option>
+                                            @foreach($states as $state)
+                                                <option value="{{ $state->id }}" data-country="{{ $countries->firstWhere('id', $state->country_id)->iso2 ?? '' }}" {{ old('shipping_address.state', $user ? $user->state : '') == $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label for="shipping_zip" class="form-label">ZIP Code *</label>
@@ -172,16 +186,6 @@
                                     </div>
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label for="shipping_country" class="form-label">Country *</label>
-                                    <select class="form-select" id="shipping_country" name="shipping_address[country]">
-                                        <option value="">Select Country</option>
-                                        <option value="US" {{ old('shipping_address.country', $user ? $user->country : '') == 'US' ? 'selected' : '' }}>United States</option>
-                                        <option value="CA" {{ old('shipping_address.country', $user ? $user->country : '') == 'CA' ? 'selected' : '' }}>Canada</option>
-                                        <option value="GB" {{ old('shipping_address.country', $user ? $user->country : '') == 'GB' ? 'selected' : '' }}>United Kingdom</option>
-                                        <option value="AU" {{ old('shipping_address.country', $user ? $user->country : '') == 'AU' ? 'selected' : '' }}>Australia</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -296,19 +300,14 @@
                                 </div>
                             @endif
                             
-                            @if($cart['tax'] > 0)
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Tax:</span>
-                                    <span>${{ number_format($cart['tax'], 2) }}</span>
-                                </div>
-                            @endif
-                            
-                            @if($cart['shipping'] > 0)
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Shipping:</span>
-                                    <span>${{ number_format($cart['shipping'], 2) }}</span>
-                                </div>
-                            @endif
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Tax:</span>
+                                <span id="order-tax">${{ number_format($cart['tax'], 2) }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Shipping:</span>
+                                <span id="order-shipping">${{ number_format($cart['shipping'], 2) }}</span>
+                            </div>
                             
                             @if($cart['discount'] > 0)
                                 <div class="d-flex justify-content-between mb-2 text-success">
@@ -321,11 +320,13 @@
                             
                             <div class="d-flex justify-content-between mb-3">
                                 <strong>Total:</strong>
-                                @if(!empty($isRepayment) && isset($order))
-                                    <strong class="price fs-5">${{ number_format($order->total, 2) }}</strong>
-                                @else
-                                    <strong class="price fs-5">${{ number_format($cart['total'], 2) }}</strong>
-                                @endif
+                                <strong class="price fs-5" id="order-total">
+                                    @if(!empty($isRepayment) && isset($order))
+                                        ${{ number_format($order->total, 2) }}
+                                    @else
+                                        ${{ number_format($cart['total'], 2) }}
+                                    @endif
+                                </strong>
                             </div>
 
                             <!-- Place Order Button -->
@@ -656,25 +657,59 @@
         toastElement.show();
     }
 
-    // Initialize form
-    $(document).ready(function() {
-        // Copy billing to shipping on page load if user is logged in and has address data
-        @if($user && $user->address)
-            copyBillingToShipping();
-        @endif
-        
-        // Show/hide payment fields based on selected method
-        const selectedMethod = $('#payment_method').val();
-        if (selectedMethod === 'stripe') {
-            $('#stripe-fields').show();
-        } else if (selectedMethod === 'paypal') {
-            $('#paypal-fields').show();
+    // Filter states by selected country
+    function filterStates(countrySelectId, stateSelectId) {
+        const countryId = $(countrySelectId).val();
+        $(stateSelectId + ' option').each(function() {
+            const stateCountry = $(this).data('country');
+            if (!stateCountry || stateCountry == countryId || $(this).val() === '') {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+        // Reset state selection if not valid
+        if ($(stateSelectId + ' option:selected').is(':hidden')) {
+            $(stateSelectId).val('');
         }
-        
-        // If user is logged in and has address data, show a notification
-        @if($user && $user->address)
-            showToast('Your billing information has been pre-filled from your profile.', 'info');
-        @endif
+    }
+    $('#billing_country').change(function() {
+        filterStates('#billing_country', '#billing_state');
+    });
+    $('#shipping_country').change(function() {
+        filterStates('#shipping_country', '#shipping_state');
+    });
+    // Live update order summary on country/state change
+    function updateOrderSummary() {
+        const billingCountry = $('#billing_country').val();
+        const billingState = $('#billing_state').val();
+        const shippingCountry = $('#shipping_country').val();
+        const shippingState = $('#shipping_state').val();
+        $.ajax({
+            url: '{{ route('checkout.calculate-totals') }}',
+            method: 'POST',
+            data: {
+                billing_country: billingCountry,
+                billing_state: billingState,
+                shipping_country: shippingCountry,
+                shipping_state: shippingState,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#order-tax').text(`$${response.tax.toFixed(2)}`);
+                    $('#order-shipping').text(`$${response.shipping.toFixed(2)}`);
+                    $('#order-total').text(`$${response.total.toFixed(2)}`);
+                }
+            }
+        });
+    }
+    $('#billing_country, #billing_state, #shipping_country, #shipping_state').on('change', updateOrderSummary);
+    // Initial filter on page load
+    $(document).ready(function() {
+        filterStates('#billing_country', '#billing_state');
+        filterStates('#shipping_country', '#shipping_state');
+        updateOrderSummary();
     });
 </script>
 <script>
