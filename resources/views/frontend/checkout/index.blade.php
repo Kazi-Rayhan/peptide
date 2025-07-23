@@ -712,43 +712,4 @@
         updateOrderSummary();
     });
 </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('checkout-form');
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const submitBtn = form.querySelector('button[type="submit"]');
-            if (submitBtn) submitBtn.disabled = true;
-            const formData = new FormData(form);
-            fetch(form.action, {
-                method: 'POST',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-                },
-                body: formData
-            })
-            .then(res => res.json())
-            .then(response => {
-                if (response.redirect_required && response.redirect_url) {
-                    window.location.href = response.redirect_url;
-                } else if (response.redirect_url) {
-                    window.location.href = response.redirect_url;
-                } else if (response.success) {
-                    location.reload();
-                } else {
-                    alert(response.message || 'Payment failed.');
-                }
-            })
-            .catch(() => {
-                alert('An error occurred. Please try again.');
-            })
-            .finally(() => {
-                if (submitBtn) submitBtn.disabled = false;
-            });
-        });
-    }
-});
-</script>
 @endpush 

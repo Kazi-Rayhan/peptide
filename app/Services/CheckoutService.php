@@ -90,6 +90,16 @@ class CheckoutService
             $shippingStateId = $checkoutData['shipping_address']['state'] ?? null;
             $storeShippingMethodId = setting('shipping_method_id');
 
+            // Convert ISO2 to ID if needed
+            if ($billingCountryId && !is_numeric($billingCountryId)) {
+                $country = \App\Models\Country::where('iso2', $billingCountryId)->first();
+                $billingCountryId = $country ? $country->id : null;
+            }
+            if ($shippingCountryId && !is_numeric($shippingCountryId)) {
+                $country = \App\Models\Country::where('iso2', $shippingCountryId)->first();
+                $shippingCountryId = $country ? $country->id : null;
+            }
+
             $cartService = app(\App\Services\CartService::class);
             $tax = $cartService->getTaxAmount($billingCountryId, $billingStateId);
             $shipping = $cartService->getShippingCost($shippingCountryId, $shippingStateId, $storeShippingMethodId);
@@ -104,6 +114,7 @@ class CheckoutService
             // 4. Update order with calculated tax and shipping
             $order->tax_amount = $tax;
             $order->shipping_amount = $shipping;
+            $order->total = $order->total + $order->tax_amount + $order->shipping_amount;
             $order->save();
 
             // 5. Process payment
@@ -903,7 +914,7 @@ class CheckoutService
 
             // Prepare order data for PayPal
             $orderData = [
-                'total' => $order->total,
+                'total' => $order->total  ,
                 'order_id' => $order->id,
                 'order_number' => 'ORD-' . str_pad($order->id, 6, '0', STR_PAD_LEFT),
                 'return_url' => route('paypal.success', ['order' => $order->id]),
