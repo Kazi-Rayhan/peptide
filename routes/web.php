@@ -163,7 +163,7 @@ Route::get('/test-bulk-order-payment/{order}', function (Order $order) {
         'billing_address' => $order->billing_address,
         'shipping_address' => $order->shipping_address
     ]);
-
+//only for test
     return response()->json([
         'order_id' => $order->id,
         'total' => $order->total,
