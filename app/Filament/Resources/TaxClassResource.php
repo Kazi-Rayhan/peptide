@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ShippingMethodResource\Pages;
-use App\Filament\Resources\ShippingMethodResource\RelationManagers;
-use App\Models\ShippingMethod;
+use App\Filament\Resources\TaxClassResource\Pages;
+use App\Filament\Resources\TaxClassResource\RelationManagers;
+use App\Models\TaxClass;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,30 +13,22 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ShippingMethodResource extends Resource
+class TaxClassResource extends Resource
 {
-    protected static ?string $model = ShippingMethod::class;
+    protected static ?string $model = TaxClass::class;
 
     // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Settings';
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('shipping_zone_id')
-                    ->relationship('shippingZone', 'name')
-                    ->required(),
                 Forms\Components\TextInput::make('name')->required()->maxLength(255),
-                Forms\Components\Select::make('type')
-                    ->options([
-                        'flat_rate' => 'Flat Rate',
-                        'free_shipping' => 'Free Shipping',
-                        'local_pickup' => 'Local Pickup',
-                    ])->required(),
-                Forms\Components\TextInput::make('rate')->numeric()->nullable(),
+                Forms\Components\Textarea::make('description')->maxLength(65535),
+                Forms\Components\TextInput::make('rate')->required()->numeric()->minValue(0)->maxValue(100)->suffix('%'),
             ]);
     }
 
@@ -44,10 +36,9 @@ class ShippingMethodResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('shippingZone.name')->label('Shipping Zone')->sortable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('type'),
-                Tables\Columns\TextColumn::make('rate'),
+                Tables\Columns\TextColumn::make('description')->limit(50),
+                Tables\Columns\TextColumn::make('rate')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
             ])
             ->filters([
@@ -73,9 +64,9 @@ class ShippingMethodResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListShippingMethods::route('/'),
-            'create' => Pages\CreateShippingMethod::route('/create'),
-            'edit' => Pages\EditShippingMethod::route('/{record}/edit'),
+            'index' => Pages\ListTaxClasses::route('/'),
+            'create' => Pages\CreateTaxClass::route('/create'),
+            'edit' => Pages\EditTaxClass::route('/{record}/edit'),
         ];
     }
 }

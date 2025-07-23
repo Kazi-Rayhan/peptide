@@ -76,6 +76,10 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Settings')
                     ->icon('heroicon-o-cog-6-tooth')
                     ->collapsed(),
+                NavigationGroup::make()
+                    ->label('Geography')
+                    ->icon('heroicon-o-globe-alt')
+                    ->collapsed(),
             ])
             ->middleware([
                 EncryptCookies::class,

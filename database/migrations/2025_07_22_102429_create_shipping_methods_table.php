@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('shipping_methods', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('shipping_zone_id')->constrained('shipping_zones')->onDelete('cascade');
             $table->string('name');
+            $table->string('type');
+            $table->decimal('rate', 10, 2)->nullable();
             $table->timestamps();
         });
     }

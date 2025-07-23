@@ -17,6 +17,7 @@ class Product extends Model
         'slug',
         'description',
         'category_id',
+        'tax_class_id',
         'price',
         'sale_price',
         'is_featured',
@@ -47,6 +48,11 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function taxClass()
+    {
+        return $this->belongsTo(\App\Models\TaxClass::class);
     }
 
     /**

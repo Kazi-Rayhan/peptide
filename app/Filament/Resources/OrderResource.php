@@ -787,7 +787,7 @@ class OrderResource extends Resource
 
     public static function getPages(): array
     {
-        return [
+        return [    
             'index' => Pages\ListOrders::route('/'),
             // 'create' => Pages\CreateOrder::route('/create'),
             'view' => Pages\ViewOrder::route('/{record}'),

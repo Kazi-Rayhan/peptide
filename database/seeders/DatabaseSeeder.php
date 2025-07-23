@@ -14,10 +14,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
      
-
+        
         $this->call([
+            CountrySeeder::class,
             RoleTableSeeder::class,
             UserTableSeeder::class,
+            TaxClassSeeder::class,
+            TaxRateSeeder::class,
             // EternaReadsSeeder::class, 
             // BrandSeeder::class,
             CategorySeeder::class,
@@ -25,7 +28,7 @@ class DatabaseSeeder extends Seeder
             // OrderSeeder::class,
             // OrderHistorySeeder::class,
             CouponSeeder::class,
-            ShippingMethodSeeder::class,
+            // ShippingMethodSeeder::class,
             SettingsSeeder::class,
             PermissionSeeder::class,
             BlogCategorySeeder::class,
@@ -33,6 +36,10 @@ class DatabaseSeeder extends Seeder
             SliderSeeder::class,
             FaqSeeder::class,
             MenuSeeder::class,
+         
+            ShippingZoneSeeder::class,
+            CountryShippingZoneSeeder::class,
+            ShippingMethodSeeder::class,
         ]);
     }
 }

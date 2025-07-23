@@ -134,51 +134,7 @@ Route::middleware(['auth', 'wholesaler'])->prefix('user/bulk-order')->group(func
 });
 
 
-// test routes for email notifications
-// Uncomment these routes to test email notifications
-// Route::get('/test/order-confirmation/{order}', function (Order $order) {
-//     return new OrderConfirmation($order);
-// });
 
-// Route::get('/test/order-cancellation/{order}', function (Order $order) {
-//     return new OrderCancellation($order, 'Customer cancelled due to delay');
-// });
-
-
-// Route::get('/test/order-refund/{order}', function (Order $order) {
-//     return new OrderRefund($order, 50.00, 'Partial refund issued');
-// });
-
-// Route::get('/test/order-status-update/{order}', function (Order $order) {
-//     return new OrderStatusUpdate($order, 'processing', 'shipped');
-// });
-
-
-// Route::get('/test/new-order-notification/{order}', function (Order $order) {
-//     $billing = $order->billing_address ?? [];
-//     $shipping = $order->shipping_address ?? [];
-
-//     return view('emails.admin.new-order', [
-//         'order'           => $order,
-//         'orderNumber'     => $order->order_number,
-//         'orderDate'       => $order->created_at->format('F j, Y'),
-//         'total'           => number_format($order->total, 2),
-//         'itemCount'       => $order->orderLines->count(),
-//         'paymentMethod'   => $order->payment_method,
-//         'customerName'    => $billing['first_name'] . ' ' . $billing['last_name'],
-//         'customerEmail'   => $billing['email'] ?? '',
-//         'customerPhone'   => $billing['phone'] ?? '',
-//         'billingAddress'  => $billing,
-//         'shippingAddress' => $shipping,
-//         'items'           => $order->orderLines,
-//         'adminUrl'        => url('/admin/orders/' . $order->id),
-//     ]);
-// });
-
-// Route::get('/send-test-new-order/{order}', function (Order $order) {
-//     Mail::to('test@example.com')->send(new NewOrderNotification($order));
-//     return 'New order notification email sent!';
-// });
 
 Route::get('/test-welcome-email', function () {
     $user = Auth::user() ?? \App\Models\User::first(); // fallback to first user

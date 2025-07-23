@@ -44,7 +44,12 @@ class ProductResource extends Resource
                                 ->searchable()
                                 ->nullable()
                                 ->helperText('Assign a category for better organization.'),
-                          
+                           Forms\Components\Select::make('tax_class_id')
+                               ->label('Tax Class')
+                               ->relationship('taxClass', 'name')
+                            //    ->searchable()
+                               ->nullable()
+                               ->helperText('Assign a tax class for this product.'),
                             Forms\Components\Select::make('status')
                                 ->options([
                                     'draft' => 'Draft',
@@ -133,7 +138,7 @@ class ProductResource extends Resource
                         ->schema([
                             Forms\Components\TextInput::make('meta_title')->label('Meta Title')->maxLength(255),
                             Forms\Components\Textarea::make('meta_description')->label('Meta Description'),
-                            Forms\Components\TextInput::make('meta_keywords')->label('Meta Keywords')->maxLength(255),
+                            Forms\Components\TextInput::make('meta_keywords')->label('Meta Keywords'),
                             Forms\Components\TextInput::make('tags')->label('Tags')
                                 ->helperText('Enter tags separated by commas.'),
                         ]),
@@ -148,6 +153,7 @@ class ProductResource extends Resource
         return $table->columns([
             Tables\Columns\ImageColumn::make('thumbnail')->label('Thumbnail')->size(40),
             Tables\Columns\TextColumn::make('name')->searchable(),
+            Tables\Columns\TextColumn::make('taxClass.name')->label('Tax Class')->sortable(),
             Tables\Columns\TextColumn::make('variants')
                 ->label('Variants')
                 ->formatStateUsing(function ($state, $record) {

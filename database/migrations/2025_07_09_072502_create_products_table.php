@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
             $table->text('meta_keywords')->nullable();
+            $table->foreignId('tax_class_id')->nullable()->constrained('tax_classes')->nullOnDelete();
             $table->timestamps();
         });
     }
