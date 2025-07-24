@@ -132,6 +132,7 @@ Route::middleware(['auth', 'wholesaler'])->prefix('user/bulk-order')->group(func
     Route::get('download-example-csv', [BulkOrderController::class, 'downloadExampleCsv'])->name('bulk-order.downloadExampleCsv');
     Route::post('parse-csv', [BulkOrderController::class, 'parseCsv'])->name('bulk-order.parseCsv');
     Route::post('submit', [BulkOrderController::class, 'submit'])->name('bulk-order.submit');
+    Route::post('calculate-totals', [BulkOrderController::class, 'calculateTotals'])->name('bulk-order.calculate-totals');
 });
 
 

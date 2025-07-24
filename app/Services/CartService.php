@@ -523,6 +523,7 @@ class CartService
                 continue;
             }
             $taxClass = $product->taxClass;
+            
             $rate = 0;
             if ($taxClass) {
                 $taxRateQuery = $taxClass->taxRates();

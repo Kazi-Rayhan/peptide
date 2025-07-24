@@ -22,7 +22,7 @@
                         <h5 class="mb-0"><i class="bi bi-file-earmark-spreadsheet"></i> Upload CSV</h5>
                     </div>
                     <div class="card-body">
-                        <form id="csv-upload-form" enctype="multipart/form-data">
+                        <form  method="post" action="{{route('bulk-order.parseCsv')}}"  enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="csv_file" class="form-label">Select CSV File</label>
@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-
+        {{-- 
         <!-- Product Preview Table -->
         <div class="row mb-4" id="product-preview-section" style="display:none;">
             <div class="col-lg-8">
@@ -95,67 +95,59 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="billing_first_name" class="form-label">First Name *</label>
                                     <input type="text" class="form-control" id="billing_first_name"
-                                        name="billing[first_name]" required
-                                        value="{{ old('billing.first_name', $user->first_name ?? '') }}">
+                                        name="billing_address[first_name]" required
+                                        value="{{ old('billing_address.first_name', $user->first_name ?? '') }}">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="billing_last_name" class="form-label">Last Name *</label>
                                     <input type="text" class="form-control" id="billing_last_name"
-                                        name="billing[last_name]" required
-                                        value="{{ old('billing.last_name', $user->last_name ?? '') }}">
+                                        name="billing_address[last_name]" required
+                                        value="{{ old('billing_address.last_name', $user->last_name ?? '') }}">
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="billing_email" class="form-label">Email Address *</label>
-                                <input type="email" class="form-control" id="billing_email" name="billing[email]" required
-                                    value="{{ old('billing.email', $user->email ?? '') }}">
+                                <input type="email" class="form-control" id="billing_email" name="billing_address[email]" required
+                                    value="{{ old('billing_address.email', $user->email ?? '') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="billing_phone" class="form-label">Phone Number *</label>
-                                <input type="tel" class="form-control" id="billing_phone" name="billing[phone]" required
-                                    value="{{ old('billing.phone', $user->phone ?? '') }}">
+                                <input type="tel" class="form-control" id="billing_phone" name="billing_address[phone]" required
+                                    value="{{ old('billing_address.phone', $user->phone ?? '') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="billing_address" class="form-label">Address *</label>
-                                <input type="text" class="form-control" id="billing_address" name="billing[address]"
-                                    required value="{{ old('billing.address', $user->address ?? '') }}">
+                                <input type="text" class="form-control" id="billing_address" name="billing_address[address]"
+                                    required value="{{ old('billing_address.address', $user->address ?? '') }}">
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="billing_city" class="form-label">City *</label>
-                                    <input type="text" class="form-control" id="billing_city" name="billing[city]"
-                                        required value="{{ old('billing.city', $user->city ?? '') }}">
+                                    <input type="text" class="form-control" id="billing_city" name="billing_address[city]"
+                                        required value="{{ old('billing_address.city', $user->city ?? '') }}">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="billing_state" class="form-label">State *</label>
-                                    <input type="text" class="form-control" id="billing_state" name="billing[state]"
-                                        required value="{{ old('billing.state', $user->state ?? '') }}">
+                                    <select class="form-select" id="billing_state" name="billing_address[state]" required>
+                                        <option value="">Select State</option>
+                                        @foreach ($states as $state)
+                                            <option value="{{ $state->id }}" data-country="{{ $countries->firstWhere('id', $state->country_id)->iso2 ?? '' }}" {{ old('billing_address.state', $user->state ?? '') == $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="billing_zip" class="form-label">ZIP Code *</label>
-                                    <input type="text" class="form-control" id="billing_zip" name="billing[zip]"
-                                        required value="{{ old('billing.zip', $user->zip ?? '') }}">
+                                    <input type="text" class="form-control" id="billing_zip" name="billing_address[zip]"
+                                        required value="{{ old('billing_address.zip', $user->zip ?? '') }}">
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="billing_country" class="form-label">Country *</label>
-                                <select class="form-select" id="billing_country" name="billing[country]" required>
+                                <select class="form-select" id="billing_country" name="billing_address[country]" required>
                                     <option value="">Select Country</option>
-                                    <option value="US"
-                                        {{ old('billing.country', $user->country ?? '') == 'US' ? 'selected' : '' }}>United
-                                        States</option>
-                                    <option value="CA"
-                                        {{ old('billing.country', $user->country ?? '') == 'CA' ? 'selected' : '' }}>Canada
-                                    </option>
-                                    <option value="GB"
-                                        {{ old('billing.country', $user->country ?? '') == 'GB' ? 'selected' : '' }}>United
-                                        Kingdom</option>
-                                    <option value="AU"
-                                        {{ old('billing.country', $user->country ?? '') == 'AU' ? 'selected' : '' }}>
-                                        Australia</option>
-                                    <option value="EG"
-                                        {{ old('billing.country', $user->country ?? '') == 'EG' ? 'selected' : '' }}>Egypt
-                                    </option>
+                                    @foreach ($countries as $country)
+                                        <option value="{{ $country->iso2 }}" {{ old('billing_address.country', $user->country ?? '') == $country->iso2 ? 'selected' : '' }}>{{ $country->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -178,45 +170,47 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="shipping_first_name" class="form-label">First Name *</label>
                                         <input type="text" class="form-control" id="shipping_first_name"
-                                            name="shipping[first_name]">
+                                            name="shipping_address[first_name]">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="shipping_last_name" class="form-label">Last Name *</label>
                                         <input type="text" class="form-control" id="shipping_last_name"
-                                            name="shipping[last_name]">
+                                            name="shipping_address[last_name]">
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="shipping_address" class="form-label">Address *</label>
                                     <input type="text" class="form-control" id="shipping_address"
-                                        name="shipping[address]">
+                                        name="shipping_address[address]">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="shipping_city" class="form-label">City *</label>
                                         <input type="text" class="form-control" id="shipping_city"
-                                            name="shipping[city]">
+                                            name="shipping_address[city]">
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label for="shipping_state" class="form-label">State *</label>
-                                        <input type="text" class="form-control" id="shipping_state"
-                                            name="shipping[state]">
+                                        <select class="form-select" id="shipping_state" name="shipping_address[state]">
+                                            <option value="">Select State</option>
+                                            @foreach ($states as $state)
+                                                <option value="{{ $state->id }}" data-country="{{ $countries->firstWhere('id', $state->country_id)->iso2 ?? '' }}">{{ $state->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label for="shipping_zip" class="form-label">ZIP Code *</label>
                                         <input type="text" class="form-control" id="shipping_zip"
-                                            name="shipping[zip]">
+                                            name="shipping_address[zip]">
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="shipping_country" class="form-label">Country *</label>
-                                    <select class="form-select" id="shipping_country" name="shipping[country]">
+                                    <select class="form-select" id="shipping_country" name="shipping_address[country]">
                                         <option value="">Select Country</option>
-                                        <option value="US">United States</option>
-                                        <option value="CA">Canada</option>
-                                        <option value="GB">United Kingdom</option>
-                                        <option value="AU">Australia</option>
-                                        <option value="EG">Egypt</option>
+                                        @foreach ($countries as $country)
+                                            <option value="{{ $country->iso2 }}">{{ $country->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -231,7 +225,7 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="payment_method" class="form-label">Payment Method *</label>
-                                <select class="form-select" id="payment_method" name="payment" required>
+                                <select class="form-select" id="payment_method" name="payment_method" required>
                                     <option value="">Select Payment Method</option>
                                     @foreach ($paymentMethodsArray as $id => $name)
                                         <option value="{{ $id }}">{{ $name }}</option>
@@ -243,9 +237,7 @@
                             <div id="stripe-fields" style="display: none;">
                                 <div class="mb-3">
                                     <label for="card-element" class="form-label">Card Information *</label>
-                                    <div id="card-element" class="form-control" style="height: 40px; padding: 10px;">
-                                        <!-- Stripe Elements will be inserted here -->
-                                    </div>
+                                    <div id="card-element" class="form-control" style="height: 40px; padding: 10px;"></div>
                                     <div id="card-errors" class="invalid-feedback" role="alert"></div>
                                 </div>
                                 <input type="hidden" id="payment_token" name="payment_token">
@@ -346,438 +338,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
-
-@push('scripts')
-    <!-- Stripe.js -->
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
-        // Check if Stripe loaded properly
-        window.addEventListener('load', function() {
-            if (typeof Stripe === 'undefined') {
-                console.error('Stripe failed to load');
-                $('#fallback-payment-fields').show();
-            } else {
-                console.log('Stripe loaded successfully');
-            }
-        });
-
-        // Initialize Stripe with error handling
-        let stripe = null;
-        let elements = null;
-        let cardElement = null;
-
-        try {
-            if (typeof Stripe !== 'undefined') {
-                const stripeKey = '{{ setting('payments.stripe_publishable_key') }}';
-                if (!stripeKey) {
-                    console.error('Stripe publishable key not configured');
-                    $('#fallback-payment-fields').show();
-                } else {
-                    stripe = Stripe(stripeKey);
-                    elements = stripe.elements();
-                    cardElement = elements.create('card', {
-                        style: {
-                            base: {
-                                fontSize: '16px',
-                                color: '#424770',
-                                '::placeholder': {
-                                    color: '#aab7c4'
-                                },
-                            },
-                            invalid: {
-                                color: '#9e2146'
-                            },
-                        },
-                    });
-                    cardElement.mount('#card-element');
-                    console.log('Stripe card element created and mounted');
-                }
-            } else {
-                console.error('Stripe library not available');
-                $('#fallback-payment-fields').show();
-            }
-        } catch (error) {
-            console.error('Failed to initialize Stripe:', error);
-            $('#fallback-payment-fields').show();
-        }
-
-        // Handle real-time validation errors
-        if (cardElement) {
-            cardElement.on('change', function(event) {
-                const displayError = document.getElementById('card-errors');
-                if (event.error) {
-                    displayError.textContent = event.error.message;
-                    displayError.style.display = 'block';
-                } else {
-                    displayError.textContent = '';
-                    displayError.style.display = 'none';
-                }
-            });
-        }
-
-        // AJAX CSV upload and preview
-        $('#csv-upload-form').on('submit', function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            var btn = $(this).find('button[type="submit"]');
-            btn.prop('disabled', true).html(
-                '<span class="spinner-border spinner-border-sm me-1"></span>Uploading...');
-            $('#csv-upload-message').html('');
-
-            $.ajax({
-                url: '{{ route('bulk-order.parseCsv') }}',
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    btn.prop('disabled', false).html('<i class="bi bi-upload"></i> Upload & Preview');
-                    if (response.products && response.products.length > 0) {
-                        var tbody = '';
-                        var total = 0;
-                        var validCount = 0;
-                        var validProducts = [];
-
-                        response.products.forEach(function(item) {
-                            tbody += '<tr>' +
-                                '<td>' + (item.sku || '') + '</td>' +
-                                '<td>' + (item.name || '-') + '</td>' +
-                                '<td>$' + (item.price ? item.price.toFixed(2) : '-') + '</td>' +
-                                '<td>' + (item.quantity || '-') + '</td>' +
-                                '<td>$' + (item.subtotal ? item.subtotal.toFixed(2) : '-') +
-                                '</td>' +
-                                '<td>' + (item.error ? '<span class="text-danger">' + item
-                                    .error + '</span>' : '<span class="text-success">OK</span>'
-                                    ) + '</td>' +
-                                '</tr>';
-                            if (!item.error) {
-                                total += item.subtotal;
-                                validCount++;
-                                validProducts.push(item);
-                            }
-                        });
-
-                        $('#product-preview-table tbody').html(tbody);
-                        $('#product-preview-total').text(total.toFixed(2));
-                        $('#product-preview-section').show();
-                        $('#bulk-order-form-section').show();
-                        $('#products-json').val(JSON.stringify(validProducts));
-
-                        // Update order summary
-                        updateOrderSummary(validProducts);
-
-                        $('#csv-upload-message').html(
-                            '<span class="text-success">Products loaded. Please review and complete your order below.</span>'
-                            );
-                        $('#place-order-btn').prop('disabled', validCount === 0);
-                    } else {
-                        $('#csv-upload-message').html(
-                            '<span class="text-danger">No valid products found in CSV.</span>');
-                        $('#product-preview-section').hide();
-                        $('#bulk-order-form-section').hide();
-                    }
-                },
-                error: function(xhr) {
-                    btn.prop('disabled', false).html('<i class="bi bi-upload"></i> Upload & Preview');
-                    $('#csv-upload-message').html(
-                        '<span class="text-danger">Failed to parse CSV. Please check your file.</span>'
-                        );
-                    $('#product-preview-section').hide();
-                    $('#bulk-order-form-section').hide();
-                }
-            });
-        });
-
-        // Update order summary
-        function updateOrderSummary(products) {
-            var subtotal = products.reduce(function(sum, item) {
-                return sum + item.subtotal;
-            }, 0);
-            var tax = subtotal * 0.08; // 8% tax
-            var shipping = subtotal > 100 ? 0 : 10; // Free shipping over $100
-            var total = subtotal + tax + shipping;
-
-            var itemsHtml = '';
-            products.forEach(function(item) {
-                itemsHtml += '<div class="d-flex justify-content-between align-items-center mb-2">' +
-                    '<div><h6 class="mb-0">' + item.name + '</h6><small class="text-muted">Qty: ' + item.quantity +
-                    '</small></div>' +
-                    '<span>$' + item.subtotal.toFixed(2) + '</span></div>';
-            });
-
-            $('#order-items').html(itemsHtml);
-            $('#order-subtotal').text('$' + subtotal.toFixed(2));
-            $('#order-tax').text('$' + tax.toFixed(2));
-            $('#order-shipping').text('$' + shipping.toFixed(2));
-            $('#order-total').text('$' + total.toFixed(2));
-        }
-
-        // Same as billing toggle
-        $('#same_as_billing').on('change', function() {
-            if (this.checked) {
-                $('#shipping-fields').hide();
-                copyBillingToShipping();
-            } else {
-                $('#shipping-fields').show();
-            }
-        });
-
-        // Copy billing to shipping
-        function copyBillingToShipping() {
-            $('#shipping_first_name').val($('#billing_first_name').val());
-            $('#shipping_last_name').val($('#billing_last_name').val());
-            $('#shipping_address').val($('#billing_address').val());
-            $('#shipping_city').val($('#billing_city').val());
-            $('#shipping_state').val($('#billing_state').val());
-            $('#shipping_zip').val($('#billing_zip').val());
-            $('#shipping_country').val($('#billing_country').val());
-        }
-
-        // On billing field change, update shipping if same as billing
-        $('#bulk-order-form input').on('input', function() {
-            if ($('#same_as_billing').is(':checked')) {
-                copyBillingToShipping();
-            }
-        });
-
-        // Payment method toggle
-        $('#payment_method').change(function() {
-            const method = $(this).val();
-            $('#stripe-fields, #paypal-fields, #fallback-payment-fields').hide();
-
-            if (method === 'stripe') {
-                if (stripe && cardElement) {
-                    $('#stripe-fields').show();
-                } else {
-                    $('#fallback-payment-fields').show();
-                }
-            } else if (method === 'paypal') {
-                $('#paypal-fields').show();
-            }
-        });
-
-        // Form validation and submission
-        $('#bulk-order-form').submit(function(e) {
-            e.preventDefault();
-
-            const submitBtn = $('#place-order-btn');
-            const originalText = submitBtn.html();
-            const paymentMethod = $('#payment_method').val();
-
-            // Show loading state
-            submitBtn.html('<i class="bi bi-hourglass-split"></i> Processing...');
-            submitBtn.prop('disabled', true);
-
-            // Basic validation
-            const requiredFields = [
-                'billing_first_name', 'billing_last_name', 'billing_email', 'billing_phone',
-                'billing_address', 'billing_city', 'billing_state', 'billing_zip', 'billing_country',
-                'payment_method'
-            ];
-
-            let isValid = true;
-            requiredFields.forEach(field => {
-                const value = $(`#${field}`).val().trim();
-                if (!value) {
-                    $(`#${field}`).addClass('is-invalid');
-                    isValid = false;
-                } else {
-                    $(`#${field}`).removeClass('is-invalid');
-                }
-            });
-
-            // Check if shipping is different from billing
-            if (!$('#same_as_billing').is(':checked')) {
-                const shippingFields = [
-                    'shipping_first_name', 'shipping_last_name', 'shipping_address',
-                    'shipping_city', 'shipping_state', 'shipping_zip', 'shipping_country'
-                ];
-
-                shippingFields.forEach(field => {
-                    const value = $(`#${field}`).val().trim();
-                    if (!value) {
-                        $(`#${field}`).addClass('is-invalid');
-                        isValid = false;
-                    } else {
-                        $(`#${field}`).removeClass('is-invalid');
-                    }
-                });
-            }
-
-            if (!isValid) {
-                showToast('Please fill in all required fields', 'warning');
-                submitBtn.html(originalText);
-                submitBtn.prop('disabled', false);
-                return false;
-            }
-
-            // If same as billing, copy billing to shipping
-            if ($('#same_as_billing').is(':checked')) {
-                copyBillingToShipping();
-            }
-
-            // Handle payment based on method
-            if (paymentMethod === 'stripe') {
-                if (!stripe || !cardElement) {
-                    showToast('Stripe payment is not available. Please try another payment method.', 'error');
-                    submitBtn.html(originalText);
-                    submitBtn.prop('disabled', false);
-                    return false;
-                }
-
-                // Create payment method with Stripe
-                stripe.createPaymentMethod({
-                    type: 'card',
-                    card: cardElement,
-                    billing_details: {
-                        name: $('#billing_first_name').val() + ' ' + $('#billing_last_name').val(),
-                        email: $('#billing_email').val(),
-                        phone: $('#billing_phone').val(),
-                        address: {
-                            line1: $('#billing_address').val(),
-                            city: $('#billing_city').val(),
-                            state: $('#billing_state').val(),
-                            postal_code: $('#billing_zip').val(),
-                            country: $('#billing_country').val()
-                        }
-                    }
-                }).then(function(result) {
-                    if (result.error) {
-                        const errorElement = document.getElementById('card-errors');
-                        errorElement.textContent = result.error.message;
-                        errorElement.style.display = 'block';
-
-                        submitBtn.html(originalText);
-                        submitBtn.prop('disabled', false);
-                        showToast('Payment error: ' + result.error.message, 'error');
-                    } else {
-                        $('#payment_token').val(result.paymentMethod.id);
-                        submitBulkOrder();
-                    }
-                }).catch(function(error) {
-                    console.error('Stripe payment method creation failed:', error);
-                    showToast('Payment method creation failed: ' + error.message, 'error');
-                    submitBtn.html(originalText);
-                    submitBtn.prop('disabled', false);
-                });
-            } else {
-                // For PayPal and other payment methods
-                $('#payment_token').val('paypal_payment');
-                submitBulkOrder();
-            }
-        });
-
-        // Submit bulk order
-        function submitBulkOrder() {
-            const formData = new FormData($('#bulk-order-form')[0]);
-
-            $.ajax({
-                url: '{{ route('bulk-order.submit') }}',
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    console.log('=== BULK ORDER SUBMISSION DEBUG ===');
-                    console.log('Response:', response);
-                    console.log('Response type:', typeof response);
-                    console.log('Response keys:', Object.keys(response));
-                    console.log('redirect_required:', response.redirect_required);
-                    console.log('redirect_url:', response.redirect_url);
-                    console.log('=== END DEBUG ===');
-
-                    if (response.redirect_required && response.redirect_url) {
-                        console.log('PayPal redirect required, URL:', response.redirect_url);
-                        showToast('Redirecting to PayPal...', 'info');
-                        setTimeout(function() {
-                            window.location.href = response.redirect_url;
-                        }, 1000);
-                    } else if (response.redirect_url) {
-                        showToast('Order placed successfully!', 'success');
-                        setTimeout(function() {
-                            window.location.href = response.redirect_url;
-                        }, 1500);
-                    } else {
-                        showToast('Order placed successfully!', 'success');
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('=== BULK ORDER SUBMISSION ERROR ===');
-                    console.error('Status:', status);
-                    console.error('Error:', error);
-                    console.error('Response Text:', xhr.responseText);
-                    console.error('Response JSON:', xhr.responseJSON);
-                    console.error('=== END ERROR DEBUG ===');
-
-                    let message = 'Failed to place order. Please check your details and try again.';
-                    if (xhr.responseJSON && xhr.responseJSON.message) {
-                        message = xhr.responseJSON.message;
-                    }
-
-                    showToast(message, 'error');
-                    $('#place-order-btn').html('<i class="bi bi-check-circle"></i> Place Bulk Order');
-                    $('#place-order-btn').prop('disabled', false);
-                }
-            });
-        }
-
-        // Toast notification function
-        function showToast(message, type = 'info') {
-            const toastClass = type === 'success' ? 'bg-success' :
-                type === 'error' ? 'bg-danger' :
-                type === 'warning' ? 'bg-warning' : 'bg-info';
-
-            const toast = `
-        <div class="toast align-items-center text-white ${toastClass} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body">
-                    ${message}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
-    `;
-
-            // Remove existing toasts
-            $('.toast').remove();
-
-            // Add new toast
-            $('body').append(toast);
-
-            // Show toast
-            const toastElement = new bootstrap.Toast(document.querySelector('.toast'));
-            toastElement.show();
-        }
-
-        // Initialize form
-        $(document).ready(function() {
-            // Copy billing to shipping on page load if user has address data
-            @if ($user && $user->address)
-                copyBillingToShipping();
-            @endif
-
-            // Show/hide payment fields based on selected method
-            const selectedMethod = $('#payment_method').val();
-            if (selectedMethod === 'stripe') {
-                if (stripe && cardElement) {
-                    $('#stripe-fields').show();
-                } else {
-                    $('#fallback-payment-fields').show();
-                }
-            } else if (selectedMethod === 'paypal') {
-                $('#paypal-fields').show();
-            }
-
-            // If user is logged in and has address data, show a notification
-            @if ($user && $user->address)
-                showToast('Your billing information has been pre-filled from your profile.', 'info');
-            @endif
-        });
-    </script>
-@endpush

@@ -10,6 +10,10 @@ use App\Services\BulkOrderService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Stripe\Stripe;
+use App\Facades\Cart;
+use App\Facades\Checkout;
+use App\Models\Product;
+use App\Services\CartService;
 
 class BulkOrderController extends Controller
 {
@@ -29,7 +33,20 @@ class BulkOrderController extends Controller
             'csv_file' => 'required|file|mimes:csv,txt',
         ]);
         $result = $service->parseCsv($request->file('csv_file'));
-        return response()->json($result);
+
+        foreach ($result['products'] as  $data) {
+
+            $product = Product::where('sku', $data['sku'])->first();
+          
+            Cart::add(
+                $product->id,
+                $data['quantity'],
+                null,
+                null, // will be null for simple products
+                $data['type'] // new parameter for unit/kit selection
+            );
+        }
+        return redirect()->route('checkout.index');
     }
 
     public function showForm()
@@ -47,7 +64,10 @@ class BulkOrderController extends Controller
             $user->first_name = $nameParts[0] ?? '';
             $user->last_name = $nameParts[1] ?? '';
         }
-        return view('user.bulk-order', compact('paymentMethodsArray', 'user'));
+        // Fetch countries and states for dropdowns
+        $countries = \App\Models\Country::orderBy('name')->get();
+        $states = \App\Models\State::orderBy('name')->get();
+        return view('user.bulk-order', compact('paymentMethodsArray', 'user', 'countries', 'states'));
     }
 
     public function submit(Request $request, BulkOrderService $service)
@@ -57,7 +77,7 @@ class BulkOrderController extends Controller
             'request_data' => $request->except(['products']), // Exclude products for brevity
             'has_products' => $request->has('products'),
             'products_type' => gettype($request->input('products')),
-            'payment_method' => $request->input('payment')
+            'payment_method' => $request->input('payment_method')
         ]);
 
         // Decode products JSON string to array if needed
@@ -73,150 +93,85 @@ class BulkOrderController extends Controller
         try {
             $request->validate([
                 'products' => 'required|array',
-                'billing' => 'required|array',
-                'shipping' => 'required|array',
-                'payment' => 'required|string',
+                'billing_address' => 'required|array',
+                'shipping_address' => 'required|array',
+                'payment_method' => 'required|string',
+                'payment_token' => 'required|string',
             ]);
 
             Log::info('BulkOrderController validation passed', [
                 'products_count' => count($request->input('products')),
-                'billing_keys' => array_keys($request->input('billing')),
-                'shipping_keys' => array_keys($request->input('shipping'))
+                'billing_keys' => array_keys($request->input('billing_address')),
+                'shipping_keys' => array_keys($request->input('shipping_address'))
             ]);
 
-            $order = $service->createBulkOrder(
-                auth()->user(),
-                $request->input('products'),
-                $request->input('billing'),
-                $request->input('shipping'),
-                $request->input('payment')
-            );
+            // Clear the cart before adding new products
+            Cart::clear();
 
-            Log::info('BulkOrderController order created successfully', [
-                'order_id' => $order->id,
-                'order_total' => $order->total,
-                'payment_method' => $order->payment_method,
-                'payment_status' => $order->payment_status
-            ]);
-
-            // Handle payment processing
-            $paymentMethod = $request->input('payment');
-            
-            if ($paymentMethod === 'paypal') {
-                Log::info('BulkOrderController processing PayPal payment', [
-                    'order_id' => $order->id,
-                    'user_id' => auth()->id()
-                ]);
-
-                // Use PayPalService to create PayPal payment
-                $paypalService = new \App\Services\PayPalService();
-                $orderData = [
-                    'total' => $order->total,
-                    'order_id' => $order->id,
-                    'order_number' => 'ORD-' . str_pad($order->id, 6, '0', STR_PAD_LEFT),
-                    'return_url' => route('paypal.success', ['order' => $order->id]),
-                    'cancel_url' => route('user.orders.show', $order->id),
-                ];
-
-                $result = $paypalService->createPayment($orderData);
-                
-                Log::info('BulkOrderController PayPal payment result', [
-                    'result' => $result,
-                    'order_id' => $order->id
-                ]);
-
-                if ($result['success'] && isset($result['approval_url'])) {
-                    return response()->json([
-                        'success' => true,
-                        'redirect_required' => true,
-                        'redirect_url' => $result['approval_url'],
-                        'message' => 'Redirecting to PayPal...'
-                    ]);
-                }
-            } elseif ($paymentMethod === 'stripe') {
-                Log::info('BulkOrderController processing Stripe payment', [
-                    'order_id' => $order->id,
-                    'user_id' => auth()->id(),
-                    'payment_token' => $request->input('payment_token')
-                ]);
-
-                // Process Stripe payment directly
-                try {
-                    $stripeSecret = setting('payments.stripe_secret');
-                    Log::info('BulkOrderController Stripe configuration', [
-                        'stripe_secret_length' => strlen($stripeSecret),
-                        'stripe_secret_starts_with' => substr($stripeSecret, 0, 7),
-                        'stripe_publishable_key' => setting('payments.stripe_publishable_key')
-                    ]);
-                    
-                    // Set Stripe API key
-                    \Stripe\Stripe::setApiKey($stripeSecret);
-                    
-                    $stripe = new \Stripe\StripeClient($stripeSecret);
-                    
-                    // Create payment intent
-                    $paymentIntent = $stripe->paymentIntents->create([
-                        'amount' => (int)($order->total * 100), // Convert to cents
-                        'currency' => 'usd',
-                        'payment_method' => $request->input('payment_token'),
-                        'payment_method_types' => ['card'],
-                        'confirmation_method' => 'manual',
-                        'confirm' => true,
-                        'metadata' => [
-                            'order_id' => $order->id,
-                            'order_number' => 'ORD-' . str_pad($order->id, 6, '0', STR_PAD_LEFT),
-                            'customer_email' => $request->input('billing.email')
-                        ]
-                    ]);
-
-                    Log::info('BulkOrderController Stripe payment intent created', [
-                        'payment_intent_id' => $paymentIntent->id,
-                        'status' => $paymentIntent->status,
-                        'order_id' => $order->id
-                    ]);
-
-                    if ($paymentIntent->status === 'succeeded') {
-                        // Update order with payment information
-                        $order->update([
-                            'payment_intent_id' => $paymentIntent->id,
-                            'payment_status' => 'paid',
-                            'status' => 'confirmed'
-                        ]);
-
-                        // Send confirmation emails
-                        $emailService = new \App\Services\OrderEmailService();
-                        $emailService->sendNewOrderEmails($order);
-
-                        return response()->json([
-                            'success' => true,
-                            'redirect_url' => route('checkout.order-details', $order->id),
-                            'message' => 'Payment processed successfully!'
-                        ]);
-                    } else {
-                        return response()->json([
-                            'success' => false,
-                            'message' => 'Payment failed: ' . ($paymentIntent->last_payment_error?->message ?? 'Unknown error')
-                        ], 422);
-                    }
-                } catch (\Exception $e) {
-                    Log::error('BulkOrderController Stripe payment failed', [
-                        'error' => $e->getMessage(),
-                        'order_id' => $order->id
-                    ]);
-
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Payment failed: ' . $e->getMessage()
-                    ], 422);
+            // Add each product from the CSV to the cart
+            foreach ($request->input('products') as $item) {
+                // Required: sku, quantity, type (retail/wholesale)
+                $sku = $item['sku'] ?? null;
+                $quantity = $item['quantity'] ?? 1;
+                $pricingType = $item['type'] ?? null;
+                if (!$sku || !$quantity) continue;
+                $product = \App\Models\Product::where('sku', $sku)->first();
+                if ($product) {
+                    Cart::add($product->id, $quantity, [], null, $pricingType);
                 }
             }
 
-            return response()->json([
-                'success' => true,
-                'redirect_url' => route('checkout.order-details', $order->id),
-                'message' => 'Bulk order placed successfully!'
-            ]);
+            // Prepare checkout data
+            $checkoutData = $request->all();
 
+            // Use the main checkout logic
+            $result = Checkout::processCheckout($checkoutData, $request->payment_method);
+
+            // Ensure result has the expected structure
+            if (!is_array($result) || !isset($result['success'])) {
+                Log::error('Invalid checkout result structure (bulk order)', [
+                    'result' => $result,
+                    'user_id' => auth()->id(),
+                    'request_data' => $request->all()
+                ]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Checkout processing failed due to invalid response.'
+                ], 500);
+            }
+
+            if ($result['success']) {
+                Log::info('Bulk order checkout successful', [
+                    'order_id' => $result['order_id'] ?? 'unknown',
+                    'order_number' => $result['order_number'] ?? 'unknown',
+                    'user_id' => auth()->id()
+                ]);
+
+                // Check if PayPal redirect is required
+                if (isset($result['redirect_required']) && $result['redirect_required']) {
+                    return response()->json([
+                        'success' => true,
+                        'order_id' => $result['order_id'] ?? null,
+                        'order_number' => $result['order_number'] ?? null,
+                        'message' => $result['message'] ?? 'Order placed successfully!',
+                        'redirect_required' => true,
+                        'redirect_url' => $result['redirect_url'] ?? null
+                    ]);
+                }
+
+                return response()->json([
+                    'success' => true,
+                    'order_id' => $result['order_id'] ?? null,
+                    'order_number' => $result['order_number'] ?? null,
+                    'message' => $result['message'] ?? 'Order placed successfully!',
+                    'redirect_url' => route('checkout.confirmation', $result['order_id'] ?? 0)
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => $result['message'] ?? 'Checkout failed. Please try again.'
+            ], 400);
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('BulkOrderController validation failed', [
                 'errors' => $e->errors(),
@@ -232,4 +187,56 @@ class BulkOrderController extends Controller
             throw $e;
         }
     }
-} 
+
+    /**
+     * Calculate tax, shipping, and total dynamically for bulk order (AJAX)
+     */
+    public function calculateTotals(Request $request)
+    {
+        $products = $request->input('products', []);
+        // Accept both new and old keys for backward compatibility
+        $billing = $request->input('billing_address', $request->input('billing', []));
+        $shipping = $request->input('shipping_address', $request->input('shipping', []));
+
+        // Calculate subtotal from products
+        $subtotal = 0;
+        foreach ($products as $item) {
+            $subtotal += isset($item['subtotal']) ? $item['subtotal'] : 0;
+        }
+
+        // Get country/state (convert ISO2 to ID)
+        $billingCountry = $billing['country'] ?? null;
+        $shippingCountry = $shipping['country'] ?? null;
+        $billingCountryId = $billingCountry;
+        $shippingCountryId = $shippingCountry;
+        if ($billingCountry && !is_numeric($billingCountry)) {
+            $country = \App\Models\Country::where('iso2', $billingCountry)->first();
+            $billingCountryId = $country ? $country->id : null;
+        }
+        if ($shippingCountry && !is_numeric($shippingCountry)) {
+            $country = \App\Models\Country::where('iso2', $shippingCountry)->first();
+            $shippingCountryId = $country ? $country->id : null;
+        }
+        $billingStateId = $billing['state'] ?? null;
+        $shippingStateId = $shipping['state'] ?? null;
+        $storeShippingMethodId = setting('shipping_method_id');
+
+        // Use CartService for tax/shipping logic
+        $cartService = app(\App\Services\CartService::class);
+        $tax = $cartService->getTaxAmount($billingCountryId, $billingStateId);
+
+        $shippingCost = $cartService->getShippingCost($shippingCountryId, $shippingStateId, $storeShippingMethodId);
+
+        $discount = 0; // No coupon for bulk order by default
+        $total = $subtotal - $discount + $tax + $shippingCost;
+
+        return response()->json([
+            'success' => true,
+            'subtotal' => round($subtotal, 2),
+            'tax' => round($tax, 2),
+            'shipping' => round($shippingCost, 2),
+            'discount' => round($discount, 2),
+            'total' => round($total, 2),
+        ]);
+    }
+}
