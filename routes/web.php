@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderPrintController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\PageController;
 use App\Mail\NewOrderNotification;
@@ -31,7 +32,7 @@ use App\Http\Controllers\User\BulkOrderController;
 */
 
 Route::get('/', function () {
-    $products = Product::take(8)->get();
+    $products = Product::all();
     return view('home', compact('products'));
 })->name('home');
 

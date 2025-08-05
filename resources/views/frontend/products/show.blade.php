@@ -737,7 +737,7 @@
                 success: function(response) {
                     if (response.success) {
                         showToast('Product added to cart successfully!', 'success');
-                        updateCartCount(response.cart_count);
+                        updateCartCount();
                     } else {
                         showToast(response.message, 'danger');
                     }
@@ -774,7 +774,7 @@
                 success: function(response) {
                     if (response.success) {
                         showToast(response.message, 'success');
-                        updateCartCount(response.cart_count);
+                        updateCartCount();
                     } else {
                         showToast(response.message, 'danger');
                     }

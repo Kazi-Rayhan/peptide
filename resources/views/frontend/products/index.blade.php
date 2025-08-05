@@ -439,18 +439,17 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Update cart count
-                    const cartCount = document.getElementById('cart-count');
-                    if (cartCount) {
-                        cartCount.textContent = data.cart_count || 0;
-                        cartCount.classList.add('animate__animated', 'animate__pulse');
-                        setTimeout(() => {
-                            cartCount.classList.remove('animate__animated', 'animate__pulse');
-                        }, 1000);
-                    }
-                    
-                    // Show success message
+                    // Optimistically update cart count in UI
+                    const cartElements = document.querySelectorAll('#cart-count, #cart-count-navbar, #cart-count-mobile, #cart-count-offcanvas, .cart-badge');
+                    cartElements.forEach(el => {
+                        let current = parseInt(el.textContent, 10) || 0;
+                        el.textContent = current + 1;
+                    });
                     showToast('Product added to cart successfully!', 'success');
+                    // Sync with server in background
+                    if (typeof updateCartCount === 'function') {
+                        setTimeout(updateCartCount, 1000);
+                    }
                 } else {
                     showToast(data.message || 'Error adding product to cart', 'danger');
                 }

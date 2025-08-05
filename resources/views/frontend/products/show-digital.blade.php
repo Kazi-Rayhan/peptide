@@ -139,7 +139,7 @@ $(function() {
             success: function(response) {
                 if (response.success) {
                     showToast('Product added to cart successfully!', 'success');
-                    updateCartCount(response.cart_count);
+                    updateCartCount();
                 } else {
                     showToast(response.message, 'danger');
                 }

@@ -287,11 +287,9 @@
 function addToCart(productId) {
     const btn = event.target.closest('.add-to-cart-btn');
     const originalText = btn.innerHTML;
-    
     // Add loading state
     btn.classList.add('loading');
     btn.innerHTML = '<span>Adding...</span>';
-    
     fetch('{{ route('cart.add') }}', {
         method: 'POST',
         headers: {
@@ -306,7 +304,12 @@ function addToCart(productId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            updateCartCount();
+            // Update cart count instantly on success
+            const cartElements = document.querySelectorAll('#cart-count, #cart-count-mobile, #cart-count-offcanvas, .cart-badge');
+            cartElements.forEach(el => {
+                let current = parseInt(el.textContent, 10) || 0;
+                el.textContent = current + 1;
+            });
             showToast('Product added to cart successfully!', 'success');
         } else {
             showToast(data.message || 'Error adding product to cart', 'danger');

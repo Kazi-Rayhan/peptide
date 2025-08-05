@@ -27,6 +27,7 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <style>
         /* Global Styles */
         :root {
@@ -710,7 +711,7 @@
 
         /* Enhanced Footer */
         .core-peptides-footer {
-            background: var(--dark-color);
+            background: #6e6f72;
             color: white;
             padding: 3rem 0 1rem;
             margin-top: auto;
@@ -758,12 +759,12 @@
         }
 
         .footer-warning {
-            background: rgba(231, 76, 60, 0.1);
-            border: 1px solid rgba(231, 76, 60, 0.3);
+            background: rgba(255, 26, 1, 0.507);
+            border: 1px solid rgb(255, 25, 0);
             padding: 1rem;
             border-radius: 8px;
             font-size: 0.9rem;
-            color: #e74c3c;
+            color: #ffd7d3;
             margin-bottom: 2rem;
             position: relative;
             z-index: 1;
@@ -971,7 +972,7 @@
             <div class="d-none d-lg-flex align-items-center gap-3">
                 <a class="icon-btn position-relative" href="{{ route('cart.index') }}">
                     <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count-navbar" class="cart-badge">0</span>
+                    <span id="cart-count-navbar" class="cart-badge">{{\App\Facades\Cart::getItemCount()}}</span>
                 </a>
 
                 <div class="dropdown">
@@ -1130,7 +1131,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 mb-4">
                     <div class="footer-brand">
-                        <span class="core">AMERICAN</span> <span class="peptides">PEPTIDES</span>
+                        <img src="{{ asset('assets/APC Logo White.png') }}" alt="American Peptide Logo" class="w-50 img-fluid">
                     </div>
                     <div class="footer-disclaimer">
                         <p>All products are sold for research, laboratory, or analytical purposes only, and are not for
@@ -1203,9 +1204,12 @@
         });
     </script>
 
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             function updateCartCount() {
+
+                 
                 fetch('/cart/count')
                     .then(response => {
                         if (!response.ok) throw new Error('Network error');
@@ -1219,7 +1223,7 @@
                         const navbarBadge = document.getElementById('cart-count-navbar');
                         const floatingBadge = document.getElementById('cart-count-floating');
 
-                        if (navbarBadge) navbarBadge.textContent = count;
+                        if (navbarBadge)     navbarBadge.textContent = count;
                         if (floatingBadge) floatingBadge.textContent = count;
                     })
                     .catch(error => {
@@ -1228,7 +1232,6 @@
             }
 
             updateCartCount(); // initial load
-            setInterval(updateCartCount, 30000); // optional auto-refresh
         });
 
         // Enhanced Toast notifications
@@ -1314,7 +1317,6 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
-            setInterval(updateCartCount, 30000);
 
             // Add loading states to forms
             document.querySelectorAll('form').forEach(form => {

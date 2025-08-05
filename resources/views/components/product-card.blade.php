@@ -1,5 +1,5 @@
 @props(['product'])
-<div class=" ">
+<div class="product-card">
     <a href="{{ route('products.show', $product) }}">
     <!-- Product Image -->
     <div class="position-relative">
@@ -13,10 +13,10 @@
     <a style="text-decoration: none; color: inherit;" href="{{ route('products.show', $product) }}">
     <div class="card-body d-flex flex-column">
         <!-- Product Name -->
-        <h5 class="card-title fw-light mb-2 text-center" style="font-size: 16px; color: #1d1d1d;">{{ $product->name }}</h5>
+        <h5 class="card-title  mb-2 text-center product-name" >{{ $product->name }}</h5>
         
         <!-- Price -->
-        <div class=" mb-3 text-center h4 fw-bold" style="color: #232dbe;">
+        <div class=" mb-3 text-center product-price" >
             @if($product->isWholesalerUser() && $product->hasBothPricingTypes())
                 <div class="small text-muted mb-1">From {{ $product->getDisplayPrice() }}</div>
                 <div class="small">

@@ -400,7 +400,7 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        updateCartCount(response.cart_count);
+                        updateCartCount();
                         updateSummary(response);
                         
                         // Update the specific item's line total
@@ -436,7 +436,7 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            updateCartCount(response.cart_count);
+                            updateCartCount();
                             $(`.cart-item-table-row[data-item-id="${itemId}"]`).fadeOut(300, function() {
                                 $(this).remove();
                                 if ($('.cart-item-table-row').length === 0) {

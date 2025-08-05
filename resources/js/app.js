@@ -24,18 +24,3 @@ window.addEventListener('pageshow', function() {
     if (loader) loader.classList.add('hide');
 });
 
-window.updateCartCount = function(count) {
-    const el = document.getElementById('cart-count');
-    if (typeof count !== 'undefined') {
-        if (el) el.textContent = count;
-    } else {
-        // fallback: fetch from server
-        fetch('/cart/count')
-            .then(res => res.json())
-            .then(data => {
-                if (data.cart_count !== undefined && el) {
-                    el.textContent = data.cart_count;
-                }
-            });
-    }
-};
