@@ -2,7 +2,7 @@
     <div class="row g-3">
         <!-- Search -->
         <div class="col-12">
-            <label for="search" class="form-label fw-medium text-dark">
+            <label for="search" class="form-label fw-medium text-secondary">
                 <i class="bi bi-search me-1"></i>Search Products
             </label>
             <div class="input-group">
@@ -20,7 +20,7 @@
 
         <!-- Category Filter -->
         <div class="col-12">
-            <label for="category" class="form-label fw-medium text-dark">
+            <label for="category" class="form-label fw-medium text-secondary">
                 <i class="bi bi-tag me-1"></i>Category
             </label>
             <select class="form-select" id="category" name="category">
@@ -35,7 +35,7 @@
     
         <!-- Sort -->
         <div class="col-12">
-            <label for="sort" class="form-label fw-medium text-dark">
+            <label for="sort" class="form-label fw-medium text-secondary">
                 <i class="bi bi-sort-down me-1"></i>Sort By
             </label>
             <select class="form-select" id="sort" name="sort">
@@ -50,7 +50,7 @@
 
         <!-- Price Range -->
         <div class="col-12">
-            <label class="form-label fw-medium text-dark">
+            <label class="form-label fw-medium text-secondary">
                 <i class="bi bi-currency-dollar me-1"></i>Price Range
             </label>
             <div class="row g-2">
@@ -78,7 +78,7 @@
         <!-- Filter Actions -->
         <div class="col-12 pt-2">
             <div class="d-flex gap-2 w-100">
-                <button type="submit" class="btn btn-primary flex-fill">
+                <button type="submit" class="btn bg-primary text-white flex-fill">
                     <i class="bi bi-search me-2"></i>Apply Filters
                 </button>
                 <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">

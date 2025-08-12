@@ -252,7 +252,7 @@
             position: absolute;
             top: -5px;
             right: -8px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) !important;
+            background: #0483c6 !important;
             color: white !important;
             font-size: 0.75rem;
             font-weight: 600;
@@ -972,7 +972,7 @@
             <div class="d-none d-lg-flex align-items-center gap-3">
                 <a class="icon-btn position-relative" href="{{ route('cart.index') }}">
                     <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count-navbar" class="cart-badge">{{\App\Facades\Cart::getItemCount()}}</span>
+                    <span id="cart-count-navbar" class="cart-badge">{{ \App\Facades\Cart::getItemCount() }}</span>
                 </a>
 
                 <div class="dropdown">
@@ -1131,7 +1131,8 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 mb-4">
                     <div class="footer-brand">
-                        <img src="{{ asset('assets/APC Logo White.png') }}" alt="American Peptide Logo" class="w-50 img-fluid">
+                        <img src="{{ asset('assets/APC Logo White.png') }}" alt="American Peptide Logo"
+                            class="w-50 img-fluid">
                     </div>
                     <div class="footer-disclaimer">
                         <p>All products are sold for research, laboratory, or analytical purposes only, and are not for
@@ -1209,7 +1210,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             function updateCartCount() {
 
-                 
+
                 fetch('/cart/count')
                     .then(response => {
                         if (!response.ok) throw new Error('Network error');
@@ -1223,7 +1224,7 @@
                         const navbarBadge = document.getElementById('cart-count-navbar');
                         const floatingBadge = document.getElementById('cart-count-floating');
 
-                        if (navbarBadge)     navbarBadge.textContent = count;
+                        if (navbarBadge) navbarBadge.textContent = count;
                         if (floatingBadge) floatingBadge.textContent = count;
                     })
                     .catch(error => {

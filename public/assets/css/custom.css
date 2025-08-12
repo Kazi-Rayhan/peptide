@@ -1,7 +1,7 @@
 /* Home Page */
 
 .hero-section {
-    background-image: url('../../assets/HeroImage.jpeg');
+    background-image: url('../../assets/product_header_banner.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -422,7 +422,7 @@
 
 .newsletter-section{
     background-color: #c8eaf5;
-    min-height: 30vh;
+    min-height: 50vh;
     display:grid;
     place-items: center;
 }

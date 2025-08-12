@@ -1,17 +1,22 @@
 @extends('frontend.layouts.app')
 
 @section('title', 'Research Peptides - Premium Peptide Supplier')
-@section('meta_description', 'Explore our collection of high-quality research peptides for laboratory use. Find the perfect peptides for your research needs with guaranteed purity and quality.')
-@section('meta_keywords', 'research peptides, peptide supplier, laboratory peptides, peptide research, high purity peptides, research chemicals')
+@section('meta_description',
+    'Explore our collection of high-quality research peptides for laboratory use. Find the
+    perfect peptides for your research needs with guaranteed purity and quality.')
+@section('meta_keywords',
+    'research peptides, peptide supplier, laboratory peptides, peptide research, high purity
+    peptides, research chemicals')
 
 @section('content')
     <!-- Hero Section with Background -->
-    <div class="hero-section position-relative bg-gradient-primary text-white py-5 mb-5" >
+    <div class="hero-section position-relative  text-white py-5 mb-5">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-8 mx-auto text-center">
+                <div class="col-lg-8 mx-auto text-center bg-white rounded-4 text-secondary p-5 bg-opacity-75">
                     <h1 class="display-4 fw-bold mb-3">Research Peptide Collection</h1>
-                    <p class="lead mb-4 opacity-90">High-quality peptides for laboratory research with guaranteed purity and analytical documentation</p>
+                    <p class="lead mb-4 opacity-90">High-quality peptides for laboratory research with guaranteed purity and
+                        analytical documentation</p>
                     <div class="hero-stats d-flex justify-content-center gap-4 flex-wrap">
                         <div class="stat-item text-center">
                             <div class="stat-number fw-bold fs-4">{{ $products->total() }}+</div>
@@ -30,11 +35,11 @@
             </div>
         </div>
         <!-- Decorative Elements -->
-        <div class="hero-decoration position-absolute top-0 end-0 opacity-10">
+        {{-- <div class="hero-decoration position-absolute top-0 end-0 opacity-10">
             <svg width="200" height="200" viewBox="0 0 200 200">
                 <circle cx="100" cy="100" r="80" fill="currentColor"/>
             </svg>
-        </div>
+        </div> --}}
     </div>
 
     <div class="container">
@@ -47,13 +52,11 @@
                             <span class="input-group-text bg-white border-end-0">
                                 <i class="bi bi-search text-primary"></i>
                             </span>
-                            <input type="text" 
-                                   class="form-control border-start-0 ps-0" 
-                                   name="search" 
-                                   value="{{ request('search') }}"
-                                   placeholder="Search peptides by name, sequence, or catalog number..."
-                                   aria-label="Search peptides">
-                            <button class="btn btn-primary px-4" type="submit">
+                            <input type="text" class="form-control border-start-0 ps-0" name="search"
+                                value="{{ request('search') }}"
+                                placeholder="Search peptides by name, sequence, or catalog number..."
+                                aria-label="Search peptides">
+                            <button class="btn bg-primary text-white px-4" type="submit">
                                 <i class="bi bi-search me-2"></i>Search
                             </button>
                         </div>
@@ -67,14 +70,15 @@
             <div class="col-lg-3 mb-4 d-none d-lg-block">
                 <div class="position-sticky" style="top: 100px;">
                     <div class="card border-0 shadow-sm">
-                        <div class="card-header bg-primary text-white">
+                        <div class="card-header text-white"
+                            style="background: #0483c6;>
                             <h5 class="mb-0">
-                                <i class="bi bi-funnel me-2"></i>Filters & Search
+                            <i class="bi bi-funnel me-2"></i>Filters & Search
                             </h5>
                         </div>
                         <div class="card-body p-4">
                             @include('frontend.products._filters', [
-                                'categories' => $categories
+                                'categories' => $categories,
                             ])
                         </div>
                     </div>
@@ -102,7 +106,7 @@
                 </div>
                 <div class="offcanvas-body p-4">
                     @include('frontend.products._filters', [
-                        'categories' => $categories
+                        'categories' => $categories,
                     ])
                 </div>
             </div>
@@ -110,7 +114,12 @@
             <!-- Main Content: Products -->
             <div class="col-lg-9">
                 <!-- Active Filters Display -->
-                @if (request('search') || request('category') || request('brand') || request('min_price') || request('max_price') || request('sort'))
+                @if (request('search') ||
+                        request('category') ||
+                        request('brand') ||
+                        request('min_price') ||
+                        request('max_price') ||
+                        request('sort'))
                     <div class="active-filters mb-4">
                         <div class="card border-0 bg-light">
                             <div class="card-body py-3">
@@ -161,7 +170,8 @@
                                                 class="text-white text-decoration-none ms-1">×</a>
                                         </span>
                                     @endif
-                                    <a href="{{ route('products.index') }}" class="btn btn-sm btn-outline-secondary ms-auto">
+                                    <a href="{{ route('products.index') }}"
+                                        class="btn btn-sm btn-outline-secondary ms-auto">
                                         <i class="bi bi-x-circle me-1"></i>Clear All
                                     </a>
                                 </div>
@@ -171,7 +181,7 @@
                 @endif
 
                 <!-- Results Header -->
-                <div class="results-header mb-4">
+                {{-- <div class="results-header mb-4">
                     <div class="row align-items-center">
                         <div class="col-md-6">
                             <div class="results-summary">
@@ -186,7 +196,8 @@
                             <div class="view-controls d-flex justify-content-md-end gap-2">
                                 <!-- Sort Dropdown -->
                                 <div class="dropdown">
-                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown">
                                         <i class="bi bi-sort-down me-1"></i>
                                         @php
                                             $sortLabels = [
@@ -202,30 +213,32 @@
                                         {{ $currentSort }}
                                     </button>
                                     <ul class="dropdown-menu">
-                                        @foreach($sortLabels as $value => $label)
+                                        @foreach ($sortLabels as $value => $label)
                                             <li>
-                                                <a class="dropdown-item {{ request('sort') == $value ? 'active' : '' }}" 
-                                                   href="{{ route('products.index', array_merge(request()->all(), ['sort' => $value])) }}">
+                                                <a class="dropdown-item {{ request('sort') == $value ? 'active' : '' }}"
+                                                    href="{{ route('products.index', array_merge(request()->all(), ['sort' => $value])) }}">
                                                     {{ $label }}
                                                 </a>
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
-                                
+
                                 <!-- View Toggle -->
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-outline-secondary active" id="gridView" title="Grid View">
+                                    <button type="button" class="btn btn-outline-secondary active" id="gridView"
+                                        title="Grid View">
                                         <i class="bi bi-grid-3x3-gap"></i>
                                     </button>
-                                    <button type="button" class="btn btn-outline-secondary" id="listView" title="List View">
+                                    <button type="button" class="btn btn-outline-secondary" id="listView"
+                                        title="List View">
                                         <i class="bi bi-list"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Products Grid -->
                 @if ($products->count() > 0)
@@ -252,12 +265,14 @@
                             <i class="bi bi-search display-1 text-muted"></i>
                         </div>
                         <h4 class="text-muted mb-3">No peptides found</h4>
-                        <p class="text-muted mb-4">Try adjusting your search criteria or browse our complete research peptide collection.</p>
+                        <p class="text-muted mb-4">Try adjusting your search criteria or browse our complete research
+                            peptide collection.</p>
                         <div class="d-flex gap-3 justify-content-center">
                             <a href="{{ route('products.index') }}" class="btn btn-primary">
                                 <i class="bi bi-arrow-clockwise me-2"></i>Clear Filters
                             </a>
-                            <button class="btn btn-outline-primary" data-bs-toggle="offcanvas" data-bs-target="#filtersOffcanvas">
+                            <button class="btn btn-outline-primary" data-bs-toggle="offcanvas"
+                                data-bs-target="#filtersOffcanvas">
                                 <i class="bi bi-funnel me-2"></i>Adjust Filters
                             </button>
                         </div>
@@ -267,56 +282,58 @@
         </div>
     </div>
 
+    @include('components.product.newsletter-section')
+
     <!-- Enhanced Product Card Styles -->
     <style>
         .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
             position: relative;
             overflow: hidden;
         }
-        
+
         .hero-decoration {
             transform: translate(50%, -50%);
         }
-        
+
         .bg-gradient-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        
+
         .search-form .form-control:focus {
             box-shadow: none;
             border-color: #667eea;
         }
-        
+
         .search-form .input-group {
             border-radius: 50px;
             overflow: hidden;
         }
-        
+
         .search-form .input-group-text {
             border: none;
         }
-        
+
         .search-form .form-control {
             border: none;
             padding: 1rem 1.5rem;
         }
-        
+
         .search-form .btn {
             border-radius: 0 50px 50px 0;
             padding: 1rem 2rem;
         }
-        
+
         .card {
             transition: all 0.3s ease;
             border-radius: 12px;
         }
-        
+
         .card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
-        
+
         .product-card {
             background: white;
             border-radius: 12px;
@@ -324,98 +341,98 @@
             transition: all 0.3s ease;
             border: 1px solid #e9ecef;
         }
-        
+
         .product-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
         }
-        
+
         .product-image {
             height: 200px;
             object-fit: cover;
             transition: transform 0.3s ease;
         }
-        
+
         .product-card:hover .product-image {
             transform: scale(1.05);
         }
-        
+
         .badge {
             font-weight: 500;
         }
-        
+
         .btn-group .btn {
             border-radius: 8px;
         }
-        
+
         .btn-group .btn.active {
             background-color: #667eea;
             border-color: #667eea;
             color: white;
         }
-        
+
         .dropdown-menu {
             border-radius: 8px;
             border: none;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
         .dropdown-item.active {
             background-color: #667eea;
         }
-        
+
         .pagination .page-link {
             border-radius: 8px;
             margin: 0 2px;
             border: none;
             color: #667eea;
         }
-        
+
         .pagination .page-item.active .page-link {
             background-color: #667eea;
             border-color: #667eea;
         }
-        
+
         .offcanvas {
             border-radius: 0 12px 12px 0;
         }
-        
+
         .stat-item {
             padding: 1rem;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             backdrop-filter: blur(10px);
         }
-        
+
         .active-filters .badge {
             font-size: 0.875rem;
             padding: 0.5rem 0.75rem;
         }
-        
+
         .results-header {
             background: #f8f9fa;
             padding: 1rem;
             border-radius: 12px;
             border: 1px solid #e9ecef;
         }
-        
+
         .no-results-icon {
             opacity: 0.5;
         }
-        
+
         @media (max-width: 768px) {
             .hero-stats {
                 gap: 2rem;
             }
-            
+
             .stat-item {
                 padding: 0.75rem;
             }
-            
+
             .search-form .input-group {
                 border-radius: 12px;
             }
-            
+
             .search-form .btn {
                 border-radius: 0 12px 12px 0;
             }
@@ -426,44 +443,47 @@
         // Enhanced addToCart function
         function addToCart(productId) {
             fetch('{{ route('cart.add') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    product_id: productId,
-                    quantity: 1
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        quantity: 1
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Optimistically update cart count in UI
-                    const cartElements = document.querySelectorAll('#cart-count, #cart-count-navbar, #cart-count-mobile, #cart-count-offcanvas, .cart-badge');
-                    cartElements.forEach(el => {
-                        let current = parseInt(el.textContent, 10) || 0;
-                        el.textContent = current + 1;
-                    });
-                    showToast('Product added to cart successfully!', 'success');
-                    // Sync with server in background
-                    if (typeof updateCartCount === 'function') {
-                        setTimeout(updateCartCount, 1000);
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Optimistically update cart count in UI
+                        const cartElements = document.querySelectorAll(
+                            '#cart-count, #cart-count-navbar, #cart-count-mobile, #cart-count-offcanvas, .cart-badge'
+                        );
+                        cartElements.forEach(el => {
+                            let current = parseInt(el.textContent, 10) || 0;
+                            el.textContent = current + 1;
+                        });
+                        showToast('Product added to cart successfully!', 'success');
+                        // Sync with server in background
+                        if (typeof updateCartCount === 'function') {
+                            setTimeout(updateCartCount, 1000);
+                        }
+                    } else {
+                        showToast(data.message || 'Error adding product to cart', 'danger');
                     }
-                } else {
-                    showToast(data.message || 'Error adding product to cart', 'danger');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showToast('Error adding product to cart', 'danger');
-            });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast('Error adding product to cart', 'danger');
+                });
         }
 
         // Enhanced toast function
         function showToast(message, type = 'success') {
             const alert = document.createElement('div');
-            alert.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
+            alert.className =
+                `alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
             alert.style.zIndex = '9999';
             alert.style.borderRadius = '12px';
             alert.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
@@ -473,7 +493,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             `;
             document.body.appendChild(alert);
-            
+
             // Auto-remove after 3 seconds
             setTimeout(() => {
                 if (alert.parentNode) {
