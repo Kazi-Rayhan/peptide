@@ -1182,7 +1182,8 @@
     </footer>
 
     <!-- Scroll to Top Button -->
-    <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">
+    <button class="scroll-to-top text-secondary " id="scrollToTop" style="background: #c8eaf5 !important;"
+        title="Scroll to top">
         <i class="fas fa-chevron-up"></i>
     </button>
     <!-- Toast Container -->

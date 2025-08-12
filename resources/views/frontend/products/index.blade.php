@@ -10,7 +10,7 @@
 
 @section('content')
     <!-- Hero Section with Background -->
-    <div class="hero-section position-relative  text-white py-5 mb-5">
+    <div class="hero-section position-relative text-white py-5 mb-5">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8 mx-auto text-center bg-white rounded-4 text-secondary p-5 bg-opacity-75">
