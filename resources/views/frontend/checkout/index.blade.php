@@ -97,12 +97,13 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="billing_state" class="form-label">State *</label>
-                                    <select class="form-select" id="billing_state" name="billing_address[state]" required>
+                                    <select class="form-select" id="billing_state" name="billing_address[state]" >
                                         <option value="">Select State</option>
                                         @foreach($states as $state)
                                             <option value="{{ $state->id }}" data-country="{{ $countries->firstWhere('id', $state->country_id)->iso2 ?? '' }}" {{ old('billing_address.state', $user ? $user->state : '') == $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
                                         @endforeach
                                     </select>
+                                    <input type="text" class="form-control" id="billing_state_text" name="billing_address[state]" style="display: none;" placeholder="Enter State/Province">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="billing_zip" class="form-label">ZIP Code *</label>
@@ -177,6 +178,7 @@
                                                 <option value="{{ $state->id }}" data-country="{{ $countries->firstWhere('id', $state->country_id)->iso2 ?? '' }}" {{ old('shipping_address.state', $user ? $user->state : '') == $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
                                             @endforeach
                                         </select>
+                                        <input type="text" class="form-control" id="shipping_state_text" name="shipping_address[state]" style="display: none;" placeholder="Enter State/Province">
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label for="shipping_zip" class="form-label">ZIP Code *</label>
@@ -419,9 +421,20 @@
         $('#shipping_last_name').val($('#billing_last_name').val());
         $('#shipping_address').val($('#billing_address').val());
         $('#shipping_city').val($('#billing_city').val());
-        $('#shipping_state').val($('#billing_state').val());
         $('#shipping_zip').val($('#billing_zip').val());
         $('#shipping_country').val($('#billing_country').val());
+        
+        // Copy state value (could be from select or text input)
+        const billingStateSelect = $('#billing_state');
+        const billingStateText = $('#billing_state_text');
+        const shippingStateSelect = $('#shipping_state');
+        const shippingStateText = $('#shipping_state_text');
+        
+        if (billingStateSelect.is(':visible')) {
+            shippingStateSelect.val(billingStateSelect.val());
+        } else if (billingStateText.is(':visible')) {
+            shippingStateText.val(billingStateText.val());
+        }
     }
 
     // Payment method toggle
@@ -451,7 +464,7 @@
         // Basic validation
         const requiredFields = [
             'billing_first_name', 'billing_last_name', 'billing_email', 'billing_phone',
-            'billing_address', 'billing_city', 'billing_state', 'billing_zip', 'billing_country',
+            'billing_address', 'billing_city', 'billing_zip', 'billing_country',
             'payment_method'
         ];
         
@@ -466,11 +479,29 @@
             }
         });
         
+        // Special validation for state fields
+        const billingStateSelect = $('#billing_state');
+        const billingStateText = $('#billing_state_text');
+        const shippingStateSelect = $('#shipping_state');
+        const shippingStateText = $('#shipping_state_text');
+        
+        // Check billing state
+        if (billingStateSelect.is(':visible') && !billingStateSelect.val()) {
+            billingStateSelect.addClass('is-invalid');
+            isValid = false;
+        } else if (billingStateText.is(':visible') && !billingStateText.val().trim()) {
+            billingStateText.addClass('is-invalid');
+            isValid = false;
+        } else {
+            billingStateSelect.removeClass('is-invalid');
+            billingStateText.removeClass('is-invalid');
+        }
+        
         // Check if shipping is different from billing
         if (!$('#same_as_billing').is(':checked')) {
             const shippingFields = [
                 'shipping_first_name', 'shipping_last_name', 'shipping_address',
-                'shipping_city', 'shipping_state', 'shipping_zip', 'shipping_country'
+                'shipping_city', 'shipping_zip', 'shipping_country'
             ];
             
             shippingFields.forEach(field => {
@@ -482,6 +513,18 @@
                     $(`#${field}`).removeClass('is-invalid');
                 }
             });
+            
+            // Check shipping state
+            if (shippingStateSelect.is(':visible') && !shippingStateSelect.val()) {
+                shippingStateSelect.addClass('is-invalid');
+                isValid = false;
+            } else if (shippingStateText.is(':visible') && !shippingStateText.val().trim()) {
+                shippingStateText.addClass('is-invalid');
+                isValid = false;
+            } else {
+                shippingStateSelect.removeClass('is-invalid');
+                shippingStateText.removeClass('is-invalid');
+            }
         }
         
         if (!isValid) {
@@ -657,22 +700,46 @@
         toastElement.show();
     }
 
-    // Filter states by selected country
+    // Filter states by selected country and switch to text input if no states
     function filterStates(countrySelectId, stateSelectId) {
         const countryId = $(countrySelectId).val();
+        const stateTextId = stateSelectId + '_text';
+        const stateSelect = $(stateSelectId);
+        const stateText = $(stateTextId);
+        
+        // Count visible states for this country
+        let visibleStates = 0;
         $(stateSelectId + ' option').each(function() {
             const stateCountry = $(this).data('country');
             if (!stateCountry || stateCountry == countryId || $(this).val() === '') {
                 $(this).show();
+                if ($(this).val() !== '') {
+                    visibleStates++;
+                }
             } else {
                 $(this).hide();
             }
         });
+        
+        // If no states for this country, switch to text input
+        if (visibleStates === 0 && countryId) {
+            stateSelect.hide();
+            stateText.show();
+            stateText.prop('required', true);
+            stateSelect.prop('required', false);
+        } else {
+            stateSelect.show();
+            stateText.hide();
+            stateSelect.prop('required', true);
+            stateText.prop('required', false);
+        }
+        
         // Reset state selection if not valid
         if ($(stateSelectId + ' option:selected').is(':hidden')) {
             $(stateSelectId).val('');
         }
     }
+    
     $('#billing_country').change(function() {
         filterStates('#billing_country', '#billing_state');
     });

@@ -24,19 +24,14 @@
                             <div class="stat-label small   fs-4">Peptides</div>
                         </div>
                         <div class="stat-item text-center">
-                            <div class="stat-number  display-5">99.9%+</div>
+                            <div class="stat-number  display-5">98%+</div>
                             <div class="stat-label small fs-4">Purity</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Decorative Elements -->
-        {{-- <div class="hero-decoration position-absolute top-0 end-0 opacity-10">
-            <svg width="200" height="200" viewBox="0 0 200 200">
-                <circle cx="100" cy="100" r="80" fill="currentColor"/>
-            </svg>
-        </div> --}}
+
     </div>
 
     <div class="container">
@@ -241,7 +236,8 @@
                 <!-- Products Grid -->
                 @if ($products->count() > 0)
                     <div class="products-container">
-                        <div class="row g-4" id="productsGrid">
+                        <div class="row">
+
                             @foreach ($products as $product)
                                 <div class="col-md-4 col-lg-3 col-sm-6">
                                     <x-product-card :product="$product" />
@@ -251,9 +247,7 @@
 
                         <!-- Pagination -->
                         <div class="pagination-section mt-5">
-                            <nav aria-label="Products pagination">
-                                {{ $products->appends(request()->query())->links() }}
-                            </nav>
+                            {{ $products->appends(request()->query())->links() }}
                         </div>
                     </div>
                 @else
@@ -346,29 +340,7 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .product-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid #e9ecef;
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .product-image {
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .product-card:hover .product-image {
-            transform: scale(1.05);
-        }
-
+      
         .badge {
             font-weight: 500;
         }

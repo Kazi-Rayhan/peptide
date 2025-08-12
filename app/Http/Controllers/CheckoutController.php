@@ -347,11 +347,15 @@ class CheckoutController extends Controller
         $user->state = $billing['state'] ?? '';
         $user->zip = $billing['zip'] ?? '';
         $user->country = $billing['country'] ?? '';
+        $countries = \App\Models\Country::orderBy('name')->get();
+        $states = \App\Models\State::orderBy('name')->get();
         return view('frontend.checkout.index', [
             'cart' => $cart,
             'paymentMethodsArray' => $paymentMethodsArray,
             'user' => $user,
             'order' => $order,
+            'countries' => $countries,
+            'states' => $states,
             'isRepayment' => true,
         ]);
     }
@@ -463,8 +467,19 @@ class CheckoutController extends Controller
         }else{
             $shippingCountryId = $billingCountryId;
         }
+        
+        // Handle state values (could be ID or text)
         $billingStateId = $request->input('billing_state');
         $shippingStateId = $request->input('shipping_state');
+        
+        // If state is not numeric, it's a text input - we'll use null for tax/shipping calculations
+        if ($billingStateId && !is_numeric($billingStateId)) {
+            $billingStateId = null;
+        }
+        if ($shippingStateId && !is_numeric($shippingStateId)) {
+            $shippingStateId = null;
+        }
+        
         $storeShippingMethodId = setting('shipping_method_id');
 
         $cartService = app(\App\Services\CartService::class);

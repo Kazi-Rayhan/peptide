@@ -17,7 +17,7 @@ class ProductController extends Controller
 
         // Filter by category (by slug only)
         if ($request->has('category') && $request->category) {
-            $query->whereHas('category', function($q) use ($request) {
+            $query->whereHas('category', function ($q) use ($request) {
                 $q->where('slug', $request->category);
             });
         }
@@ -25,10 +25,10 @@ class ProductController extends Controller
         // Search by name or description
         if ($request->has('search') && $request->search) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('sku', 'like', "%{$search}%");
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('sku', 'like', "%{$search}%");
             });
         }
 
@@ -42,7 +42,7 @@ class ProductController extends Controller
 
         // Sort products
         $sort = $request->get('sort', 'name');
-        
+
         // Handle sorting with _desc suffix
         if (str_ends_with($sort, '_desc')) {
             $sort = str_replace('_desc', '', $sort);
@@ -50,7 +50,7 @@ class ProductController extends Controller
         } else {
             $direction = 'asc';
         }
-        
+
         switch ($sort) {
             case 'price':
                 $query->orderBy('price', $direction);
@@ -84,52 +84,15 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        // Get related products - first try same category and brand, then same category, then same brand
-        $relatedProducts = Product::where('status', 'active')
-            ->where('id', '!=', $product->id) // Exclude current product
-            ->where(function($query) use ($product) {
-                $query->where(function($q) use ($product) {
-                    // Same category and brand
-                    $q->where('category_id', $product->category_id);
-                });
-            })
-            ->limit(4)
-            ->get();
 
-        // If we don't have enough related products, get more from the same category
-        if ($relatedProducts->count() < 4) {
-            $additionalProducts = Product::where('status', 'active')
-                ->where('id', '!=', $product->id)
-                ->whereNotIn('id', $relatedProducts->pluck('id'))
-                ->where('category_id', $product->category_id)
-                ->limit(4 - $relatedProducts->count())
-                ->get();
-            
-            $relatedProducts = $relatedProducts->merge($additionalProducts);
-        }
-
-        // If still not enough, get random products
-        if ($relatedProducts->count() < 4) {
-            $randomProducts = Product::where('status', 'active')
-                ->where('id', '!=', $product->id)
-                ->whereNotIn('id', $relatedProducts->pluck('id'))
-                ->inRandomOrder()
-                ->limit(4 - $relatedProducts->count())
-                ->get();
-            
-            $relatedProducts = $relatedProducts->merge($randomProducts);
-        }
-
-        // Get all active products for similar product matching
-        $allProducts = Product::where('status', 'active')->get();
-
-        // If product is digital, return a different view
+        $allProducts = Product::all();
+        $product->increment('views');
         if ($product->is_digital) {
             // For now, just return the regular view since AudioBook model doesn't exist
-            return view('frontend.products.show', compact('product', 'relatedProducts', 'allProducts'));
+            return view('frontend.products.show', compact('product',  'allProducts'));
         }
 
         // Default (physical) product view
-        return view('frontend.products.show', compact('product', 'relatedProducts', 'allProducts'));
+        return view('frontend.products.show', compact('product', 'allProducts'));
     }
-} 
+}

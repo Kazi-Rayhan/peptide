@@ -219,7 +219,7 @@
                         <i class="bi bi-truck fs-1" style="color: var(--secondary-color);"></i>
                     </div>
                     <h4 class="h5 mb-3">Fast Delivery</h4>
-                    <p class="text-muted">Quick and reliable shipping to get your books to you as soon as possible.</p>
+                    <p class="text-muted">Quick and reliable shipping to get your research peptides to you as soon as possible.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -228,7 +228,7 @@
                         <i class="bi bi-headset fs-1" style="color: var(--info-color);"></i>
                     </div>
                     <h4 class="h5 mb-3">Expert Support</h4>
-                    <p class="text-muted">Our knowledgeable team is always ready to help you find the perfect book.</p>
+                    <p class="text-muted">Our knowledgeable team is always ready to help you find the perfect peptide for your research.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -236,8 +236,8 @@
                     <div class="feature-icon mb-3">
                         <i class="bi bi-heart fs-1" style="color: var(--danger-color);"></i>
                     </div>
-                    <h4 class="h5 mb-3">Community Focus</h4>
-                    <p class="text-muted">We're more than a bookstore – we're a community of passionate readers.</p>
+                    <h4 class="h5 mb-3">Research Partnership</h4>
+                    <p class="text-muted">We're more than a peptide supplier – we're a partner in advancing scientific discovery.</p>
                 </div>
             </div>
         </div>
@@ -249,11 +249,11 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
-                <h2 class="text-white mb-3">Ready to Start Your Reading Journey?</h2>
-                <p class="text-white mb-4">Explore our collection and discover your next favorite book today.</p>
+                <h2 class="text-white mb-3">Ready to Advance Your Research?</h2>
+                <p class="text-white mb-4">Explore our collection and discover the perfect peptides for your research today.</p>
                 <div class="cta-buttons">
                     <a href="{{ route('products.index') }}" class="btn btn-light btn-lg me-3 mb-2">
-                        <i class="bi bi-book me-2"></i>Browse Books
+                        <i class="bi bi-flask me-2"></i>Browse Peptides
                     </a>
                     <a href="{{ route('contact') }}" class="btn btn-outline-light btn-lg mb-2">
                         <i class="bi bi-envelope me-2"></i>Get in Touch

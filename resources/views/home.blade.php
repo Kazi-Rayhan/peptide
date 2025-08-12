@@ -2,7 +2,7 @@
 
 @section('content')
     <main>
-        <section class="hero-section">
+        <section class="hero-section-home" >
             <div class="hero-section__content">
                 <article>
                     <h1>99% Pure Peptides</h1>

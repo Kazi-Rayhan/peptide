@@ -11,6 +11,17 @@
     justify-content: center;
     align-items: center;
 }
+.hero-section-home {
+    background-image: url('../../assets/DNAimage.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 80vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .hero-section__content {
     display: flex;
@@ -424,7 +435,7 @@
 
 .newsletter-section {
     background-color: #c8eaf5;
-    min-height: 60vh !important;
+    min-height: 40vh !important;
     padding: auto;
     display: grid;
     place-items: center;
@@ -435,4 +446,8 @@
     font-weight: 600;
     margin-bottom: 40px;
     font-size: 1.2rem;
+}
+
+.page-item.active .page-link {
+    color: #ffffff !important;
 }
