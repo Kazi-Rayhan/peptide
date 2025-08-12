@@ -242,7 +242,7 @@
                     <div class="products-container">
                         <div class="row g-4" id="productsGrid">
                             @foreach ($products as $product)
-                                <div class="col-md-6 col-xl-4">
+                                <div class="col-md-4 col-lg-3 col-sm-6">
                                     <x-product-card :product="$product" />
                                 </div>
                             @endforeach
@@ -293,7 +293,7 @@
             transform: translate(50%, -50%);
         }
 
-        .lead{
+        .lead {
             padding: 0px 10%;
             font-size: 30px !important;
         }

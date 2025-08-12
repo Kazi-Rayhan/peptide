@@ -243,7 +243,7 @@
     }
 
     .hero-section__content article h1 {
-    
+
         font-size: 1.7rem;
         line-height: 1.9rem;
     }
@@ -339,6 +339,7 @@
         align-items: center;
         justify-content: center;
     }
+
     .services-section__content article {
         width: 70%;
     }
@@ -354,7 +355,7 @@
 }
 
 .products-section h2 {
-    font-size:2rem;
+    font-size: 2rem;
     text-align: center;
     font-weight: 700;
     line-height: 2rem;
@@ -367,24 +368,25 @@
     transition: all 0.3s ease;
 }
 
-.product-card:hover .product-image{
+.product-card:hover .product-image {
     transform: scale(1.05) rotate(2deg);
 
 }
-.product-card .product-name{
+
+.product-card .product-name {
     font-size: 1rem;
     color: #6e6f72 !important;
     font-weight: 700;
 }
 
-.product-card .product-price{
+.product-card .product-price {
     font-size: 1.3rem;
     font-weight: 700;
     color: #0483c6;
 }
 
 
-.newsletter-input{
+.newsletter-input {
     background-color: #ffffff;
     border: 2px solid #616163;
     width: 100%;
@@ -396,18 +398,18 @@
 
 }
 
-.newsletter-input::placeholder{
+.newsletter-input::placeholder {
     color: #616163;
     font-weight: 700;
 }
 
-.newsletter-input:focus{
+.newsletter-input:focus {
     outline: none;
     border: 2px solid #008eda;
 }
 
-.newsletter-button{
-    width:70%;
+.newsletter-button {
+    width: 70%;
     background-color: #0483c6;
     outline: none;
     border: none;
@@ -420,14 +422,15 @@
     border-radius: 15px;
 }
 
-.newsletter-section{
+.newsletter-section {
     background-color: #c8eaf5;
-    min-height: 50vh;
-    display:grid;
+    min-height: 60vh !important;
+    padding: auto;
+    display: grid;
     place-items: center;
 }
 
-.newsletter-section h3{
+.newsletter-section h3 {
     text-align: center;
     font-weight: 600;
     margin-bottom: 40px;

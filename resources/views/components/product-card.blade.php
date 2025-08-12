@@ -6,7 +6,6 @@
         <img src="{{ $product->image_url ?? 'https://via.placeholder.com/300x300?text=Peptide' }}" 
              alt="{{ $product->name }}" 
              class="product-image w-100">
-      
     </div>
     
     <!-- Card Body -->
