@@ -1,7 +1,7 @@
 <form id="filterForm" method="GET" action="{{ route('products.index') }}">
     <div class="row g-3">
         <!-- Search -->
-        <div class="col-12">
+        {{-- <div class="col-12">
             <label for="search" class="form-label fw-medium text-secondary">
                 <i class="bi bi-search me-1"></i>Search Products
             </label>
@@ -16,7 +16,7 @@
                        value="{{ request('search') }}"
                        placeholder="Search by name, description, or SKU...">
             </div>
-        </div>
+        </div> --}}
 
         <!-- Category Filter -->
         <div class="col-12">
@@ -34,7 +34,7 @@
         </div>
     
         <!-- Sort -->
-        <div class="col-12">
+        {{-- <div class="col-12">
             <label for="sort" class="form-label fw-medium text-secondary">
                 <i class="bi bi-sort-down me-1"></i>Sort By
             </label>
@@ -46,7 +46,7 @@
                 <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price High-Low</option>
                 <option value="popular" {{ request('sort') == 'popular' ? 'selected' : '' }}>Most Popular</option>
             </select>
-        </div>
+        </div> --}}
 
         <!-- Price Range -->
         <div class="col-12">

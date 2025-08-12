@@ -13,22 +13,19 @@
     <div class="hero-section position-relative text-white py-5 mb-5">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-8 mx-auto text-center bg-white rounded-4 text-secondary p-5 bg-opacity-75">
-                    <h1 class="display-4 fw-bold mb-3">Research Peptide Collection</h1>
-                    <p class="lead mb-4 opacity-90">High-quality peptides for laboratory research with guaranteed purity and
+                <div class="col-lg-9 mx-auto text-center bg-white rounded-4 text-secondary p-5 bg-opacity-75">
+                    <h1 class="display-4 fw-bold text-uppercase mb-3">Research Peptide Collection</h1>
+                    <p class="lead mb-4 fs-2 opacity-90">High-quality peptides for laboratory research with guaranteed purity
+                        and
                         analytical documentation</p>
                     <div class="hero-stats d-flex justify-content-center gap-4 flex-wrap">
                         <div class="stat-item text-center">
-                            <div class="stat-number fw-bold fs-4">{{ $products->total() }}+</div>
-                            <div class="stat-label small opacity-75">Peptides</div>
+                            <div class="stat-number fw-bolder display-5">{{ $products->total() }}+</div>
+                            <div class="stat-label small opacity-75  fs-4">Peptides</div>
                         </div>
                         <div class="stat-item text-center">
-                            <div class="stat-number fw-bold fs-4">99.9%</div>
-                            <div class="stat-label small opacity-75">Purity</div>
-                        </div>
-                        <div class="stat-item text-center">
-                            <div class="stat-number fw-bold fs-4">24/7</div>
-                            <div class="stat-label small opacity-75">Support</div>
+                            <div class="stat-number fw-bolder display-5">99.9%</div>
+                            <div class="stat-label small opacity-75  fs-4">Purity</div>
                         </div>
                     </div>
                 </div>
