@@ -2,7 +2,7 @@
 
 @section('content')
     <main>
-        <section class="hero-section-home" >
+        <section class="hero-section" style="background-image: url('{{asset('assets/DNAimage.jpg')}}')">
             <div class="hero-section__content">
                 <article>
                     <h1>99% Pure Peptides</h1>
