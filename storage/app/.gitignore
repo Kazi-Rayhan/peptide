@@ -2,3 +2,4 @@
 !private/
 !public/
 !.gitignore
+!example_bulk_order.csv

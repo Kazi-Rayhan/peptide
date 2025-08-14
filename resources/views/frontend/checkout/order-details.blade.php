@@ -53,8 +53,9 @@
                                 <div class="d-flex justify-content-between align-items-start mb-4">
                                     <div class="d-flex align-items-start">
                                         <div class="me-3">
-                                            @if($item->product && $item->product->image)
-                                                <img src="{{ asset('storage/' . $item->product->image) }}" 
+                             
+                                            @if($item->product && $item->product->thumbnail)
+                                                <img src="{{ Storage::url($item->product->thumbnail) }}" 
                                                      alt="{{ $item->product_name }}" 
                                                      class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;">
                                             @else
@@ -67,6 +68,7 @@
                                         <div>
                                             <h6 class="mb-1">{{ $item->product_name }}</h6>
                                             <p class="text-muted mb-1">SKU: {{ $item->sku }}</p>
+                                            <span class="badge bg-primary " style="text-transform: uppercase;">{{$item->type}}</span>
                                             @if($item->variant_info)
                                                 <p class="text-muted mb-1">{{ $item->variant_info }}</p>
                                             @endif

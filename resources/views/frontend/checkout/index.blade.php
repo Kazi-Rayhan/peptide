@@ -30,7 +30,7 @@
             </div>
         @endif
         
-        <form action="@if(!empty($isRepayment) && isset($order)){{ route('checkout.repay.process', $order) }}@else{{ route('checkout.process') }}@endif" method="POST" id="checkout-form">
+        <form action="@if(!empty($isRepayment) && isset($order)){{ route('checkout.repay.process', $order) }}@else{{ route('checkout.process') }}@endif" method="POST" id="checkout-form" novalidate>
             @csrf
             <div class="row">
                 <!-- Checkout Form -->
@@ -95,16 +95,16 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="billing_state" class="form-label">State *</label>
-                                    <select class="form-select" id="billing_state" name="billing_address[state]" >
-                                        <option value="">Select State</option>
-                                        @foreach($states as $state)
-                                            <option value="{{ $state->id }}" data-country="{{ $countries->firstWhere('id', $state->country_id)->iso2 ?? '' }}" {{ old('billing_address.state', $user ? $user->state : '') == $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <input type="text" class="form-control" id="billing_state_text" name="billing_address[state]" style="display: none;" placeholder="Enter State/Province">
-                                </div>
+                                                                    <div class="col-md-3 mb-3">
+                                        <label for="billing_state" class="form-label">State *</label>
+                                        <select class="form-select" id="billing_state" name="billing_address[state]" >
+                                            <option value="">Select State</option>
+                                            @foreach($states as $state)
+                                                <option value="{{ $state->id }}" data-country="{{ $countries->firstWhere('id', $state->country_id)->iso2 ?? '' }}" {{ old('billing_address.state', $user ? $user->state : '') == $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <input type="text" class="form-control" id="billing_state_text" name="" style="display: none;" placeholder="Enter State/Province">
+                                    </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="billing_zip" class="form-label">ZIP Code *</label>
                                     <input type="text" class="form-control" id="billing_zip" 
@@ -178,7 +178,7 @@
                                                 <option value="{{ $state->id }}" data-country="{{ $countries->firstWhere('id', $state->country_id)->iso2 ?? '' }}" {{ old('shipping_address.state', $user ? $user->state : '') == $state->id ? 'selected' : '' }}>{{ $state->name }}</option>
                                             @endforeach
                                         </select>
-                                        <input type="text" class="form-control" id="shipping_state_text" name="shipping_address[state]" style="display: none;" placeholder="Enter State/Province">
+                                        <input type="text" class="form-control" id="shipping_state_text" name="" style="display: none;" placeholder="Enter State/Province">
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label for="shipping_zip" class="form-label">ZIP Code *</label>
@@ -408,10 +408,14 @@
     $('#same_as_billing').change(function() {
         if (this.checked) {
             $('#shipping-fields').hide();
+            // Remove required attributes from shipping fields when hidden
+            $('#shipping-fields input, #shipping-fields select').prop('required', false);
             // Copy billing address to shipping
             copyBillingToShipping();
         } else {
             $('#shipping-fields').show();
+            // Add required attributes back to shipping fields when shown
+            $('#shipping-fields input[type="text"], #shipping-fields input[type="email"], #shipping-fields select').prop('required', true);
         }
     });
 
@@ -432,8 +436,14 @@
         
         if (billingStateSelect.is(':visible')) {
             shippingStateSelect.val(billingStateSelect.val());
+            // Ensure proper name attributes
+            shippingStateSelect.attr('name', 'shipping_address[state]');
+            shippingStateText.attr('name', '');
         } else if (billingStateText.is(':visible')) {
             shippingStateText.val(billingStateText.val());
+            // Ensure proper name attributes
+            shippingStateSelect.attr('name', '');
+            shippingStateText.attr('name', 'shipping_address[state]');
         }
     }
 
@@ -485,16 +495,21 @@
         const shippingStateSelect = $('#shipping_state');
         const shippingStateText = $('#shipping_state_text');
         
-        // Check billing state
-        if (billingStateSelect.is(':visible') && !billingStateSelect.val()) {
-            billingStateSelect.addClass('is-invalid');
-            isValid = false;
-        } else if (billingStateText.is(':visible') && !billingStateText.val().trim()) {
-            billingStateText.addClass('is-invalid');
-            isValid = false;
-        } else {
-            billingStateSelect.removeClass('is-invalid');
-            billingStateText.removeClass('is-invalid');
+        // Check billing state - only validate the visible field
+        if (billingStateSelect.is(':visible') && billingStateSelect.attr('name') === 'billing_address[state]') {
+            if (!billingStateSelect.val()) {
+                billingStateSelect.addClass('is-invalid');
+                isValid = false;
+            } else {
+                billingStateSelect.removeClass('is-invalid');
+            }
+        } else if (billingStateText.is(':visible') && billingStateText.attr('name') === 'billing_address[state]') {
+            if (!billingStateText.val().trim()) {
+                billingStateText.addClass('is-invalid');
+                isValid = false;
+            } else {
+                billingStateText.removeClass('is-invalid');
+            }
         }
         
         // Check if shipping is different from billing
@@ -514,16 +529,21 @@
                 }
             });
             
-            // Check shipping state
-            if (shippingStateSelect.is(':visible') && !shippingStateSelect.val()) {
-                shippingStateSelect.addClass('is-invalid');
-                isValid = false;
-            } else if (shippingStateText.is(':visible') && !shippingStateText.val().trim()) {
-                shippingStateText.addClass('is-invalid');
-                isValid = false;
-            } else {
-                shippingStateSelect.removeClass('is-invalid');
-                shippingStateText.removeClass('is-invalid');
+            // Check shipping state - only validate the visible field
+            if (shippingStateSelect.is(':visible') && shippingStateSelect.attr('name') === 'shipping_address[state]') {
+                if (!shippingStateSelect.val()) {
+                    shippingStateSelect.addClass('is-invalid');
+                    isValid = false;
+                } else {
+                    shippingStateSelect.removeClass('is-invalid');
+                }
+            } else if (shippingStateText.is(':visible') && shippingStateText.attr('name') === 'shipping_address[state]') {
+                if (!shippingStateText.val().trim()) {
+                    shippingStateText.addClass('is-invalid');
+                    isValid = false;
+                } else {
+                    shippingStateText.removeClass('is-invalid');
+                }
             }
         }
         
@@ -707,6 +727,10 @@
         const stateSelect = $(stateSelectId);
         const stateText = $(stateTextId);
         
+        // Determine the correct name attribute based on the field type
+        const isBilling = stateSelectId.includes('billing');
+        const fieldName = isBilling ? 'billing_address[state]' : 'shipping_address[state]';
+        
         // Count visible states for this country
         let visibleStates = 0;
         $(stateSelectId + ' option').each(function() {
@@ -725,13 +749,31 @@
         if (visibleStates === 0 && countryId) {
             stateSelect.hide();
             stateText.show();
-            stateText.prop('required', true);
-            stateSelect.prop('required', false);
+            // Only set required if the field is visible and shipping fields are shown
+            const isShippingField = stateSelectId.includes('shipping');
+            const shippingFieldsVisible = !$('#same_as_billing').is(':checked');
+            
+            if (!isShippingField || shippingFieldsVisible) {
+                stateText.prop('required', true);
+                stateSelect.prop('required', false);
+            }
+            // Disable the select element's name to prevent form validation issues
+            stateSelect.attr('name', '');
+            stateText.attr('name', fieldName);
         } else {
             stateSelect.show();
             stateText.hide();
-            stateSelect.prop('required', true);
-            stateText.prop('required', false);
+            // Only set required if the field is visible and shipping fields are shown
+            const isShippingField = stateSelectId.includes('shipping');
+            const shippingFieldsVisible = !$('#same_as_billing').is(':checked');
+            
+            if (!isShippingField || shippingFieldsVisible) {
+                stateSelect.prop('required', true);
+                stateText.prop('required', false);
+            }
+            // Enable the select element's name and disable the text input's name
+            stateSelect.attr('name', fieldName);
+            stateText.attr('name', '');
         }
         
         // Reset state selection if not valid
@@ -777,6 +819,13 @@
         filterStates('#billing_country', '#billing_state');
         filterStates('#shipping_country', '#shipping_state');
         updateOrderSummary();
+        
+        // Initialize shipping fields required attributes based on "same as billing" checkbox
+        if ($('#same_as_billing').is(':checked')) {
+            $('#shipping-fields input, #shipping-fields select').prop('required', false);
+        } else {
+            $('#shipping-fields input[type="text"], #shipping-fields input[type="email"], #shipping-fields select').prop('required', true);
+        }
     });
 </script>
 @endpush 
