@@ -150,6 +150,8 @@ class ViewOrder extends ViewRecord
                                     ->weight('bold'),
                                 Infolists\Components\TextEntry::make('sku')
                                     ->label('SKU'),
+                                Infolists\Components\TextEntry::make('type')
+                                    ->label('TYPE'),
                                 Infolists\Components\TextEntry::make('price')
                                     ->label('Price')
                                     ->money('usd'),
@@ -256,12 +258,11 @@ class ViewOrder extends ViewRecord
                     ->schema([
                         Infolists\Components\ViewEntry::make('order_history_timeline')
                             ->view('filament.infolists.components.order-history-timeline')
-                            ->state(fn($record) => $record->histories()->latest()->get()),
+                            ->state(fn($record) => $record->histories()->get()),
                     ]),
             ]);
     }
 
-    
     protected function getHeaderActions(): array
     {
         return [
@@ -355,7 +356,7 @@ class ViewOrder extends ViewRecord
             //     }),
         ];
     }
-    
+
 
     protected function getRelations(): array
     {
@@ -363,6 +364,4 @@ class ViewOrder extends ViewRecord
             DiscountsRelationManager::class,
         ];
     }
-
-
 }

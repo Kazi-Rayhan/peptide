@@ -44,12 +44,12 @@ class ProductResource extends Resource
                                 ->searchable()
                                 ->nullable()
                                 ->helperText('Assign a category for better organization.'),
-                           Forms\Components\Select::make('tax_class_id')
-                               ->label('Tax Class')
-                               ->relationship('taxClass', 'name')
-                            //    ->searchable()
-                               ->nullable()
-                               ->helperText('Assign a tax class for this product.'),
+                            Forms\Components\Select::make('tax_class_id')
+                                ->label('Tax Class')
+                                ->relationship('taxClass', 'name')
+                                //    ->searchable()
+                                ->nullable()
+                                ->helperText('Assign a tax class for this product.'),
                             Forms\Components\Select::make('status')
                                 ->options([
                                     'draft' => 'Draft',
@@ -60,7 +60,7 @@ class ProductResource extends Resource
                                 ->required()
                                 ->helperText('Set the product status.')
                         ]),
-              
+
                     Forms\Components\Tabs\Tab::make('Media')
                         ->icon('heroicon-o-photo')
                         ->schema([
@@ -87,7 +87,7 @@ class ProductResource extends Resource
                         ->schema([
                             Forms\Components\Repeater::make('variants')
                                 ->label('Product Variants')
-                                ->helperText('Add different strengths for this product.')
+                                ->helperText(' Add different strengths for this product.')
                                 ->schema([
                                     Forms\Components\Section::make('Variant Details')
                                         ->schema([

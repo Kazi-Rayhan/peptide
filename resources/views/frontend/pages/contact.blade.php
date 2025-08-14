@@ -53,9 +53,9 @@
                         <h4 class="h5 mb-3">Email Us</h4>
                         <p class="text-muted mb-0">
                             <a href="mailto:hello@eternareads.com"
-                                class="text-decoration-none">hello@eternareads.com</a><br>
+                                class="text-decoration-none">hello@americanpeptide.com</a><br>
                             <a href="mailto:support@eternareads.com"
-                                class="text-decoration-none">support@eternareads.com</a><br>
+                                class="text-decoration-none">support@peptideamerica.com</a><br>
                             We'll respond within 24 hours
                         </p>
                     </div>
@@ -322,7 +322,7 @@
                         <a href="tel:+15551234567" class="btn btn-light btn-lg me-3 mb-2">
                             <i class="bi bi-telephone me-2"></i>Call Us Now
                         </a>
-                        <a href="mailto:hello@eternareads.com" class="btn btn-outline-light btn-lg mb-2">
+                        <a href="mailto:noreply@apbio.com" class="btn btn-outline-light btn-lg mb-2">
                             <i class="bi bi-envelope me-2"></i>Email Us
                         </a>
                     </div>
