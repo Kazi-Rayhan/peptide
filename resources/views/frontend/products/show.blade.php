@@ -334,6 +334,7 @@
         });
     @endphp
     <div class="container">
+        <br>
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
@@ -462,14 +463,14 @@
                             </div>
                         @endif
 
-<br>
+                        <br>
                         @foreach ($similarProducts as $p)
-                            <a href="{{route('products.show',$p)}}" class="btn btn-outline-danger btn-sm">
+                            <a href="{{ route('products.show', $p) }}" class="btn btn-outline-danger btn-sm">
                                 {{ $p->name }}
                             </a>
                         @endforeach
-    <br>
-    <br>
+                        <br>
+                        <br>
                         <!-- Description -->
                         <div class="mb-4">
                             <h6>Description</h6>
