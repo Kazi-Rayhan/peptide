@@ -4,65 +4,17 @@
 
 @section('content')
     <!-- Page Header -->
-    <section class="page-header py-5" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h1 class="text-white display-4 fw-bold mb-3">Contact Us</h1>
-                    <p class="text-white lead mb-0">We'd love to hear from you. Get in touch with our team.</p>
-                </div>
-            </div>
+    <section class="page-header contact-hero-section py-5"
+        style="background-image: url('../../assets/AdobeStock_1368156357-BLUE.png');">
+        <div class="contact-hero-section-content">
+            <article>
+                <h1>Contact Us</h1>
+                <p>We'd love to hear from you. Get in touch with our team.</p>
+            </article>
         </div>
     </section>
 
-    <!-- Contact Information Section -->
-    <section class="contact-info py-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="contact-card text-center p-4 bg-white rounded-3 shadow-sm h-100">
-                        <div class="contact-icon mb-3">
-                            <i class="bi bi-geo-alt-fill fs-1" style="color: var(--primary-color);"></i>
-                        </div>
-                        <h4 class="h5 mb-3">Visit Our Store</h4>
-                        <p class="text-muted mb-0">
-                            123 Book Street<br>
-                            Literary City, LC 12345<br>
-                            United States
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="contact-card text-center p-4 bg-white rounded-3 shadow-sm h-100">
-                        <div class="contact-icon mb-3">
-                            <i class="bi bi-telephone-fill fs-1" style="color: var(--secondary-color);"></i>
-                        </div>
-                        <h4 class="h5 mb-3">Call Us</h4>
-                        <p class="text-muted mb-0">
-                            <a href="tel:+15551234567" class="text-decoration-none">+1 (555) 123-4567</a><br>
-                            Monday - Friday: 9AM - 6PM<br>
-                            Saturday: 10AM - 4PM
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="contact-card text-center p-4 bg-white rounded-3 shadow-sm h-100">
-                        <div class="contact-icon mb-3">
-                            <i class="bi bi-envelope-fill fs-1" style="color: var(--info-color);"></i>
-                        </div>
-                        <h4 class="h5 mb-3">Email Us</h4>
-                        <p class="text-muted mb-0">
-                            <a href="mailto:hello@eternareads.com"
-                                class="text-decoration-none">hello@americanpeptide.com</a><br>
-                            <a href="mailto:support@eternareads.com"
-                                class="text-decoration-none">support@peptideamerica.com</a><br>
-                            We'll respond within 24 hours
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Contact Form Section -->
     <section class="contact-form py-5" style="background: var(--light-bg);">
@@ -72,7 +24,8 @@
                     <div class="text-center mb-5">
                         <h2 class="section-title mb-3">Send Us a Message</h2>
                         <p class="section-subtitle">Have a question, suggestion, or just want to say hello? We'd love to
-                            hear from you!</p>
+                            hear from you! <br>Messages will be answered within 24-48 hours</p>
+
                     </div>
 
                     <div class="card border-0 shadow-lg">
@@ -150,7 +103,7 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-12">
+                                    {{-- <div class="col-12">
                                         <div class="form-check">
                                             <input class="form-check-input @error('newsletter') is-invalid @enderror"
                                                 type="checkbox" id="newsletter" name="newsletter"
@@ -162,10 +115,10 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-primary btn-lg px-5">
-                                            <i class="bi bi-send me-2"></i>Send Message
+                                        <button type="submit" class="btn btn-primary btn-lg px-5 text-white">
+                                            Send Message
                                         </button>
                                     </div>
                                 </div>
@@ -177,67 +130,36 @@
         </div>
     </section>
 
-    <!-- Map Section -->
-    <section class="map-section py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title mb-3">Find Our Store</h2>
-                <p class="section-subtitle">Visit us in person to experience our curated collection</p>
-            </div>
 
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <div class="card border-0 shadow-lg">
-                        <div class="card-body p-0">
-                            <!-- Google Maps Embed -->
-                            <div class="ratio ratio-21x9">
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2219901290355!2d-74.00369368400567!3d40.71312937933185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a23e28c1191%3A0x49f75d3281df052a!2s150%20Park%20Row%2C%20New%20York%2C%20NY%2010007%2C%20USA!5e0!3m2!1sen!2sin!4v1640995200000!5m2!1sen!2sin"
-                                    style="border:0;" allowfullscreen="" loading="lazy"
-                                    referrerpolicy="no-referrer-when-downgrade">
-                                </iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Store Hours Section -->
     <section class="store-hours py-5" style="background: var(--light-bg);">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <div class="text-center mb-5">
-                        <h2 class="section-title mb-3">Store Hours</h2>
-                        <p class="section-subtitle">Plan your visit to our physical store</p>
+                        <h2 class="section-title mb-3">Order Hours</h2>
                     </div>
 
                     <div class="card border-0 shadow-lg">
                         <div class="card-body p-4">
                             <div class="row">
-                                <div class="col-6">
-                                    <h5 class="mb-3">Monday - Friday</h5>
-                                    <p class="text-muted">9:00 AM - 6:00 PM</p>
+                                <div class="col-6 text-center">
+                                    <h4 class="text-muted mb-3">Monday - Friday</h4>
+                                    <p class="text-muted"><strong>9:00 AM - 6:00 PM</strong></p>
 
-                                    <h5 class="mb-3">Saturday</h5>
-                                    <p class="text-muted">10:00 AM - 4:00 PM</p>
-
-                                    <h5 class="mb-3">Sunday</h5>
-                                    <p class="text-muted">Closed</p>
-                                </div>
-                                <div class="col-6">
-                                    <h5 class="mb-3">Holiday Hours</h5>
-                                    <p class="text-muted small">
-                                        We may have modified hours during holidays.
-                                        Please call ahead or check our social media for updates.
+                                    <p class="text-muted">
+                                        Pacific Standard Time <br>
+                                        All orders placed on <strong>Friday</strong> <br>
+                                        will be shipped out on <strong>Monday</strong>
                                     </p>
-
-                                    <h5 class="mb-3">Special Events</h5>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <h4 class="text-muted mb-3">Shipping Hours</h4>
                                     <p class="text-muted small">
-                                        We host book clubs, author readings, and other literary events.
-                                        Check our blog for upcoming events.
+                                        <strong>Monday - Thursday <br>
+                                            9:00 AM - 3:00 PM</strong><br>
+                                        Pacific Standard Time
                                     </p>
                                 </div>
                             </div>
@@ -252,7 +174,7 @@
     <section class="faq-preview py-5">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
+                <div class="col-lg-7 text-center">
                     <h2 class="section-title mb-3">Frequently Asked Questions</h2>
                     <p class="section-subtitle mb-4">Find quick answers to common questions</p>
 
@@ -309,7 +231,7 @@
         </div>
     </section>
 
-    <!-- Call to Action -->
+    {{-- <!-- Call to Action -->
     <section class="cta-section py-5"
         style="background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));">
         <div class="container">
@@ -329,5 +251,6 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
+    @include('components.product.newsletter-section')
 @endsection
