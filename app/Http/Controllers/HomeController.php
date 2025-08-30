@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\NewsletterSubscription;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -30,5 +30,17 @@ class HomeController extends Controller
         }
 
         return view('home', compact('products'));
+    }
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name'         => 'nullable|string|max:255',
+            'email'        => 'required|email|unique:newsletter_subscriptions,email',
+            'contact_number' => 'nullable|string|max:255',
+        ]);
+       
+        NewsletterSubscription::create($validated);
+
+        return back()->with('success', 'Thank you for subscribing!');
     }
 }

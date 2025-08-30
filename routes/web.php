@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\PageController;
 use App\Mail\NewOrderNotification;
@@ -35,7 +36,7 @@ Route::get('/', function () {
     $products = Product::all();
     return view('home', compact('products'));
 })->name('home');
-
+Route::post('/newsletter/subscribe', [HomeController::class, 'store'])->name('newsletter.subscribe');
 // Static Pages
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');

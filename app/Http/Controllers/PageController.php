@@ -2,8 +2,8 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactFormNotification;
-use App\Models\User;
 use App\Models\FaqCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -34,11 +34,9 @@ class PageController extends Controller
             'phone'      => 'nullable|string|max:25',
             'subject'    => 'required|string|max:255',
             'message'    => 'required|string',
-            'newsletter' => 'nullable|in:on,true,1,0,false',
         ]);
+     
 
-        $data['newsletter'] = $request->has('newsletter');
-        
         $admins = User::where('role_id', 1)->get();
 
         foreach ($admins as $admin) {
@@ -47,7 +45,7 @@ class PageController extends Controller
 
         return redirect()->back()->with('success', 'Your message has been sent successfully!');
     }
-    
+
     /**
      * Display the FAQ page
      */
