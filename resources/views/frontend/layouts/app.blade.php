@@ -1208,30 +1208,29 @@
 
 
     <script>
+        function updateCartCount() {
+            fetch('/cart/count')
+                .then(response => {
+                    if (!response.ok) throw new Error('Network error');
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Cart count response:', data);
+
+                    const count = data.cart_count ?? 0;
+
+                    const navbarBadge = document.getElementById('cart-count-navbar');
+                    const floatingBadge = document.getElementById('cart-count-floating');
+
+                    if (navbarBadge) navbarBadge.textContent = count;
+                    if (floatingBadge) floatingBadge.textContent = count;
+                })
+                .catch(error => {
+                    console.error('Error fetching cart count:', error);
+                });
+        }
         document.addEventListener('DOMContentLoaded', function() {
-            function updateCartCount() {
 
-
-                fetch('/cart/count')
-                    .then(response => {
-                        if (!response.ok) throw new Error('Network error');
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Cart count response:', data);
-
-                        const count = data.cart_count ?? 0;
-
-                        const navbarBadge = document.getElementById('cart-count-navbar');
-                        const floatingBadge = document.getElementById('cart-count-floating');
-
-                        if (navbarBadge) navbarBadge.textContent = count;
-                        if (floatingBadge) floatingBadge.textContent = count;
-                    })
-                    .catch(error => {
-                        console.error('Error fetching cart count:', error);
-                    });
-            }
 
             updateCartCount(); // initial load
         });
