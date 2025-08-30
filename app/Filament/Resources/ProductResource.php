@@ -82,56 +82,38 @@ class ProductResource extends Resource
                                 ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])
                                 ->maxSize(2048),
                         ]),
-                    Forms\Components\Tabs\Tab::make('Variants')
-                        ->icon('heroicon-o-squares-2x2')
+                    Forms\Components\Tabs\Tab::make('Price')
+                        ->icon('heroicon-o-currency-dollar')
                         ->schema([
-                            Forms\Components\Repeater::make('variants')
-                                ->label('Product Variants')
-                                ->helperText(' Add different strengths for this product.')
+                            Forms\Components\Grid::make(5)
                                 ->schema([
-                                    Forms\Components\Section::make('Variant Details')
+                                    Forms\Components\Fieldset::make('Retailer')
                                         ->schema([
-                                            Forms\Components\TextInput::make('sku')->label('SKU')->required(),
-                                            Forms\Components\TextInput::make('name')->label('Variant Name')->required(),
-                                            Forms\Components\Hidden::make('attributes.0.name')->label('Strength')->default('Strength')->required(),
-                                            Forms\Components\TextInput::make('attributes.0.value')->label('Strength')->required()
-                                                ->helperText('Enter the strength value (e.g. 5mg, 10mg, etc.)'),
-                                            Forms\Components\Grid::make(5)
-                                                ->schema([
-                                                    Forms\Components\Fieldset::make('Retailer')
-                                                        ->schema([
-                                                            Forms\Components\TextInput::make('price.retailer.unit_price')->label('Unit Price')->numeric()->required(),
-                                                            Forms\Components\TextInput::make('price.retailer.kit_price')->label('Kit Price')->numeric()->nullable(),
-                                                        ]),
-                                                    Forms\Components\Fieldset::make('Wholesale 1')
-                                                        ->schema([
-                                                            Forms\Components\TextInput::make('price.wholesale_1.unit_price')->label('Unit Price')->numeric()->required(),
-                                                            Forms\Components\TextInput::make('price.wholesale_1.kit_price')->label('Kit Price')->numeric()->nullable(),
-                                                        ]),
-                                                    Forms\Components\Fieldset::make('Wholesale 2')
-                                                        ->schema([
-                                                            Forms\Components\TextInput::make('price.wholesale_2.unit_price')->label('Unit Price')->numeric()->required(),
-                                                            Forms\Components\TextInput::make('price.wholesale_2.kit_price')->label('Kit Price')->numeric()->nullable(),
-                                                        ]),
-                                                    Forms\Components\Fieldset::make('Distributor 1')
-                                                        ->schema([
-                                                            Forms\Components\TextInput::make('price.distributor_1.unit_price')->label('Unit Price')->numeric()->required(),
-                                                            Forms\Components\TextInput::make('price.distributor_1.kit_price')->label('Kit Price')->numeric()->nullable(),
-                                                        ]),
-                                                    Forms\Components\Fieldset::make('Distributor 2')
-                                                        ->schema([
-                                                            Forms\Components\TextInput::make('price.distributor_2.unit_price')->label('Unit Price')->numeric()->required(),
-                                                            Forms\Components\TextInput::make('price.distributor_2.kit_price')->label('Kit Price')->numeric()->nullable(),
-                                                        ]),
-                                                ]),
-                                            Forms\Components\TextInput::make('stock')->label('Stock')->numeric()->required(),
-                                            Forms\Components\Toggle::make('track_quantity')->label('Track Quantity')->default(true)
-                                                ->helperText('Enable to track inventory quantity.'),
-                                            Forms\Components\FileUpload::make('thumbnail')->label('Variant Image')->image()->directory('products/variants')->nullable()
-                                                ->helperText('Image specific to this variant.'),
+                                            Forms\Components\TextInput::make('price.retailer.unit_price')->label('Unit Price')->numeric()->required()->columnSpanFull(),
+                                       
                                         ]),
-                                ])
-                                ->addActionLabel('Add Variant'),
+                                    Forms\Components\Fieldset::make('Wholesale 1')
+                                        ->schema([
+                                            Forms\Components\TextInput::make('price.wholesale_1.unit_price')->label('Unit Price')->numeric()->required(),
+                                            Forms\Components\TextInput::make('price.wholesale_1.kit_price')->label('Kit Price')->numeric()->nullable(),
+                                        ]),
+                                    Forms\Components\Fieldset::make('Wholesale 2')
+                                        ->schema([
+                                            Forms\Components\TextInput::make('price.wholesale_2.unit_price')->label('Unit Price')->numeric()->required(),
+                                            Forms\Components\TextInput::make('price.wholesale_2.kit_price')->label('Kit Price')->numeric()->nullable(),
+                                        ]),
+                                    Forms\Components\Fieldset::make('Distributor 1')
+                                        ->schema([
+                                            Forms\Components\TextInput::make('price.distributor_1.unit_price')->label('Unit Price')->numeric()->required(),
+                                            Forms\Components\TextInput::make('price.distributor_1.kit_price')->label('Kit Price')->numeric()->nullable(),
+                                        ]),
+                                    Forms\Components\Fieldset::make('Distributor 2')
+                                        ->schema([
+                                            Forms\Components\TextInput::make('price.distributor_2.unit_price')->label('Unit Price')->numeric()->required(),
+                                            Forms\Components\TextInput::make('price.distributor_2.kit_price')->label('Kit Price')->numeric()->nullable(),
+                                        ]),
+                                ]),
+
                         ])->maxWidth('full')->columns(1)->columnSpanFull(),
                     Forms\Components\Tabs\Tab::make('SEO')
                         ->icon('heroicon-o-magnifying-glass')
